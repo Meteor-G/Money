@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="efan.com.money">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
+        android:name=".Main.MainApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/tubiao"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".Main.MainActivity"></activity>
+        <activity android:name=".Main.Find.JD_Tuiguang"></activity>
+        <activity android:name=".Main.Publish.FD_Leixing"></activity>
+        <activity android:name=".Main.Find.JD_Main"></activity>
+        <activity android:name=".Main.Find.JD_Xiangxi"></activity>
+        <activity android:name=".Main.Find.JD_Jx"></activity>
+        <activity android:name=".Main.Publish.FD_Xiangxi"></activity>
+        <activity android:name=".Main.Mine.Indent.Mai_1_Digdan"></activity>
+        <activity android:name=".Main.Mine.Indent.Mai_2_Dingdan"></activity>
+        <activity android:name=".Main.Login.Welcome">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".Main.Mine.Indent.Mai_1_Zhbd"></activity>
+        <activity android:name=".Main.Mine.Indent.Mai_1_Zhbd_Tj"></activity>
+    </application>
+
+</manifest>
