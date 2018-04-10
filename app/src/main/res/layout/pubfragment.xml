@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#f5f5f5"
-    android:orientation="vertical">
+              xmlns:openxu="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#f5f5f5"
+              android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -35,7 +36,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="搜索发单类型"
-                        android:textColor="#ffffff" />
+                        android:textColor="#ffffff"/>
                 </RelativeLayout>
 
             </RelativeLayout>
@@ -51,7 +52,7 @@
                     android:layout_marginLeft="20dp"
                     android:text="选择类型"
                     android:textColor="#BDBDBD"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
             </RelativeLayout>
 
             <GridView
@@ -88,83 +89,19 @@
                         android:text="交易动态"
                         android:textColor="#BDBDBD"
                         android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                 </RelativeLayout>
 
-                <RelativeLayout
+                <com.example.UIView.LimitScrollerView
+                    android:id="@+id/ScrollerView"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_marginTop="20dp">
-
-                    <ImageView
-                        android:id="@+id/Fub_jydt_iv"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
-                        android:background="@mipmap/main_wx" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="50dp"
-                        android:layout_toRightOf="@id/Fub_jydt_iv"
-                        android:orientation="vertical">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="5dp"
-                                android:text="[微信]"
-                                android:textSize="13sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="8分钟前完成订单"
-                                android:textSize="11sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:text="￥12"
-                                android:textColor="#FFA500"
-                                android:textSize="13sp" />
-
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="5dp"
-                                android:text="朋友圈营销商品"
-                                android:textSize="12sp" />
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
+                    android:layout_marginTop="30sp"
+                    android:fitsSystemWindows="true"
+                    openxu:durationTime="1200"
+                    openxu:limit="1"
+                    openxu:periodTime="2000"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -178,7 +115,7 @@
                         android:layout_height="50dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
-                        android:background="@mipmap/main_wb" />
+                        android:background="@mipmap/main_wb"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -201,14 +138,14 @@
                                 android:layout_marginLeft="5dp"
                                 android:text="[微博]"
                                 android:textSize="13sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:text="3分钟前完成订单"
-                                android:textSize="11sp" />
+                                android:textSize="11sp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -217,7 +154,7 @@
                                 android:layout_centerVertical="true"
                                 android:text="￥12"
                                 android:textColor="#FFA500"
-                                android:textSize="13sp" />
+                                android:textSize="13sp"/>
 
 
                         </RelativeLayout>
@@ -233,7 +170,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="5dp"
                                 android:text="微博营销商品"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"/>
 
                         </RelativeLayout>
 

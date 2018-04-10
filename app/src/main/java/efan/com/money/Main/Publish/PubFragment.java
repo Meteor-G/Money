@@ -14,8 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import efan.com.money.Adapter.PubGridViewAdapter;
+import efan.com.money.Adapter.ScrollerViewAdapter;
 import efan.com.money.Bean.PubGridViewBean;
+import efan.com.money.Bean.PubScrollerBean;
 import efan.com.money.R;
+import efan.com.money.UIView.LimitScrollerView;
 
 
 /**
@@ -27,6 +30,8 @@ public class PubFragment extends Fragment implements View.OnClickListener, Adapt
     //    private RelativeLayout pubfra_rl;
     private GridView pub_gv;
     private PubGridViewAdapter gv_adapter;
+    private LimitScrollerView ScrollerView;
+    private ScrollerViewAdapter adapter;
 
     @Nullable
     @Override
@@ -41,7 +46,38 @@ public class PubFragment extends Fragment implements View.OnClickListener, Adapt
         InitView();
         InitEvent();
         gv();
+        Scroller();
         return view;
+    }
+
+    private void Scroller() {
+        adapter = new ScrollerViewAdapter(getActivity());
+        List<PubScrollerBean> list = new ArrayList<>();
+        PubScrollerBean bean = new PubScrollerBean();
+        bean.setFub_scroller_iv(R.mipmap.ic_launcher);
+        bean.setFub_scroller_money_tv("15");
+        bean.setFub_scroller_name_tv("121");
+        bean.setFub_scroller_time_tv("1212");
+        bean.setFub_scroller_title_tv("123");
+        list.add(bean);
+        PubScrollerBean bean1 = new PubScrollerBean();
+        bean1.setFub_scroller_iv(R.mipmap.ic_launcher);
+        bean1.setFub_scroller_money_tv("15");
+        bean1.setFub_scroller_name_tv("121");
+        bean1.setFub_scroller_time_tv("1212");
+        bean1.setFub_scroller_title_tv("123");
+        list.add(bean1);
+        PubScrollerBean bean2 = new PubScrollerBean();
+        bean2.setFub_scroller_iv(R.mipmap.ic_launcher);
+        bean2.setFub_scroller_money_tv("15");
+        bean2.setFub_scroller_name_tv("121");
+        bean2.setFub_scroller_time_tv("1212");
+        bean2.setFub_scroller_title_tv("123");
+        list.add(bean2);
+        adapter.setdata(list);
+        ScrollerView.setDataAdapter(adapter);
+        ScrollerView.startScroll();
+
     }
 
     private void gv() {
@@ -116,23 +152,17 @@ public class PubFragment extends Fragment implements View.OnClickListener, Adapt
     }
 
     private void InitEvent() {
-//        pubfra_rl.setOnClickListener(this);
         pub_gv.setOnItemClickListener(this);
     }
 
     private void InitView() {
-//        pubfra_rl = (RelativeLayout) view.findViewById(R.id.pubfra_rl);
         pub_gv = (GridView) view.findViewById(R.id.pub_gv);
+        ScrollerView = (LimitScrollerView) view.findViewById(R.id.ScrollerView);
     }
 
     @Override
     public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.pubfra_rl:
-//                Intent intent = new Intent(getActivity(), FD_Leixing.class);
-//                startActivity(intent);
-//                break;
-//        }
+
     }
 
     @Override
