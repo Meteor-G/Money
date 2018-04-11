@@ -45,7 +45,7 @@ public class ScrollerViewAdapter implements LimitScrollerView.LimitScrollAdapter
     public View getView(int index) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.pub_fra_scroller_item, null, false);
         TextView Fub_scroller_money_tv = (TextView) view.findViewById(R.id.Fub_scroller_money_tv);
-        ImageView Fub_scroller_iv = (ImageView) view.findViewById(R.id.Fub_scroller_iv);
+        ImageView Fub_scroller_iv = (ImageView) view.findViewById(R.id.Fub_scroller1_iv);
         TextView Fub_scroller_name_tv = (TextView) view.findViewById(R.id.Fub_scroller_name_tv);
         TextView Fub_scroller_time_tv = (TextView) view.findViewById(R.id.Fub_scroller_time_tv);
         TextView Fub_scroller_title_tv = (TextView) view.findViewById(R.id.Fub_scroller_title_tv);
