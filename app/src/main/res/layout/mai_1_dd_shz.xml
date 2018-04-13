@@ -4,11 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/mai_1_dd_shz_lv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="10dp">
 
-    </ListView>
+    <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+        android:id="@+id/mai_jd_dd_shz_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mai_jd_dd_shz_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 </LinearLayout>
