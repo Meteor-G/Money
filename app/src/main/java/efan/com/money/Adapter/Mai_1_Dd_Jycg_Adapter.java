@@ -20,7 +20,7 @@ import efan.com.money.R;
 
 public class Mai_1_Dd_Jycg_Adapter extends BaseAdapter {
     private Context context;
-    private List<Mai_1_Dd_Jycg_Bean> list = new ArrayList<Mai_1_Dd_Jycg_Bean>();
+    private List<Mai_1_Dd_Jycg_Bean> list = new ArrayList<>();
     private LayoutInflater layoutInflater;
 
     public Mai_1_Dd_Jycg_Adapter(Context context) {

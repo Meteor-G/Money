@@ -23,12 +23,9 @@ public class JD_Main_Adapter extends RecyclerView.Adapter<JD_Main_Adapter.ViewHo
     private Context mContext;
     private List<JD_MainBean> mList;
     private OnItemClickListener mItemClickListener;
-    LayoutInflater inflater;
 
     public JD_Main_Adapter(Context mContext) {
         this.mContext = mContext;
-        inflater.from(mContext);
-
     }
 
     public void initData(List<JD_MainBean> mList) {
@@ -80,7 +77,7 @@ public class JD_Main_Adapter extends RecyclerView.Adapter<JD_Main_Adapter.ViewHo
             jd_main_item_mjxy_tv = (TextView) itemView.findViewById(R.id.jd_main_item_mjxy_tv);
             jd_main_item_cj_tv = (TextView) itemView.findViewById(R.id.jd_main_item_cj_tv);
             jd_main_item_qian = (TextView) itemView.findViewById(R.id.jd_main_item_qian);
-            jd_main_item_ll= (LinearLayout) itemView.findViewById(R.id.jd_main_item_ll);
+            jd_main_item_ll = (LinearLayout) itemView.findViewById(R.id.jd_main_item_ll);
         }
     }
 

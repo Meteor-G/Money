@@ -200,6 +200,7 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         bean5.setJd_main_item_cj_tv("近7天成交率：100%");
         bean5.setJd_main_item_qian("￥1");
         list.add(bean5);
+
         adapter.initData(list);
         recycle.setAdapter(adapter);
         adapter.setOnItemClickListener(this);

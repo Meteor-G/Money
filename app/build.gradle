@@ -47,4 +47,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     //带上拉加载更多
     compile 'com.github.nuptboyzhb.lib.uikit:superswiperefreshlayout:1.0.0'
+    //选择图片
+    compile 'com.github.valuesfeng:androidpicturepicker:1.0.0'
+    //picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

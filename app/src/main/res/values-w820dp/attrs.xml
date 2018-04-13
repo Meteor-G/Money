@@ -8,4 +8,15 @@
         <!--滚动间隔，比如5000，滚动完成后停留5秒继续滚动-->
         <attr name="periodTime" format="integer"/>
     </declare-styleable>
+
+    <attr name="borderRadius" format="dimension"/>
+    <attr name="type">
+        <enum name="circle" value="0"/>
+        <enum name="round" value="1"/>
+    </attr>
+
+    <declare-styleable name="RoundImageView">
+        <attr name="borderRadius"/>
+        <attr name="type"/>
+    </declare-styleable>
 </resources>

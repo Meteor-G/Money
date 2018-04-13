@@ -27,7 +27,6 @@ import efan.com.money.UIView.LimitScrollerView;
 
 public class PubFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     private View view;
-    //    private RelativeLayout pubfra_rl;
     private GridView pub_gv;
     private PubGridViewAdapter gv_adapter;
     private LimitScrollerView ScrollerView;
@@ -54,26 +53,29 @@ public class PubFragment extends Fragment implements View.OnClickListener, Adapt
         adapter = new ScrollerViewAdapter(getActivity());
         List<PubScrollerBean> list = new ArrayList<>();
         PubScrollerBean bean = new PubScrollerBean();
-        bean.setFub_scroller_iv(R.mipmap.ic_launcher);
-        bean.setFub_scroller_money_tv("151");
-        bean.setFub_scroller_name_tv("121");
-        bean.setFub_scroller_time_tv("1212");
-        bean.setFub_scroller_title_tv("123");
+        bean.setFub_scroller_iv(R.mipmap.main_wx);
+        bean.setFub_scroller_money_tv("￥12");
+        bean.setFub_scroller_name_tv("微信转发");
+        bean.setFub_scroller_time_tv("3分钟前完成订单");
+        bean.setFub_scroller_title_tv("[微信]");
         list.add(bean);
+
         PubScrollerBean bean1 = new PubScrollerBean();
-        bean1.setFub_scroller_iv(R.mipmap.ic_launcher);
-        bean1.setFub_scroller_money_tv("1511");
-        bean1.setFub_scroller_name_tv("12111");
-        bean1.setFub_scroller_time_tv("121211");
-        bean1.setFub_scroller_title_tv("12311");
+        bean1.setFub_scroller_iv(R.mipmap.main_wb);
+        bean1.setFub_scroller_money_tv("￥1");
+        bean1.setFub_scroller_name_tv("微博点赞");
+        bean1.setFub_scroller_time_tv("12分钟前完成订单");
+        bean1.setFub_scroller_title_tv("[微博]");
         list.add(bean1);
+
         PubScrollerBean bean2 = new PubScrollerBean();
-        bean2.setFub_scroller_iv(R.mipmap.ic_launcher);
-        bean2.setFub_scroller_money_tv("1522");
-        bean2.setFub_scroller_name_tv("12122");
-        bean2.setFub_scroller_time_tv("121222");
-        bean2.setFub_scroller_title_tv("12322");
+        bean2.setFub_scroller_iv(R.mipmap.main_qq);
+        bean2.setFub_scroller_money_tv("￥3");
+        bean2.setFub_scroller_name_tv("QQ群聊发广告");
+        bean2.setFub_scroller_time_tv("3分钟前完成订单");
+        bean2.setFub_scroller_title_tv("[Q Q]");
         list.add(bean2);
+
         adapter.setdata(list);
         ScrollerView.setDataAdapter(adapter);
         ScrollerView.startScroll();

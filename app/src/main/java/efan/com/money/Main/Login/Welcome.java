@@ -25,7 +25,7 @@ import efan.com.money.Util.timer.ITimerListener;
 public class Welcome extends AppCompatActivity implements ITimerListener {
     @BindView(R.id.welcome_tv)
     TextView welcome_tv;
-    private int mCount = 5;
+    private int mCount = 3;
     private Timer mTimer = null;
 
     @OnClick(R.id.welcome_tv)
@@ -74,6 +74,7 @@ public class Welcome extends AppCompatActivity implements ITimerListener {
     private void checkIsShowScroll() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        Welcome.this.finish();
     }
 
 }

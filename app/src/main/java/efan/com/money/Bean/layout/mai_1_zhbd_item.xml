@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:background="#f5f5f5">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="#f5f5f5">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="90dp"
+            android:background="@drawable/mai_1_zhbd_item_rj">
+
+            <TextView
+                android:id="@+id/zhbd_lx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="帐号类型："
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/mai_1_zhbd_itme_lx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/zhbd_lx"
+                android:text="[微信]"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/zhbd_zh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mai_1_zhbd_itme_lx"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:text="帐       号："
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/mai_1_zhbd_itme_zh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mai_1_zhbd_itme_lx"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/zhbd_zh"
+                android:text="遗忘"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/mai_1_zhbd_item_sc"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/mai_1_zhbd_item_rj">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/item_shanchu" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>
