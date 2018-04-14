@@ -29,8 +29,7 @@ import efan.com.money.R;
 
 public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
     private View view;
-    //    private ListView mai_1_dd_jyz_lv;
-//    private Mai_1_Dd_Jyz_Adapter adapter;
+
     // Header View
     private ProgressBar progressBar;
     private TextView textView;

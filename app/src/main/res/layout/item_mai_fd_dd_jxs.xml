@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/mai_jyz_ll"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:background="#ffffff"
         android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#f5f5f5"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -27,14 +33,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="创建日期:"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <TextView
-                    android:id="@+id/mai_1_dd_jyz_item_time"
+                    android:id="@+id/mai_fd_dd_jxs_item_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2017-09-12"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
             </LinearLayout>
 
             <TextView
@@ -55,7 +61,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:background="#dbdbdb" />
+                android:background="#dbdbdb"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -63,13 +69,13 @@
             android:layout_height="90dp">
 
             <ImageView
-                android:id="@+id/mai_1_dd_jyz_item_tupian"
+                android:id="@+id/mai_fd_dd_jxs_item_tupian"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:background="@mipmap/ic_launcher" />
+                android:background="@mipmap/ic_launcher"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -77,7 +83,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_toRightOf="@id/mai_1_dd_jyz_item_tupian"
+                android:layout_toRightOf="@id/mai_fd_dd_jxs_item_tupian"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -86,24 +92,24 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/mai_1_dd_jyz_item_lx"
+                        android:id="@+id/mai_fd_dd_jxs_item_lx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="[微信]"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"/>
 
                     <TextView
-                        android:id="@+id/mai_1_dd_jyz_item_rwm"
+                        android:id="@+id/mai_fd_dd_jxs_item_rwm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@id/mai_1_dd_jyz_item_lx"
+                        android:layout_toRightOf="@id/mai_fd_dd_jxs_item_lx"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text="商品推销，朋友圈保留一天。"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"/>
 
                 </RelativeLayout>
 
@@ -119,10 +125,10 @@
                         android:layout_centerVertical="true"
                         android:text="发单人："
                         android:textColor="#cccccc"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"/>
 
                     <TextView
-                        android:id="@+id/mai_1_dd_jyz_item_yhm"
+                        android:id="@+id/mai_fd_dd_jxs_item_yhm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -130,7 +136,7 @@
                         android:layout_toRightOf="@id/dfk_lx"
                         android:text="扯淡"
                         android:textColor="#cccccc"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -145,10 +151,10 @@
                         android:layout_centerVertical="true"
                         android:text="状    态："
                         android:textColor="#cccccc"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"/>
 
                     <TextView
-                        android:id="@+id/mai_1_dd_jyz_item_zt"
+                        android:id="@+id/mai_fd_dd_jxs_item_zt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -156,7 +162,7 @@
                         android:layout_toRightOf="@id/dfk_fh"
                         android:text="未上传截图"
                         android:textColor="#cccccc"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"/>
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>

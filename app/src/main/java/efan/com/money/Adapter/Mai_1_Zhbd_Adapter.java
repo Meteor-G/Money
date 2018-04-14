@@ -51,7 +51,7 @@ public class Mai_1_Zhbd_Adapter extends BaseAdapter {
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = View.inflate(context, R.layout.mai_1_zhbd_item, null);
+            view = View.inflate(context, R.layout.item_mai_jd_zhbd, null);
             holder.mai_1_zhbd_itme_lx = (TextView) view.findViewById(R.id.mai_1_zhbd_itme_lx);
             holder.mai_1_zhbd_itme_zh = (TextView) view.findViewById(R.id.mai_1_zhbd_itme_zh);
             view.setTag(holder);

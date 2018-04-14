@@ -27,8 +27,6 @@ import efan.com.money.R;
 
 public class Mai_Jd_Dd_Jycg extends Fragment {
     private View view;
-    //    private ListView lv;
-    //    private Mai_1_Dd_Jycg_Adapter adapter;
     // Header View
     private ProgressBar progressBar;
     private TextView textView;
@@ -54,8 +52,9 @@ public class Mai_Jd_Dd_Jycg extends Fragment {
         }
         InitView();
         Refresh();
-        InitEvent();
         lv();
+        InitEvent();
+
         return view;
     }
 

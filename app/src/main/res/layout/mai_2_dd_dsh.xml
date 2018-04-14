@@ -3,10 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+        android:id="@+id/mai_fd_dd_dsh_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="待审核"
-        android:textSize="25sp" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mai_fd_dd_dsh_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 </LinearLayout>

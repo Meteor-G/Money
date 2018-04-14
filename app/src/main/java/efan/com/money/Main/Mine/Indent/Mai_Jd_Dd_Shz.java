@@ -27,8 +27,7 @@ import efan.com.money.R;
 
 public class Mai_Jd_Dd_Shz extends Fragment {
     private View view;
-    //    private ListView lv;
-//    private Mai_1_Dd_Shz_Adapter adapter;
+
     private ProgressBar progressBar;
     private TextView textView;
     private ImageView imageView;

@@ -31,7 +31,7 @@ public class Mai_Jd_Dd_Jycg_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Jycg_
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.mai_1_dd_jycg_item, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_mai_jd_dd_jycg, null);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
