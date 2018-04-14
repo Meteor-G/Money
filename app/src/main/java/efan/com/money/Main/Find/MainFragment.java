@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +18,27 @@ import java.util.List;
 
 import efan.com.money.Adapter.MainGridViewAdapter;
 import efan.com.money.Adapter.MainListViewAdapter;
+import efan.com.money.Adapter.MainOptionalAdapter;
+import efan.com.money.Adapter.OnItemClickListener;
 import efan.com.money.Bean.MainGridViewBean;
 import efan.com.money.Bean.MainListViewBean;
+import efan.com.money.Bean.MainOptionalBean;
 import efan.com.money.R;
 
 /**
  * Created by Administrator on 2017/9/10.
  */
 
-public class MainFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class MainFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, OnItemClickListener {
     private View view;
     private ListView main_lv;
     private MainListViewAdapter adapter;
     //    private RelativeLayout main_frame_rl;
     private GridView main_gridview;
     private MainGridViewAdapter gv_adapter;
+    private RecyclerView main_optional_recycle;
+    private MainOptionalAdapter recycleAdapter;
+    private List<MainOptionalBean> mRecycleList;
 
     @Nullable
     @Override
@@ -46,7 +54,34 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
         InitEvent();
         Lv();
         gv();
+        Recycle();
         return view;
+    }
+
+    private void Recycle() {
+        mRecycleList = new ArrayList<>();
+        MainOptionalBean bean = new MainOptionalBean();
+        bean.setItem_main_optional_money("￥10");
+        bean.setItem_main_optional_title("[微信] 微信朋友圈点赞");
+        mRecycleList.add(bean);
+
+        MainOptionalBean bean1 = new MainOptionalBean();
+        bean1.setItem_main_optional_money("￥10");
+        bean1.setItem_main_optional_title("[微信] 微信朋友圈点赞");
+        mRecycleList.add(bean1);
+
+        MainOptionalBean bean2 = new MainOptionalBean();
+        bean2.setItem_main_optional_money("￥10");
+        bean2.setItem_main_optional_title("[微信] 微信朋友圈点赞");
+        mRecycleList.add(bean2);
+
+        MainOptionalBean bean3 = new MainOptionalBean();
+        bean3.setItem_main_optional_money("￥10");
+        bean3.setItem_main_optional_title("[微信] 微信朋友圈点赞");
+        mRecycleList.add(bean3);
+        recycleAdapter = new MainOptionalAdapter(getActivity(), mRecycleList);
+        main_optional_recycle.setAdapter(recycleAdapter);
+        recycleAdapter.setOnItemClickListener(this);
     }
 
     private void gv() {
@@ -135,6 +170,9 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
     private void InitView() {
         main_lv = (ListView) view.findViewById(R.id.main_lv);
         main_gridview = (GridView) view.findViewById(R.id.main_gridview);
+        main_optional_recycle = (RecyclerView) view.findViewById(R.id.main_optional_recycle);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        main_optional_recycle.setLayoutManager(manager);
     }
 
     private void InitEvent() {
@@ -160,6 +198,12 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
                 break;
         }
 
+    }
+
+    @Override
+    public void onItemClick(View view, int Position) {
+        Intent intent1 = new Intent(getActivity(), JD_Xiangxi.class);
+        startActivity(intent1);
     }
 }
 
