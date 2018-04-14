@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class Mai_Jd_Dd_Qbrw_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Qbrw_
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mai_1_dd_qbrw_item_time.setText(list.get(position).getMai_1_dd_qbrw_item_time());
         holder.mai_1_dd_qbrw_item_lx.setText(list.get(position).getMai_1_dd_qbrw_item_lx());
         holder.mai_1_dd_qbrw_item_rwm.setText(list.get(position).getMai_1_dd_qbrw_item_rwm());
@@ -51,6 +52,7 @@ public class Mai_Jd_Dd_Qbrw_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Qbrw_
         return list.size();
     }
 
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView mai_1_dd_qbrw_item_time;
         private ImageView mai_1_dd_qbrw_item_tupian;
@@ -58,6 +60,7 @@ public class Mai_Jd_Dd_Qbrw_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Qbrw_
         private TextView mai_1_dd_qbrw_item_rwm;
         private TextView mai_1_dd_qbrw_item_yhm;
         private TextView mai_1_dd_qbrw_item_zt;
+        private LinearLayout item_mai_jd_qqbrw;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -67,6 +70,7 @@ public class Mai_Jd_Dd_Qbrw_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Qbrw_
             mai_1_dd_qbrw_item_yhm = (TextView) itemView.findViewById(R.id.mai_1_dd_qbrw_item_yhm);
             mai_1_dd_qbrw_item_zt = (TextView) itemView.findViewById(R.id.mai_1_dd_qbrw_item_zt);
             mai_1_dd_qbrw_item_tupian = (ImageView) itemView.findViewById(R.id.mai_1_dd_qbrw_item_tupian);
+            item_mai_jd_qqbrw = (LinearLayout) itemView.findViewById(R.id.item_mai_jd_qqbrw);
         }
     }
 

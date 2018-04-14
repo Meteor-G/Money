@@ -5,9 +5,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import efan.com.money.Main.Find.MainFragment;
 import efan.com.money.Main.Mine.MeFragment;
@@ -18,7 +20,7 @@ import efan.com.money.R;
  * Created by Administrator on 2017/9/10.
  */
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout mMain;
     private LinearLayout mFub;
     private LinearLayout mMe;
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Fragment mPubF;
     private Fragment mMeF;
 
+    private long exitTime = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +46,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void IntView() {
-        mMain=(LinearLayout)findViewById(R.id.id_tab_main);
-        mFub=(LinearLayout)findViewById(R.id.id_tab_fub);
-        mMe=(LinearLayout)findViewById(R.id.id_tab_me);
-        mImgMain= (ImageButton) findViewById(R.id.id_tab_main_img);
-        mImgFub= (ImageButton) findViewById(R.id.id_tab_fub_img);
-        mImgMe= (ImageButton) findViewById(R.id.id_tab_me_img);
+        mMain = (LinearLayout) findViewById(R.id.id_tab_main);
+        mFub = (LinearLayout) findViewById(R.id.id_tab_fub);
+        mMe = (LinearLayout) findViewById(R.id.id_tab_me);
+        mImgMain = (ImageButton) findViewById(R.id.id_tab_main_img);
+        mImgFub = (ImageButton) findViewById(R.id.id_tab_fub_img);
+        mImgMe = (ImageButton) findViewById(R.id.id_tab_me_img);
 
 
     }
+
     private void IntEvent() {
         mMain.setOnClickListener(this);
         mFub.setOnClickListener(this);
@@ -72,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
     private void setSelect(int i) {
         // 获取Fragement管理者
         FragmentManager fm = getSupportFragmentManager();
@@ -133,6 +139,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mImgMain.setBackgroundResource(R.mipmap.bt_home);
         mImgFub.setBackgroundResource(R.mipmap.bt_sell);
         mImgMe.setBackgroundResource(R.mipmap.bt_user);
+    }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == event.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "再按一次退出应用",
+                        Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return true;
     }
 }

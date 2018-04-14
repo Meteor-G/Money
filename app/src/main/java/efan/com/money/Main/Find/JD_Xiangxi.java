@@ -1,16 +1,27 @@
 package efan.com.money.Main.Find;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import efan.com.money.Main.MainActivity;
 import efan.com.money.R;
 import efan.com.money.staticfunction.ShowTips;
 
@@ -30,6 +41,10 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
     private Fragment lc_fra;
     private Fragment xx_fra;
     private RelativeLayout jd_xiangqing_lqrw;
+
+    private PopupWindow poPupWindow;
+    private TextView ppw_fin_indent_get_qd;
+    private TextView ppw_fin_indent_get_qx;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,10 +88,62 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
                 setSelect(1);
                 break;
             case R.id.jd_xiangqing_lqrw:
-                Intent intent = new Intent(this, JD_Jx.class);
-                startActivity(intent);
+                showpopupWindow(jd_xiangqing_lqrw);
                 break;
         }
+    }
+
+    private void showpopupWindow(View parent) {
+        if (poPupWindow == null) {
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.ppw_find_indent_get, null);
+            poPupWindow = new PopupWindow(view, LayoutParams.MATCH_PARENT,
+                    LayoutParams.MATCH_PARENT, true);
+            initPop(view);
+
+            view.setOnTouchListener(new View.OnTouchListener() {
+
+                @Override
+                public boolean onTouch(View arg0, MotionEvent arg1) {
+                    if (poPupWindow != null && poPupWindow.isShowing()) {
+                        poPupWindow.dismiss();
+                        poPupWindow = null;
+                    }
+                    return true;
+                }
+            });
+
+        }
+        poPupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+        poPupWindow.setFocusable(true);
+        poPupWindow.setOutsideTouchable(true);
+        poPupWindow.setBackgroundDrawable(new BitmapDrawable());
+        poPupWindow
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        poPupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
+    }
+
+    private void initPop(View view) {
+        ppw_fin_indent_get_qd = (TextView) view.findViewById(R.id.ppw_fin_indent_get_qd);
+        ppw_fin_indent_get_qx = (TextView) view.findViewById(R.id.ppw_fin_indent_get_qd);
+        ppw_fin_indent_get_qx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                poPupWindow.dismiss();
+                poPupWindow = null;
+            }
+        });
+        ppw_fin_indent_get_qx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                poPupWindow.dismiss();
+                poPupWindow = null;
+                Toast.makeText(JD_Xiangxi.this, "领取成功，快去做任务吧！", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(JD_Xiangxi.this, MainActivity.class);
+                startActivity(intent);
+                JD_Xiangxi.this.finish();
+            }
+        });
     }
 
     private void setSelect(int i) {

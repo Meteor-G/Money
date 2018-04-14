@@ -1,5 +1,6 @@
 package efan.com.money.Main.Mine.Indent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 
@@ -21,7 +21,9 @@ import java.util.List;
 import efan.com.money.Adapter.Mai_Jd_Dd_Jyz_Adapter;
 import efan.com.money.Adapter.OnItemClickListener;
 import efan.com.money.Bean.Mai_1_Dd_Jyz_Bean;
+import efan.com.money.Main.Mine.Indent.Particular.Jd_Dd_Jyz;
 import efan.com.money.R;
+import efan.com.money.staticfunction.StaticValue;
 
 /**
  * Created by Administrator on 2017/9/14.
@@ -42,6 +44,7 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
     private SuperSwipeRefreshLayout mai_jd_dd_jyz_refresh;
     private RecyclerView mai_jd_dd_jyz_recycle;
     private Mai_Jd_Dd_Jyz_Adapter adapter;
+    private List<Mai_1_Dd_Jyz_Bean> list;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -149,7 +152,7 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
     }
 
     private void lv() {
-        List<Mai_1_Dd_Jyz_Bean> list = new ArrayList<Mai_1_Dd_Jyz_Bean>();
+        list = new ArrayList<Mai_1_Dd_Jyz_Bean>();
 
         Mai_1_Dd_Jyz_Bean bean = new Mai_1_Dd_Jyz_Bean();
         bean.setMai_1_dd_jyz_item_lx("[微信]");
@@ -233,7 +236,10 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
 
     @Override
     public void onItemClick(View view, int Position) {
-        Toast.makeText(getActivity(), "点击了" + Position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), Jd_Dd_Jyz.class);
+        intent.putExtra("id", list.get(Position).getMai_1_dd_jyz_item_yhm());
+        intent.putExtra("type", StaticValue.JYZ_TO_INDENT);
+        startActivity(intent);
     }
 }
 

@@ -1,5 +1,6 @@
 package efan.com.money.Main.Mine.Indent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -18,14 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import efan.com.money.Adapter.Mai_Jd_Dd_Jycg_Adapter;
+import efan.com.money.Adapter.OnItemClickListener;
 import efan.com.money.Bean.Mai_1_Dd_Jycg_Bean;
+import efan.com.money.Main.Mine.Indent.Particular.Jd_Dd_Jyz;
 import efan.com.money.R;
+import efan.com.money.staticfunction.StaticValue;
 
 /**
  * Created by Administrator on 2017/9/14.
  */
 
-public class Mai_Jd_Dd_Jycg extends Fragment {
+public class Mai_Jd_Dd_Jycg extends Fragment implements OnItemClickListener {
     private View view;
     // Header View
     private ProgressBar progressBar;
@@ -39,6 +43,8 @@ public class Mai_Jd_Dd_Jycg extends Fragment {
     private SuperSwipeRefreshLayout mai_jd_dd_jycg_refresh;
     private RecyclerView mai_jd_dd_jycg_recycle;
     private Mai_Jd_Dd_Jycg_Adapter adapter;
+
+    private List<Mai_1_Dd_Jycg_Bean> list;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -147,7 +153,7 @@ public class Mai_Jd_Dd_Jycg extends Fragment {
     }
 
     private void lv() {
-        List<Mai_1_Dd_Jycg_Bean> list = new ArrayList<Mai_1_Dd_Jycg_Bean>();
+        list = new ArrayList<Mai_1_Dd_Jycg_Bean>();
 
         Mai_1_Dd_Jycg_Bean bean = new Mai_1_Dd_Jycg_Bean();
         bean.setMai_1_dd_jycg_item_lx("[微信]");
@@ -210,6 +216,7 @@ public class Mai_Jd_Dd_Jycg extends Fragment {
         list.add(bean6);
         adapter = new Mai_Jd_Dd_Jycg_Adapter(getActivity(), list);
         mai_jd_dd_jycg_recycle.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
     }
 
     private void InitView() {
@@ -249,6 +256,14 @@ public class Mai_Jd_Dd_Jycg extends Fragment {
         footerImageView.setImageResource(R.mipmap.down_arrow);
         footerTextView.setText("上拉加载更多...");
         return footerView;
+    }
+
+    @Override
+    public void onItemClick(View view, int Position) {
+        Intent intent = new Intent(getActivity(), Jd_Dd_Jyz.class);
+        intent.putExtra("id", list.get(Position).getMai_1_dd_jycg_item_jg());
+        intent.putExtra("type", StaticValue.JYCG_TO_INDENT);
+        startActivity(intent);
     }
 }
 

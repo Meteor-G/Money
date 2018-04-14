@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class Mai_Jd_Dd_Shz_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Shz_Ad
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mai_1_dd_shz_item_time.setText(list.get(position).getMai_1_dd_shz_item_time());
         holder.mai_1_dd_shz_item_lx.setText(list.get(position).getMai_1_dd_shz_item_lx());
         holder.mai_1_dd_shz_item_rwm.setText(list.get(position).getMai_1_dd_shz_item_rwm());
@@ -46,6 +47,12 @@ public class Mai_Jd_Dd_Shz_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Shz_Ad
         holder.mai_1_dd_shz_jiage.setText(list.get(position).getMai_1_dd_shz_jiage());
         holder.mai_1_dd_shz_iv_1.setBackgroundResource(list.get(position).getMai_1_dd_shz_iv_1());
         holder.mai_1_dd_shz_iv_2.setBackgroundResource(list.get(position).getMai_1_dd_shz_iv_2());
+        holder.item_mai_jd_shz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItemClickListener.onItemClick(holder.itemView, position);
+            }
+        });
     }
 
     @Override
@@ -61,6 +68,7 @@ public class Mai_Jd_Dd_Shz_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Shz_Ad
         private TextView mai_1_dd_shz_item_yhm;
         private TextView mai_1_dd_shz_item_zt;
         private TextView mai_1_dd_shz_jiage;
+        private LinearLayout item_mai_jd_shz;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -72,6 +80,7 @@ public class Mai_Jd_Dd_Shz_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Shz_Ad
             mai_1_dd_shz_jiage = (TextView) itemView.findViewById(R.id.mai_1_dd_shz_jiage);
             mai_1_dd_shz_iv_1 = (ImageView) itemView.findViewById(R.id.mai_1_dd_shz_iv_1);
             mai_1_dd_shz_iv_2 = (ImageView) itemView.findViewById(R.id.mai_1_dd_shz_iv_2);
+            item_mai_jd_shz = (LinearLayout) itemView.findViewById(R.id.item_mai_jd_shz);
         }
     }
 

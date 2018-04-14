@@ -45,7 +45,7 @@ public class Mai_Jd_Dd_Jyz_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Jyz_Ad
         holder.mai_1_dd_jyz_item_yhm.setText(list.get(position).getMai_1_dd_jyz_item_yhm());
         holder.mai_1_dd_jyz_item_zt.setText(list.get(position).getMai_1_dd_jyz_item_zt());
         holder.mai_1_dd_jyz_item_tupian.setBackgroundResource(list.get(position).getMai_1_dd_jyz_item_tupian());
-        holder.mai_1_dd_jyz_item_tupian.setOnClickListener(new View.OnClickListener() {
+        holder.mai_jyz_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mItemClickListener.onItemClick(holder.itemView, position);
