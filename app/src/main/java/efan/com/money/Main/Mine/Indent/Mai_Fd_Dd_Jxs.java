@@ -1,5 +1,6 @@
 package efan.com.money.Main.Mine.Indent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -18,14 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import efan.com.money.Adapter.Mai_Fd_Dd_Jxs_Adapter;
+import efan.com.money.Adapter.OnItemClickListener;
 import efan.com.money.Bean.Mai_Fd_Dd_Jxs_Bean;
+import efan.com.money.Main.Mine.Indent.Particular.Fd_Dd_Indent;
 import efan.com.money.R;
+import efan.com.money.staticfunction.StaticValue;
 
 /**
  * Created by Administrator on 2017/9/14.
  */
 
-public class Mai_Fd_Dd_Jxs extends Fragment {
+public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
     private View view;
     // Header View
     private ProgressBar progressBar;
@@ -39,6 +43,8 @@ public class Mai_Fd_Dd_Jxs extends Fragment {
     private SuperSwipeRefreshLayout mai_fd_dd_jxs_refresh;
     private RecyclerView mai_fd_dd_jxs_recycle;
     private Mai_Fd_Dd_Jxs_Adapter adapter;
+
+    private List<Mai_Fd_Dd_Jxs_Bean> list;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -146,7 +152,7 @@ public class Mai_Fd_Dd_Jxs extends Fragment {
     }
 
     private void lv() {
-        List<Mai_Fd_Dd_Jxs_Bean> list = new ArrayList<Mai_Fd_Dd_Jxs_Bean>();
+        list = new ArrayList<Mai_Fd_Dd_Jxs_Bean>();
 
         Mai_Fd_Dd_Jxs_Bean bean = new Mai_Fd_Dd_Jxs_Bean();
         bean.setMai_fd_dd_jxs_item_lx("[微信]");
@@ -185,6 +191,7 @@ public class Mai_Fd_Dd_Jxs extends Fragment {
         list.add(bean3);
         adapter = new Mai_Fd_Dd_Jxs_Adapter(getActivity(), list);
         mai_fd_dd_jxs_recycle.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
     }
 
     private void InitView() {
@@ -226,4 +233,11 @@ public class Mai_Fd_Dd_Jxs extends Fragment {
         return footerView;
     }
 
+    @Override
+    public void onItemClick(View view, int Position) {
+        Intent intent = new Intent(getActivity(), Fd_Dd_Indent.class);
+        intent.putExtra("id", list.get(Position).getMai_fd_dd_jxs_item_lx());
+        intent.putExtra("type", StaticValue.FD_JXS_TO_INDENT);
+        startActivity(intent);
+    }
 }

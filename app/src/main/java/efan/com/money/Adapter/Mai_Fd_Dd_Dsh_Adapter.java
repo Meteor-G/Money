@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class Mai_Fd_Dd_Dsh_Adapter extends RecyclerView.Adapter<Mai_Fd_Dd_Dsh_Ad
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mai_fd_dd_dsh_item_time.setText(list.get(position).getMai_fd_dd_dsh_item_time());
         holder.mai_fd_dd_dsh_item_lx.setText(list.get(position).getMai_fd_dd_dsh_item_lx());
         holder.mai_fd_dd_dsh_item_rwm.setText(list.get(position).getMai_fd_dd_dsh_item_rwm());
@@ -46,6 +47,12 @@ public class Mai_Fd_Dd_Dsh_Adapter extends RecyclerView.Adapter<Mai_Fd_Dd_Dsh_Ad
         holder.mai_fd_dd_dsh_jiage.setText(list.get(position).getMai_fd_dd_dsh_jiage());
         holder.mai_fd_dd_dsh_iv_1.setBackgroundResource(list.get(position).getMai_fd_dd_dsh_iv_1());
         holder.mai_fd_dd_dsh_iv_2.setBackgroundResource(list.get(position).getMai_fd_dd_dsh_iv_2());
+        holder.item_fd_dd_ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItemClickListener.onItemClick(holder.itemView, position);
+            }
+        });
     }
 
     @Override
@@ -61,6 +68,7 @@ public class Mai_Fd_Dd_Dsh_Adapter extends RecyclerView.Adapter<Mai_Fd_Dd_Dsh_Ad
         private TextView mai_fd_dd_dsh_item_yhm;
         private TextView mai_fd_dd_dsh_item_zt;
         private TextView mai_fd_dd_dsh_jiage;
+        private LinearLayout item_fd_dd_ll;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -72,6 +80,7 @@ public class Mai_Fd_Dd_Dsh_Adapter extends RecyclerView.Adapter<Mai_Fd_Dd_Dsh_Ad
             mai_fd_dd_dsh_jiage = (TextView) itemView.findViewById(R.id.mai_fd_dd_dsh_jiage);
             mai_fd_dd_dsh_iv_1 = (ImageView) itemView.findViewById(R.id.mai_fd_dd_dsh_iv_1);
             mai_fd_dd_dsh_iv_2 = (ImageView) itemView.findViewById(R.id.mai_fd_dd_dsh_iv_2);
+            item_fd_dd_ll = (LinearLayout) itemView.findViewById(R.id.item_fd_dd_dsh_ll);
         }
     }
 

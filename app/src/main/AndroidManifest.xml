@@ -60,6 +60,9 @@
         <activity
             android:name=".Main.Mine.Indent.Particular.Jd_Dd_Jyz"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Main.Mine.Indent.Particular.Fd_Dd_Indent"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

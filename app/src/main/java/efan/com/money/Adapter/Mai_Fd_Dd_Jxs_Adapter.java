@@ -45,7 +45,7 @@ public class Mai_Fd_Dd_Jxs_Adapter extends RecyclerView.Adapter<Mai_Fd_Dd_Jxs_Ad
         holder.mai_fd_dd_jxs_item_yhm.setText(list.get(position).getMai_fd_dd_jxs_item_yhm());
         holder.mai_fd_dd_jxs_item_zt.setText(list.get(position).getMai_fd_dd_jxs_item_zt());
         holder.mai_fd_dd_jxs_item_tupian.setBackgroundResource(list.get(position).getMai_fd_dd_jxs_item_tupian());
-        holder.mai_fd_dd_jxs_item_tupian.setOnClickListener(new View.OnClickListener() {
+        holder.item_fd_dd_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mItemClickListener.onItemClick(holder.itemView, position);
@@ -65,7 +65,7 @@ public class Mai_Fd_Dd_Jxs_Adapter extends RecyclerView.Adapter<Mai_Fd_Dd_Jxs_Ad
         private TextView mai_fd_dd_jxs_item_rwm;
         private TextView mai_fd_dd_jxs_item_yhm;
         private TextView mai_fd_dd_jxs_item_zt;
-        private LinearLayout mai_jyz_ll;
+        private LinearLayout item_fd_dd_ll;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -75,7 +75,7 @@ public class Mai_Fd_Dd_Jxs_Adapter extends RecyclerView.Adapter<Mai_Fd_Dd_Jxs_Ad
             mai_fd_dd_jxs_item_yhm = (TextView) itemView.findViewById(R.id.mai_fd_dd_jxs_item_yhm);
             mai_fd_dd_jxs_item_zt = (TextView) itemView.findViewById(R.id.mai_fd_dd_jxs_item_zt);
             mai_fd_dd_jxs_item_tupian = (ImageView) itemView.findViewById(R.id.mai_fd_dd_jxs_item_tupian);
-            mai_jyz_ll = (LinearLayout) itemView.findViewById(R.id.mai_jyz_ll);
+            item_fd_dd_ll = (LinearLayout) itemView.findViewById(R.id.item_fd_dd_jxs_ll);
         }
     }
 

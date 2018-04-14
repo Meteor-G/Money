@@ -128,7 +128,6 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
         bean3.setMain_item_text1("[热推] 最高佣金达到了25元");
         bean3.setMain_item_text2("125件新任务");
         list.add(bean3);
-
         adapter.init(list);
         main_lv.setAdapter(adapter);
     }
@@ -140,6 +139,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
 
     private void InitEvent() {
         main_gridview.setOnItemClickListener(this);
+        main_lv.setOnItemClickListener(this);
     }
 
     @Override
@@ -149,8 +149,16 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), JD_Tuiguang.class);
-        startActivity(intent);
+        switch (parent.getId()) {
+            case R.id.main_gridview:
+                Intent intent = new Intent(getActivity(), JD_Tuiguang.class);
+                startActivity(intent);
+                break;
+            case R.id.main_lv:
+                Intent intent1 = new Intent(getActivity(), JD_Main.class);
+                startActivity(intent1);
+                break;
+        }
 
     }
 }

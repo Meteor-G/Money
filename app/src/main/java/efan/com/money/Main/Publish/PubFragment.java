@@ -71,7 +71,7 @@ public class PubFragment extends Fragment implements View.OnClickListener, Adapt
         PubScrollerBean bean2 = new PubScrollerBean();
         bean2.setFub_scroller_iv(R.mipmap.main_qq);
         bean2.setFub_scroller_money_tv("￥3");
-        bean2.setFub_scroller_name_tv("QQ群聊发广告");
+        bean2.setFub_scroller_name_tv("群聊发广告");
         bean2.setFub_scroller_time_tv("3分钟前完成订单");
         bean2.setFub_scroller_title_tv("[Q Q]");
         list.add(bean2);

@@ -46,15 +46,17 @@ public class Jd_Dd_Jyz extends AppCompatActivity {
     @BindView(R.id.indent_dingdan_rwbz_tv)
     TextView indent_dingdan_rwbz_tv;
     @BindView(R.id.indent_dingdan_sc1_tv)
-    TextView indent_dingdan_sc1_tv;
+    RelativeLayout indent_dingdan_sc1_tv;
     @BindView(R.id.indent_dingdan_sc2_tv)
-    TextView indent_dingdan_sc2_tv;
+    RelativeLayout indent_dingdan_sc2_tv;
     @BindView(R.id.indent_dingdan_tj_tv)
     TextView indent_dingdan_tj_tv;
     @BindView(R.id.indent_dingdan_tj_rl)
     RelativeLayout indent_dingdan_tj_rl;
     @BindView(R.id.indent_dingdan_fdr_tv)
     TextView indent_dingdan_fdr_tv;
+
+    private int type;
 
     @OnClick({R.id.indent_back_iv})
     public void onClick(View view) {
@@ -68,7 +70,7 @@ public class Jd_Dd_Jyz extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.indent);
+        setContentView(R.layout.jd_indent);
         ButterKnife.bind(this);
         getData();
         initData();
@@ -79,12 +81,12 @@ public class Jd_Dd_Jyz extends AppCompatActivity {
 
     private void getData() {
         String id = getIntent().getStringExtra("id");
-        int type = getIntent().getIntExtra("type", 0);
+        type = getIntent().getIntExtra("type", 0);
         Toast.makeText(this, "传过来的值为" + id + " 传输类型" + type, Toast.LENGTH_SHORT).show();
-        initTitle(type);
+        initTitle();
     }
 
-    private void initTitle(int type) {
+    private void initTitle() {
         if (type == StaticValue.JYCG_TO_INDENT) {
             indent_title_bar.setText("交易成功");
             indent_dingdan_zhuangtai_tv.setText("已完成");
