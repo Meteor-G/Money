@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import efan.com.money.Util.UI.loader.Loader;
+import efan.com.money.Util.UI.loader.LoaderStyle;
 import efan.com.money.Util.net.callback.IError;
 import efan.com.money.Util.net.callback.IFailure;
 import efan.com.money.Util.net.callback.IRequest;
@@ -34,6 +36,7 @@ public class RestClient {
     private final String DOWNLOAD_DIR;
     private final String EXTENSION;
     private final String NAME;
+    private final LoaderStyle LOADER_STYLE;
 
     public RestClient(String url,
                       Map<String, Object> params,
@@ -46,7 +49,8 @@ public class RestClient {
                       File file,
                       String downloadDir,
                       String extension,
-                      String name) {
+                      String name,
+                      LoaderStyle loaderStyle) {
         this.URL = url;
         PARAMS.putAll(params);
         this.ERROR = error;
@@ -59,6 +63,7 @@ public class RestClient {
         this.DOWNLOAD_DIR = downloadDir;
         this.EXTENSION = extension;
         this.NAME = name;
+        this.LOADER_STYLE = loaderStyle;
     }
 
     public static RestClientBuilder builder() {
@@ -70,6 +75,9 @@ public class RestClient {
         retrofit2.Call<String> call = null;
         if (REQUEST != null) {
             REQUEST.onRequestStart();
+        }
+        if (LOADER_STYLE != null) {
+            Loader.showLoading(CONTEXT, LOADER_STYLE);
         }
         switch (method) {
             case GET:
@@ -104,7 +112,8 @@ public class RestClient {
         return new RequestCallbacks(ERROR,
                 FAILURE,
                 REQUEST,
-                SUCCESS);
+                SUCCESS,
+                LOADER_STYLE);
     }
 
     public final void get() {

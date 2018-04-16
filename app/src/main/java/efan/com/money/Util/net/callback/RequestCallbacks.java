@@ -1,5 +1,9 @@
 package efan.com.money.Util.net.callback;
 
+import android.os.Handler;
+
+import efan.com.money.Util.UI.loader.Loader;
+import efan.com.money.Util.UI.loader.LoaderStyle;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,12 +19,15 @@ public class RequestCallbacks implements Callback<String> {
     private final IFailure FAILURE;
     private final IRequest REQUEST;
     private final ISuccess SUCCESS;
+    private final LoaderStyle LOADER_STYLE;
+    private static final Handler HANDLER = new Handler();
 
-    public RequestCallbacks(IError ERROR, IFailure FAILURE, IRequest REQUEST, ISuccess SUCCESS) {
+    public RequestCallbacks(IError ERROR, IFailure FAILURE, IRequest REQUEST, ISuccess SUCCESS, LoaderStyle LOADER_STYLE) {
         this.ERROR = ERROR;
         this.FAILURE = FAILURE;
         this.REQUEST = REQUEST;
         this.SUCCESS = SUCCESS;
+        this.LOADER_STYLE = LOADER_STYLE;
     }
 
     @Override
@@ -35,6 +42,15 @@ public class RequestCallbacks implements Callback<String> {
             if (ERROR != null) {
                 ERROR.onError(response.code(), response.message());
             }
+        }
+        if (LOADER_STYLE != null) {
+            HANDLER.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Loader.stopLoading();
+                }
+            }, 1000);
+
         }
     }
 

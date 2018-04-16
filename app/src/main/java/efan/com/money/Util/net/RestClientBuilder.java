@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import efan.com.money.Util.UI.loader.LoaderStyle;
 import efan.com.money.Util.net.callback.IError;
 import efan.com.money.Util.net.callback.IFailure;
 import efan.com.money.Util.net.callback.IRequest;
@@ -31,7 +32,8 @@ public class RestClientBuilder {
     private ISuccess mISuccess = null;
     private RequestBody mBody = null;
     private Context mContext = null;
-    private File mFile;
+    private File mFile = null;
+    private LoaderStyle mLoaderStyle = null;
 
     public RestClientBuilder() {
     }
@@ -101,10 +103,22 @@ public class RestClientBuilder {
         return this;
     }
 
+    public final RestClientBuilder load(Context context, LoaderStyle style) {
+        this.mContext = context;
+        this.mLoaderStyle = style;
+        return this;
+    }
+
+    public final RestClientBuilder load(Context context) {
+        this.mContext = context;
+        this.mLoaderStyle = LoaderStyle.BallSpinFadeLoaderIndicator;
+        return this;
+    }
+
 
     public final RestClient build() {
         return new RestClient(mUrl, PARAMS, mIError, mIFailure,
-                mIRequest, mISuccess, mContext, mBody, mFile, mDownloadDir, mExtension, mName);
+                mIRequest, mISuccess, mContext, mBody, mFile, mDownloadDir, mExtension, mName, mLoaderStyle);
     }
 }
 
