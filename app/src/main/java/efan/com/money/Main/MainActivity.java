@@ -122,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void hideFragment(FragmentTransaction transaction) {
-        // TODO Auto-generated method stub
         if (mMainF != null) {
             transaction.hide(mMainF);
         }

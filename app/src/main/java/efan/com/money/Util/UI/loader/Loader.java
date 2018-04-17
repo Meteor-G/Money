@@ -33,6 +33,7 @@ public class Loader {
 
         final AppCompatDialog dialog = new AppCompatDialog(context, R.style.dialog);
         final AVLoadingIndicatorView avLoadingIndicatorView = LoaderCreator.create(type, context);
+        dialog.setContentView(avLoadingIndicatorView);
 
         int deviceWight = DimenUtil.getScreenWindth();
         int deviceHeight = DimenUtil.getScreenHeight();

@@ -184,7 +184,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void hideFragment(FragmentTransaction transaction) {
-        // TODO Auto-generated method stub
+
         if (Mai_1_Fragment != null) {
             transaction.hide(Mai_1_Fragment);
         }

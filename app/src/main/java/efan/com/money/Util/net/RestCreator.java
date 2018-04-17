@@ -5,8 +5,10 @@ import java.util.concurrent.TimeUnit;
 
 import efan.com.money.App.ConfigKey;
 import efan.com.money.App.Main;
+import efan.com.money.Util.net.rx.RxRestServer;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
@@ -16,9 +18,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RestCreator {
 
-    public static RestServer getRestService() {
-        return RestCreatorHolder.REST_SERVER;
-    }
 
     public static final String BASE_URL = Main.getConfigurations(ConfigKey.API_HOSE.name());
 //    public static final String BASE_URL = "https://www.baidu.com/";
@@ -28,6 +27,7 @@ public class RestCreator {
                 .baseUrl(BASE_URL)
                 .client(OKHttpHolder.BUILDER)
                 .addConverterFactory(ScalarsConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 
@@ -39,11 +39,6 @@ public class RestCreator {
 
     }
 
-    private static final class RestCreatorHolder {
-        private static final RestServer REST_SERVER =
-                RetrofitHolder.RETROFIT_CLIENT.create(RestServer.class);
-    }
-
     private static final class ParamsHolder {
         public static final WeakHashMap<String, Object> PARAMS = new WeakHashMap<>();
     }
@@ -51,4 +46,30 @@ public class RestCreator {
     public static WeakHashMap<String, Object> getParams() {
         return ParamsHolder.PARAMS;
     }
+
+    /**
+     * Server接口
+     */
+    private static final class RestCreatorHolder {
+        private static final RestServer REST_SERVER =
+                RetrofitHolder.RETROFIT_CLIENT.create(RestServer.class);
+    }
+
+    public static RestServer getRestService() {
+        return RestCreatorHolder.REST_SERVER;
+    }
+
+    /**
+     * Server接口
+     */
+    private static final class RxRestCreatorHolder {
+        private static final RxRestServer REST_SERVER =
+                RetrofitHolder.RETROFIT_CLIENT.create(RxRestServer.class);
+    }
+
+    public static RxRestServer getRxRestService() {
+        return RxRestCreatorHolder.REST_SERVER;
+    }
+
+
 }

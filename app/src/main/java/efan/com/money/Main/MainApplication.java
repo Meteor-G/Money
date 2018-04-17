@@ -3,6 +3,7 @@ package efan.com.money.Main;
 import android.app.Application;
 
 import efan.com.money.App.Main;
+import efan.com.money.staticfunction.StaticUrl;
 
 /**
  * 作者： ZlyjD.
@@ -14,7 +15,7 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Main.init(this)
-                .withApiHost("https://www.baidu.com/")
+                .withApiHost(StaticUrl.BASE_URL)
                 .configue();
     }
 }

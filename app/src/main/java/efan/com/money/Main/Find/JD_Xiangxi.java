@@ -21,9 +21,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import efan.com.money.Bean.NetFaDanBean;
 import efan.com.money.Main.MainActivity;
 import efan.com.money.R;
+import efan.com.money.Util.net.rx.BaseSubscriber;
+import efan.com.money.Util.net.rx.RxRestClient;
 import efan.com.money.staticfunction.ShowTips;
+import efan.com.money.staticfunction.StaticUrl;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/9/12.
@@ -45,6 +57,13 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
     private PopupWindow poPupWindow;
     private TextView ppw_fin_indent_get_qd;
     private TextView ppw_fin_indent_get_qx;
+    //界面
+    private TextView jd_main_item_lx_tv;
+    private TextView jd_main_item_title_tv;
+    private TextView jd_xiangqing_qian;
+    private TextView jd_xiangxi_zongshu;
+    private ImageView jd_main_item_iv;
+    private NetFaDanBean netFaDanBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +73,40 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
         ShowTips.showTips(this, i + "");
         InitView();
         InitEvent();
+        GetFaDan(i);
         setSelect(0);
+    }
+
+    private void GetFaDan(int i) {
+        RxRestClient.builder()
+                .url(StaticUrl.GET_FA_DAN)
+                .params("fd_id", i)
+                .params("page", -1)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(this) {
+                    @Override
+                    public void onNext(String s) {
+                        JSONObject object = new JSONObject();
+                        if (object.parseObject(s).getString("success").equals("true")) {
+                            List<NetFaDanBean> mList = object.parseObject(object.parseObject(s).getString("data"),
+                                    new TypeReference<ArrayList<NetFaDanBean>>() {
+                                    });
+                            netFaDanBean = mList.get(0);
+                            SetValue(mList.get(0));
+                        } else {
+                            Toast.makeText(JD_Xiangxi.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void SetValue(NetFaDanBean netFaDanBean) {
+        jd_main_item_lx_tv.setText("[" + netFaDanBean.getTuiGuang() + "]");
+        jd_main_item_title_tv.setText(netFaDanBean.getFd_MingCheng());
+        jd_xiangqing_qian.setText("￥" + netFaDanBean.getFd_JiaGe());
     }
 
     private void InitEvent() {
@@ -71,6 +123,12 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
         jd_xiangxi_rwxx_view = findViewById(R.id.jd_xiangxi_rwxx_view);
         jd_xiangxi_rwlc_view = findViewById(R.id.jd_xiangxi_rwlc_view);
         jd_xiangqing_lqrw = (RelativeLayout) findViewById(R.id.jd_xiangqing_lqrw);
+
+        jd_main_item_lx_tv = (TextView) findViewById(R.id.jd_main_item_lx_tv);
+        jd_main_item_title_tv = (TextView) findViewById(R.id.jd_main_item_title_tv);
+        jd_xiangqing_qian = (TextView) findViewById(R.id.jd_xiangqing_qian);
+        jd_xiangxi_zongshu = (TextView) findViewById(R.id.jd_xiangxi_zongshu);
+        jd_main_item_iv = (ImageView) findViewById(R.id.jd_main_item_iv);
     }
 
     @Override
@@ -157,7 +215,8 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
         switch (i) {
             case 0:
                 if (xx_fra == null) {
-                    xx_fra = new JD_Xiangxi_Rw_Fragment();
+                    xx_fra = JD_Xiangxi_Rw_Fragment.newInstence(netFaDanBean);
+//                    xx_fra = new JD_Xiangxi_Rw_Fragment();
                     transaction.add(R.id.jd_xiangxi_frame, xx_fra);
                 } else {
                     transaction.show(xx_fra);
@@ -179,7 +238,6 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
     }
 
     private void hideFragment(FragmentTransaction transaction) {
-        // TODO Auto-generated method stub
         if (xx_fra != null) {
             transaction.hide(xx_fra);
         }

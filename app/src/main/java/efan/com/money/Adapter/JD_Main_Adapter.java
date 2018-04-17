@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import efan.com.money.Bean.JD_MainBean;
+import efan.com.money.Bean.NetFaDanBean;
 import efan.com.money.R;
 
 /**
@@ -21,14 +21,14 @@ import efan.com.money.R;
 
 public class JD_Main_Adapter extends RecyclerView.Adapter<JD_Main_Adapter.ViewHolder> {
     private Context mContext;
-    private List<JD_MainBean> mList;
+    private List<NetFaDanBean> mList;
     private OnItemClickListener mItemClickListener;
 
     public JD_Main_Adapter(Context mContext) {
         this.mContext = mContext;
     }
 
-    public void initData(List<JD_MainBean> mList) {
+    public void initData(List<NetFaDanBean> mList) {
         this.mList = mList;
     }
 
@@ -41,12 +41,16 @@ public class JD_Main_Adapter extends RecyclerView.Adapter<JD_Main_Adapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.jd_main_item_iv.setBackgroundResource(mList.get(position).getJd_main_item_iv());
-        holder.jd_main_item_lx_tv.setText(mList.get(position).getJd_main_item_lx_tv());
-        holder.jd_main_item_title_tv.setText(mList.get(position).getJd_main_item_title_tv());
-        holder.jd_main_item_mjxy_tv.setText(mList.get(position).getJd_main_item_mjxy_tv());
-        holder.jd_main_item_cj_tv.setText(mList.get(position).getJd_main_item_cj_tv());
-        holder.jd_main_item_qian.setText(mList.get(position).getJd_main_item_qian());
+//        Picasso.with(mContext)
+//                .load(mList.get(position).get())
+//                .error(R.mipmap.ic_launcher)
+//                .into(holder.main_grid_item_iv);
+//        holder.jd_main_item_iv.setBackgroundResource(mList.get(position).getJd_main_item_iv());
+        holder.jd_main_item_lx_tv.setText("[" + mList.get(position).getTuiGuang() + "]");
+        holder.jd_main_item_title_tv.setText(mList.get(position).getFd_MingCheng());
+        holder.jd_main_item_mjxy_tv.setText("信誉   新发单人");
+        holder.jd_main_item_cj_tv.setText("交易量   70%");
+        holder.jd_main_item_qian.setText("￥" + mList.get(position).getFd_JiaGe());
         if (mItemClickListener != null) {
             holder.jd_main_item_ll.setOnClickListener(new View.OnClickListener() {
                 @Override

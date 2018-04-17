@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -21,8 +23,13 @@ import java.util.List;
 
 import efan.com.money.Adapter.JD_Main_Adapter;
 import efan.com.money.Adapter.OnItemClickListener;
-import efan.com.money.Bean.JD_MainBean;
+import efan.com.money.Bean.NetFaDanBean;
 import efan.com.money.R;
+import efan.com.money.Util.net.rx.BaseSubscriber;
+import efan.com.money.Util.net.rx.RxRestClient;
+import efan.com.money.staticfunction.StaticUrl;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/9/12.
@@ -43,7 +50,12 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
     private TextView footerTextView;
     private ImageView footerImageView;
 
-    private JD_Main_Adapter adapter;
+    private JD_Main_Adapter adapter = new JD_Main_Adapter(this);
+
+
+    private List<NetFaDanBean> AllList = new ArrayList<>();
+    int PAGE = 0;
+    int SIZE = 0;//每次返回的个数
 
 
     @Override
@@ -53,7 +65,7 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         InitView();
         InitEvent();
         Refresh();
-        lv();
+        GetData(0);
     }
 
     private void Refresh() {
@@ -70,7 +82,7 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         swipe_refresh.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
             public void onRefresh() {
-
+                PAGE = 0;
                 textView.setText("正在刷新");
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
@@ -79,12 +91,8 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
 
                     @Override
                     public void run() {
-//                        RecycleBean bean = new RecycleBean();
-//                        bean.setTv("159");
-////                        mAdapter.index(1, bean);
-//                        mList.add(1, bean);
-////                        mAdapter.notifyItemInserted(1);
-//                        mAdapter.notifyDataSetChanged();
+                        AllList.clear();
+                        GetData(0);
                         swipe_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);
                     }
@@ -110,6 +118,7 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         swipe_refresh.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
             @Override
             public void onLoadMore() {
+                PAGE += 1;
                 footerTextView.setText("正在加载...");
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
@@ -118,13 +127,11 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
 
                     @Override
                     public void run() {
-//                        RecycleBean bean = new RecycleBean();
-//                        bean.setTv("159");
-//                        mList.add(bean);
-//                        mAdapter.notifyDataSetChanged();
+                        GetData(PAGE);
+                        adapter.notifyDataSetChanged();
                         swipe_refresh.setLoadMore(false);
                         progressBar.setVisibility(View.GONE);
-//                        super_recycle.scrollToPosition(mAdapter.getItemCount() - 1);
+                        recycle.scrollToPosition(adapter.getItemCount() - 1);
                     }
                 }, 1000);
             }
@@ -144,66 +151,32 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         });
     }
 
-    private void lv() {
-        adapter = new JD_Main_Adapter(this);
-
-        List<JD_MainBean> list = new ArrayList<JD_MainBean>();
-
-        JD_MainBean bean = new JD_MainBean();
-        bean.setJd_main_item_iv(R.mipmap.main_tuiguang);
-        bean.setJd_main_item_lx_tv("推广");
-        bean.setJd_main_item_title_tv("商品推销，朋友圈保留一天。");
-        bean.setJd_main_item_mjxy_tv("卖家信用：新卖家");
-        bean.setJd_main_item_cj_tv("近7天成交率：80%");
-        bean.setJd_main_item_qian("￥15");
-        list.add(bean);
-
-        JD_MainBean bean1 = new JD_MainBean();
-        bean1.setJd_main_item_iv(R.mipmap.mian_dianjiliang);
-        bean1.setJd_main_item_lx_tv("点击量");
-        bean1.setJd_main_item_title_tv("谢谢大家参观");
-        bean1.setJd_main_item_mjxy_tv("卖家信用：新卖家");
-        bean1.setJd_main_item_cj_tv("近7天成交率：80%");
-        bean1.setJd_main_item_qian("￥1");
-        list.add(bean1);
-
-        JD_MainBean bean2 = new JD_MainBean();
-        bean2.setJd_main_item_iv(R.mipmap.main_jizan);
-        bean2.setJd_main_item_lx_tv("集赞");
-        bean2.setJd_main_item_title_tv("拜托大家了，集赞集赞");
-        bean2.setJd_main_item_mjxy_tv("卖家信用：新卖家");
-        bean2.setJd_main_item_cj_tv("近7天成交率：50%");
-        bean2.setJd_main_item_qian("￥2");
-        list.add(bean2);
-
-        JD_MainBean bean3 = new JD_MainBean();
-        bean3.setJd_main_item_iv(R.mipmap.main_toupiao);
-        bean3.setJd_main_item_lx_tv("投票");
-        bean3.setJd_main_item_title_tv("拉选票");
-        bean3.setJd_main_item_mjxy_tv("卖家信用：新卖家");
-        bean3.setJd_main_item_cj_tv("近7天成交率：100%");
-        bean3.setJd_main_item_qian("￥1");
-        list.add(bean3);
-        JD_MainBean bean4 = new JD_MainBean();
-        bean4.setJd_main_item_iv(R.mipmap.main_toupiao);
-        bean4.setJd_main_item_lx_tv("投票");
-        bean4.setJd_main_item_title_tv("拉选票");
-        bean4.setJd_main_item_mjxy_tv("卖家信用：新卖家");
-        bean4.setJd_main_item_cj_tv("近7天成交率：100%");
-        bean4.setJd_main_item_qian("￥1");
-        list.add(bean4);
-        JD_MainBean bean5 = new JD_MainBean();
-        bean5.setJd_main_item_iv(R.mipmap.main_toupiao);
-        bean5.setJd_main_item_lx_tv("投票");
-        bean5.setJd_main_item_title_tv("拉选票");
-        bean5.setJd_main_item_mjxy_tv("卖家信用：新卖家");
-        bean5.setJd_main_item_cj_tv("近7天成交率：100%");
-        bean5.setJd_main_item_qian("￥1");
-        list.add(bean5);
-
-        adapter.initData(list);
-        recycle.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
+    private void GetData(int page) {
+        RxRestClient.builder()
+                .url(StaticUrl.GET_FA_DAN)
+                .params("fd_id", "0")
+                .params("page", page)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(this) {
+                    @Override
+                    public void onNext(String s) {
+                        JSONObject object = new JSONObject();
+                        if (object.parseObject(s).getString("success").equals("true")) {
+                            List<NetFaDanBean> mList = object.parseObject(object.parseObject(s).getString("data"),
+                                    new TypeReference<ArrayList<NetFaDanBean>>() {
+                                    });
+//                            SIZE = mList.size();
+                            AllList.addAll(mList);
+                            adapter.initData(AllList);
+                            recycle.setAdapter(adapter);
+                        } else {
+                            Toast.makeText(JD_Main.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void InitEvent() {
@@ -217,6 +190,7 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         recycle = (RecyclerView) findViewById(R.id.recycle);
         LinearLayoutManager manager = new LinearLayoutManager(JD_Main.this, LinearLayoutManager.VERTICAL, false);
         recycle.setLayoutManager(manager);
+        adapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -261,7 +235,7 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
     public void onItemClick(View view, int Position) {
         Toast.makeText(this, "点击了" + Position, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, JD_Xiangxi.class);
-        intent.putExtra("id", Position);
+        intent.putExtra("id", AllList.get(Position).getFdid());
         startActivity(intent);
     }
 }

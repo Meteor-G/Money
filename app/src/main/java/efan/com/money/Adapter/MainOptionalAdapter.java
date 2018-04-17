@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import efan.com.money.Bean.MainOptionalBean;
+import efan.com.money.Bean.NetFaDanBean;
 import efan.com.money.R;
 
 /**
@@ -20,15 +20,18 @@ import efan.com.money.R;
 
 public class MainOptionalAdapter extends RecyclerView.Adapter<MainOptionalAdapter.ViewHolder> {
     private Context mContext;
-    private List<MainOptionalBean> mList;
+    private List<NetFaDanBean> mList;
     private OnItemClickListener mItemClickListener;
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
         this.mItemClickListener = itemClickListener;
     }
 
-    public MainOptionalAdapter(Context mContext, List<MainOptionalBean> mList) {
+    public MainOptionalAdapter(Context mContext) {
         this.mContext = mContext;
+    }
+
+    public void initData(List<NetFaDanBean> mList) {
         this.mList = mList;
     }
 
@@ -41,12 +44,12 @@ public class MainOptionalAdapter extends RecyclerView.Adapter<MainOptionalAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.item_main_optional_money.setText(mList.get(position).getItem_main_optional_money());
-        holder.item_main_optional_title.setText(mList.get(position).getItem_main_optional_title());
+        holder.item_main_optional_money.setText("￥" + mList.get(position).getFd_JiaGe());
+        holder.item_main_optional_title.setText(mList.get(position).getFd_MingCheng());
         holder.item_main_optional_rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemClickListener.onItemClick(holder.itemView, position);
+                mItemClickListener.onItemClick(holder.item_main_optional_rl, position);
             }
         });
     }

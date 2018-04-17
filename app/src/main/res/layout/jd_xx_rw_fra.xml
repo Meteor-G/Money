@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#FFFFFF"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,15 +15,16 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="所需社交：" />
+            android:text="所需社交："/>
 
         <TextView
+            android:id="@+id/jd_xx_rw_fra_sxsj"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/sxsj"
-            android:text="朋友圈" />
+            android:text="朋友圈"/>
 
     </RelativeLayout>
 
@@ -37,15 +38,16 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="任务类型：" />
+            android:text="任务类型："/>
 
         <TextView
+            android:id="@+id/jd_xx_rw_fra_rwlx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/rwlx"
-            android:text="集赞" />
+            android:text="集赞"/>
 
     </RelativeLayout>
 
@@ -59,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="帐号要求：" />
+            android:text="帐号要求："/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -67,7 +69,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/zhyq"
-            android:text="无" />
+            android:text="无"/>
 
     </RelativeLayout>
 
@@ -81,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="上传截图：" />
+            android:text="上传截图："/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -89,7 +91,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/scjt"
-            android:text="是" />
+            android:text="是"/>
 
     </RelativeLayout>
 
@@ -103,16 +105,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:text="任务内容：" />
+            android:text="任务内容："/>
 
         <TextView
+            android:id="@+id/jd_xx_rw_fra_rwnr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/rwnr"
-            android:text="加微信：遗忘，进朋友圈点赞，需截图。" />
+            android:text="加微信：遗忘，进朋友圈点赞，需截图。"/>
 
     </RelativeLayout>
 
@@ -121,21 +124,22 @@
         android:layout_height="60dp">
 
         <TextView
-            android:id="@+id/spms"
+            android:id="@+id/rwbz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:text="任务备注：" />
+            android:text="任务备注："/>
 
         <TextView
+            android:id="@+id/jd_xx_rw_fra_rwbz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="15dp"
-            android:layout_toRightOf="@id/spms"
-            android:text="必须在朋友圈发布一天，3元每天。" />
+            android:layout_toRightOf="@id/rwbz"
+            android:text="必须在朋友圈发布一天，3元每天。"/>
 
     </RelativeLayout>
 </LinearLayout>
