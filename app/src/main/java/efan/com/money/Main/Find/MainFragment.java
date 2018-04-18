@@ -65,27 +65,8 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
         getListViewData();
         getGridViewData();
         RecycleData();
-//        onCallRxRestClient();
         return view;
     }
-
-    private void onCallRxRestClient() {
-        final String url = "";
-        RxRestClient.builder()
-                .url(url)
-                .load(getActivity())
-                .build()
-                .get()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<String>(getActivity()) {
-                    @Override
-                    public void onNext(String s) {
-
-                    }
-                });
-    }
-
 
     private void RecycleData() {
         recycleAdapter = new MainOptionalAdapter(getActivity());
@@ -94,6 +75,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
                 .url(StaticUrl.GET_FA_DAN)
                 .params("fd_id", "0")
                 .params("page", "0")
+                .load(getContext())
                 .build()
                 .get()
                 .subscribeOn(Schedulers.io())
@@ -212,9 +194,9 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
                 break;
             case R.id.item_main_optional_rl:
                 Intent intent1 = new Intent(getActivity(), JD_Xiangxi.class);
+                intent1.putExtra("id", FaDanList.get(Position).getFdid());
                 startActivity(intent1);
                 break;
-
         }
 
     }

@@ -16,6 +16,9 @@ public class StaticUrl {
     public static final String GET_TUI_GUANG = "Money/GetTuiGuang";
     //帐号
     public static final String GET_ZHANG_HAO = "Money/getZhangHao";
-    //发单
+    //获取全部发单
     public static final String GET_FA_DAN = "Money/getFaDan";
+    //插入发单
+    public static final String INDEX_FD_DAN = "Money/indexFaDan";
+
 }

@@ -55,14 +55,11 @@
                     android:textSize="14sp"/>
             </RelativeLayout>
 
-            <GridView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/pub_gv"
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
-                android:gravity="center"
-                android:numColumns="4">
-
-            </GridView>
+                android:gravity="center"/>
 
             <View
                 android:layout_width="match_parent"

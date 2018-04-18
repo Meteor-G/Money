@@ -82,6 +82,7 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
                 .url(StaticUrl.GET_FA_DAN)
                 .params("fd_id", i)
                 .params("page", -1)
+                .load(JD_Xiangxi.this)
                 .build()
                 .get()
                 .subscribeOn(Schedulers.io())

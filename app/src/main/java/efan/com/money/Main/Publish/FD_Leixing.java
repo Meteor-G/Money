@@ -8,12 +8,20 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import efan.com.money.Adapter.FD_LeixingAdapter;
-import efan.com.money.Bean.FD_LeixingBean;
+import efan.com.money.Bean.NetTuiGuangBean;
 import efan.com.money.R;
+import efan.com.money.Util.net.rx.BaseSubscriber;
+import efan.com.money.Util.net.rx.RxRestClient;
+import efan.com.money.staticfunction.StaticUrl;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/9/11.
@@ -23,48 +31,44 @@ public class FD_Leixing extends AppCompatActivity implements View.OnClickListene
     private ListView lv;
     private FD_LeixingAdapter adapter;
     private ImageView fb_lx_fanhui;
+    private List<NetTuiGuangBean> TuiGuangList;
+    private String zhanghao;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fd_leixing);
+        GetIntentData();
         InitView();
         InitEvent();
-        lv();
+        GetListViewData();
     }
 
-    private void lv() {
+    private void GetIntentData() {
+        zhanghao = getIntent().getStringExtra("zhanghao");
+    }
+
+    private void GetListViewData() {
         adapter = new FD_LeixingAdapter(this);
-        List<FD_LeixingBean> list = new ArrayList<FD_LeixingBean>();
-
-        FD_LeixingBean bean = new FD_LeixingBean();
-        bean.setLeixing("推广");
-        list.add(bean);
-        FD_LeixingBean bean1 = new FD_LeixingBean();
-        bean1.setLeixing("集赞");
-        list.add(bean1);
-        FD_LeixingBean bean2 = new FD_LeixingBean();
-        bean2.setLeixing("点击量");
-        list.add(bean2);
-        FD_LeixingBean bean3 = new FD_LeixingBean();
-        bean3.setLeixing("投票");
-        list.add(bean3);
-        FD_LeixingBean bean4 = new FD_LeixingBean();
-        bean4.setLeixing("营销");
-        list.add(bean4);
-        FD_LeixingBean bean5 = new FD_LeixingBean();
-        bean5.setLeixing("广告");
-        list.add(bean5);
-        FD_LeixingBean bean6 = new FD_LeixingBean();
-        bean6.setLeixing("兴趣");
-        list.add(bean6);
-        FD_LeixingBean bean7 = new FD_LeixingBean();
-        bean7.setLeixing("其他");
-        list.add(bean7);
-
-        adapter.init(list);
-        lv.setAdapter(adapter);
-
+        RxRestClient.builder()
+                .url(StaticUrl.GET_TUI_GUANG)
+                .load(FD_Leixing.this)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(FD_Leixing.this) {
+                    @Override
+                    public void onNext(String s) {
+                        JSONObject object = new JSONObject();
+                        String data = object.parseObject(s).getString("data");
+                        TuiGuangList = object.parseObject(data,
+                                new TypeReference<ArrayList<NetTuiGuangBean>>() {
+                                });
+                        adapter.init(TuiGuangList);
+                        lv.setAdapter(adapter);
+                    }
+                });
     }
 
     private void InitEvent() {
@@ -89,6 +93,8 @@ public class FD_Leixing extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(FD_Leixing.this, FD_Xiangxi.class);
+        intent.putExtra("zhanghao", zhanghao);
+        intent.putExtra("tuiguang", TuiGuangList.get(position).getTg_leixing());
         startActivity(intent);
     }
 }

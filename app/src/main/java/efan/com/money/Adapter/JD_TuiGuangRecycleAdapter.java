@@ -15,6 +15,7 @@ import java.util.List;
 
 import efan.com.money.Bean.NetZhangHao;
 import efan.com.money.R;
+import efan.com.money.staticfunction.StaticUrl;
 
 /**
  * 作者： ZlyjD.
@@ -45,7 +46,7 @@ public class JD_TuiGuangRecycleAdapter extends RecyclerView.Adapter<JD_TuiGuangR
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         Picasso.with(mContext)
-                .load(mList.get(position).getZh_leixing_iv())
+                .load(StaticUrl.BASE_URL + mList.get(position).getZh_leixing_iv())
                 .error(R.mipmap.ic_launcher)
                 .into(holder.pub_tg_item_iv);
         holder.pub_tg_item_tv.setText(mList.get(position).getZh_leixing());

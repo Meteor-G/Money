@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import efan.com.money.Bean.FD_LeixingBean;
+import efan.com.money.Bean.NetTuiGuangBean;
 import efan.com.money.R;
 
 /**
@@ -20,7 +20,7 @@ import efan.com.money.R;
 public class FD_LeixingAdapter extends BaseAdapter {
 
     private Context context;
-    private List<FD_LeixingBean> list = new ArrayList<FD_LeixingBean>();
+    private List<NetTuiGuangBean> list = new ArrayList<NetTuiGuangBean>();
     private LayoutInflater layoutInflater;
 
     public FD_LeixingAdapter(Context context) {
@@ -28,7 +28,7 @@ public class FD_LeixingAdapter extends BaseAdapter {
         layoutInflater = LayoutInflater.from(context);
     }
 
-    public void init(List<FD_LeixingBean> list) {
+    public void init(List<NetTuiGuangBean> list) {
         this.list = list;
     }
 
@@ -58,7 +58,7 @@ public class FD_LeixingAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.publeixing_item_tv.setText(list.get(position).leixing);
+        holder.publeixing_item_tv.setText(list.get(position).getTg_leixing());
         return view;
     }
 

@@ -25,6 +25,7 @@ import java.util.List;
 
 import efan.com.money.Main.Mine.Indent.Mai_Fd_Fragment;
 import efan.com.money.Main.Mine.Indent.Mai_Jd_Fragment;
+import efan.com.money.Main.Mine.Other.Setting;
 import efan.com.money.R;
 import efan.com.money.UIView.RoundImageView;
 import io.valuesfeng.picker.Picker;
@@ -54,6 +55,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private static final int REQUEST_CODE_CHOOSE = 1;
     private List<Uri> mSelected;
 
+    private ImageView main_setting;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,6 +77,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         main_mj1_rl.setOnClickListener(this);
         main_mj2_rl.setOnClickListener(this);
         main_head.setOnClickListener(this);
+        main_setting.setOnClickListener(this);
     }
 
     private void InitView() {
@@ -84,6 +88,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         main_mj2_tv = (TextView) view.findViewById(R.id.main_mj2_tv);
         main_mj1_iv = (ImageView) view.findViewById(R.id.main_mj1_iv);
         main_mj2_iv = (ImageView) view.findViewById(R.id.main_mj2_iv);
+        main_setting = (ImageView) view.findViewById(R.id.main_setting);
         main_head.setBorderRadius(90);
     }
 
@@ -98,8 +103,11 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 setSelect(1);
                 break;
             case R.id.main_head:
-
                 checkPermission();
+                break;
+            case R.id.main_setting:
+                Intent intent = new Intent(getActivity(), Setting.class);
+                startActivity(intent);
                 break;
         }
     }

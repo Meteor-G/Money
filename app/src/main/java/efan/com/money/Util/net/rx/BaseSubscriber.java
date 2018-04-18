@@ -26,6 +26,7 @@ public abstract class BaseSubscriber<String> implements Observer<String> {
     @Override
     public void onSubscribe(@NonNull Disposable d) {
         Log.i("RxJava", "onSubscribe");
+
     }
 
     @Override
@@ -38,7 +39,7 @@ public abstract class BaseSubscriber<String> implements Observer<String> {
 //            public void run() {
 //                Loader.stopLoading();
 //            }
-//        }, 2000);
+//        }, 1000);
     }
 
     @Override
@@ -50,7 +51,7 @@ public abstract class BaseSubscriber<String> implements Observer<String> {
 //            public void run() {
 //                Loader.stopLoading();
 //            }
-//        }, 2000);
+//        }, 1000);
     }
 
     @Override

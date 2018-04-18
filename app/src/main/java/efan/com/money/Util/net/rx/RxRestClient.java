@@ -1,6 +1,7 @@
 package efan.com.money.Util.net.rx;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.File;
 import java.util.Map;
@@ -13,6 +14,9 @@ import efan.com.money.Util.net.RestCreator;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+
+import static efan.com.money.Util.net.HttpMethod.GET;
+import static efan.com.money.Util.net.HttpMethod.POST;
 
 /**
  * 作者： ZlyjD.
@@ -47,13 +51,16 @@ public class RxRestClient {
     }
 
     private Observable<String> request(HttpMethod method) {
+        Log.i("RxJava", "开始request");
         final RxRestServer server = RestCreator.getRxRestService();
         Observable<String> observable = null;
         if (LOADER_STYLE != null) {
+            Log.i("RxJava", "开始");
             Loader.showLoading(CONTEXT, LOADER_STYLE);
         }
         switch (method) {
             case GET:
+                Log.i("RxJava", "开始get");
                 observable = server.get(URL, PARAMS);
                 break;
             case POST:
@@ -80,12 +87,12 @@ public class RxRestClient {
     }
 
     public final Observable<String> get() {
-        return request(HttpMethod.GET);
+        return request(GET);
     }
 
     public final Observable<String> post() {
         if (BOBY == null) {
-            return request(HttpMethod.POST);
+            return request(POST);
         } else {
             if (!PARAMS.isEmpty()) {
                 throw new RuntimeException("params must be null");

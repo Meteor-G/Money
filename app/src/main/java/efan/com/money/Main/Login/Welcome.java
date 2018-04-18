@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import efan.com.money.Main.MainActivity;
 import efan.com.money.R;
+import efan.com.money.Util.storage.MainPreference;
 import efan.com.money.Util.timer.BaseTimerTask;
 import efan.com.money.Util.timer.ITimerListener;
 
@@ -72,9 +73,15 @@ public class Welcome extends AppCompatActivity implements ITimerListener {
     }
 
     private void checkIsShowScroll() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        Welcome.this.finish();
+        if (MainPreference.getAppFlag("check")) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            Welcome.this.finish();
+        } else {
+            Intent intent1 = new Intent(this, Login.class);
+            startActivity(intent1);
+            Welcome.this.finish();
+        }
     }
 
 }

@@ -49,6 +49,7 @@ public class JD_Tuiguang extends AppCompatActivity implements OnItemClickListene
         adapter.setOnItemClickListener(this);
         RxRestClient.builder()
                 .url(StaticUrl.GET_ZHANG_HAO)
+                .load(JD_Tuiguang.this)
                 .build()
                 .get()
                 .subscribeOn(Schedulers.io())

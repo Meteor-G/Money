@@ -65,8 +65,9 @@ public class RxRestClientBuilder {
     }
 
     public final RxRestClientBuilder load(Context context) {
-        this.mContext = context;
-        this.mLoaderStyle = LoaderStyle.BallGridBeatIndicator;
+//        this.mContext = context;
+//        this.mLoaderStyle = LoaderStyle.BallGridBeatIndicator;
+        load(context, LoaderStyle.BallGridBeatIndicator);
         return this;
     }
 

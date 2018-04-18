@@ -63,6 +63,12 @@
         <activity
             android:name=".Main.Mine.Indent.Particular.Fd_Dd_Indent"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Main.Login.Login"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Main.Mine.Other.Setting"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

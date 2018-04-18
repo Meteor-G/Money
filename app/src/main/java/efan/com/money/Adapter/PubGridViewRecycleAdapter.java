@@ -13,32 +13,32 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import efan.com.money.Bean.NetTuiGuangBean;
+import efan.com.money.Bean.NetZhangHao;
 import efan.com.money.R;
 import efan.com.money.staticfunction.StaticUrl;
 
 /**
  * 作者： ZlyjD.
- * 时间：2018/4/17.
+ * 时间：2018/4/18.
  */
 
-public class MainGridViewRecycleAdapter extends RecyclerView.Adapter<MainGridViewRecycleAdapter.ViewHolder> {
+public class PubGridViewRecycleAdapter extends RecyclerView.Adapter<PubGridViewRecycleAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<NetTuiGuangBean> mList;
+    private List<NetZhangHao> mList;
     private OnItemClickListener mItemClickListener;
 
-    public MainGridViewRecycleAdapter(Context mContext) {
+    public PubGridViewRecycleAdapter(Context mContext) {
         this.mContext = mContext;
     }
 
-    public void initData(List<NetTuiGuangBean> mList) {
+    public void initData(List<NetZhangHao> mList) {
         this.mList = mList;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.main_gv_item, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.pub_gv_item, null);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -46,14 +46,14 @@ public class MainGridViewRecycleAdapter extends RecyclerView.Adapter<MainGridVie
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         Picasso.with(mContext)
-                .load(StaticUrl.BASE_URL + mList.get(position).getTg_leixing_iv())
+                .load(StaticUrl.BASE_URL + mList.get(position).getZh_leixing_iv())
                 .error(R.mipmap.ic_launcher)
-                .into(holder.main_grid_item_iv);
-        holder.main_grid_item_tv.setText(mList.get(position).getTg_leixing());
-        holder.main_frame_rl.setOnClickListener(new View.OnClickListener() {
+                .into(holder.pub_grid_item_iv);
+        holder.pub_grid_item_tv.setText(mList.get(position).getZh_leixing());
+        holder.pubfra_rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemClickListener.onItemClick(holder.main_frame_rl, position);
+                mItemClickListener.onItemClick(holder.pubfra_rl, position);
             }
         });
     }
@@ -64,15 +64,15 @@ public class MainGridViewRecycleAdapter extends RecyclerView.Adapter<MainGridVie
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView main_grid_item_iv;
-        private TextView main_grid_item_tv;
-        private RelativeLayout main_frame_rl;
+        private ImageView pub_grid_item_iv;
+        private TextView pub_grid_item_tv;
+        private RelativeLayout pubfra_rl;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            main_grid_item_iv = (ImageView) itemView.findViewById(R.id.main_gv_item_iv);
-            main_grid_item_tv = (TextView) itemView.findViewById(R.id.main_gv_item_tv);
-            main_frame_rl = (RelativeLayout) itemView.findViewById(R.id.main_frame_rl);
+            pub_grid_item_iv = (ImageView) itemView.findViewById(R.id.pub_gv_item_iv);
+            pub_grid_item_tv = (TextView) itemView.findViewById(R.id.pub_gv_item_tv);
+            pubfra_rl = (RelativeLayout) itemView.findViewById(R.id.pubfra_rl);
         }
     }
 

@@ -61,11 +61,11 @@
                     android:text="所需社交："/>
 
                 <TextView
+                    android:id="@+id/fd_xiangxi_sxsj"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/fb_sxsj"
-                    android:text="微信"
                     android:textColor="#FFA500"/>
 
                 <TextView
@@ -75,7 +75,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="50dp"
-                    android:text="集赞"
                     android:textColor="#FFA500"/>
 
                 <TextView
@@ -311,17 +310,18 @@
                     android:textSize="16sp"/>
 
                 <EditText
+                    android:id="@+id/fd_xiangxi_rwbz_ed"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_toRightOf="@id/fb_rwbz"
                     android:background="@null"
                     android:gravity="top"
                     android:hint="填写任务备注"
                     android:textColorHint="#dbdbdb"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp"
+                    android:layout_alignBaseline="@+id/fb_rwbz"
+                    android:layout_alignBottom="@+id/fb_rwbz"
+                    android:layout_toRightOf="@+id/fb_rwbz"
+                    android:layout_toEndOf="@+id/fb_rwbz"/>
             </RelativeLayout>
 
             <RelativeLayout

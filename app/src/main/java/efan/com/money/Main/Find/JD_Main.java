@@ -156,6 +156,7 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
                 .url(StaticUrl.GET_FA_DAN)
                 .params("fd_id", "0")
                 .params("page", page)
+                .load(JD_Main.this)
                 .build()
                 .get()
                 .subscribeOn(Schedulers.io())

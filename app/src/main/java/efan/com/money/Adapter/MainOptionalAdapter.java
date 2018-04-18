@@ -56,7 +56,7 @@ public class MainOptionalAdapter extends RecyclerView.Adapter<MainOptionalAdapte
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return 4;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
