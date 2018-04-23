@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.bigkoo.convenientbanner.ConvenientBanner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import efan.com.money.Bean.MainListViewBean;
 import efan.com.money.Bean.NetFaDanBean;
 import efan.com.money.Bean.NetTuiGuangBean;
 import efan.com.money.R;
+import efan.com.money.Util.UI.banner.BannerCreator;
 import efan.com.money.Util.net.rx.BaseSubscriber;
 import efan.com.money.Util.net.rx.RxRestClient;
 import efan.com.money.staticfunction.StaticUrl;
@@ -49,6 +51,9 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
     private MainOptionalAdapter recycleAdapter;
     private List<NetFaDanBean> FaDanList;
     private List<NetTuiGuangBean> TuiGuangList;
+    private List<MainListViewBean> list = new ArrayList<>();
+    private ConvenientBanner convenientBanner;
+    private static final ArrayList<String> LIST = new ArrayList<>();
 
     @Nullable
     @Override
@@ -65,7 +70,26 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
         getListViewData();
         getGridViewData();
         RecycleData();
+        SetBannerData();
         return view;
+    }
+
+    private void SetBannerData() {
+        LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
+        LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
+        LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
+        LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
+        LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
+        BannerCreator.setDefault(convenientBanner, LIST, new ClickListener());
+    }
+
+
+    class ClickListener implements com.bigkoo.convenientbanner.listener.OnItemClickListener {
+
+        @Override
+        public void onItemClick(int position) {
+
+        }
     }
 
     private void RecycleData() {
@@ -124,7 +148,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
 
     private void getListViewData() {
         adapter = new MainListViewAdapter(getActivity());
-        List<MainListViewBean> list = new ArrayList<MainListViewBean>();
+
         MainListViewBean bean = new MainListViewBean();
         bean.setMain_item_iv(R.mipmap.main_wx);
         bean.setMain_item_title("微信");
@@ -164,6 +188,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
         main_optional_recycle = (RecyclerView) view.findViewById(R.id.main_optional_recycle);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         main_optional_recycle.setLayoutManager(manager);
+        convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
     }
 
     private void InitEvent() {
@@ -180,6 +205,8 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
         switch (parent.getId()) {
             case R.id.main_lv:
                 Intent intent1 = new Intent(getActivity(), JD_Main.class);
+                intent1.putExtra("tuiguang", "全部");
+                intent1.putExtra("zhanghao", list.get(position).getMain_item_title());
                 startActivity(intent1);
                 break;
         }
@@ -190,6 +217,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
         switch (view.getId()) {
             case R.id.main_frame_rl:
                 Intent intent = new Intent(getActivity(), JD_Tuiguang.class);
+                intent.putExtra("tuiguang", TuiGuangList.get(Position).getTg_leixing());
                 startActivity(intent);
                 break;
             case R.id.item_main_optional_rl:

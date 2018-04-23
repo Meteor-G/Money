@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import efan.com.money.Main.MainActivity;
 import efan.com.money.R;
 import efan.com.money.Util.net.rx.BaseSubscriber;
 import efan.com.money.Util.net.rx.RxRestClient;
-import efan.com.money.staticfunction.ShowTips;
+import efan.com.money.Util.storage.MainPreference;
 import efan.com.money.staticfunction.StaticUrl;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -65,16 +66,18 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
     private ImageView jd_main_item_iv;
     private NetFaDanBean netFaDanBean;
 
+    int id;
+    JSONObject object = new JSONObject();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jd_xiangxi);
-        int i = getIntent().getIntExtra("id", 0);
-        ShowTips.showTips(this, i + "");
+        id = getIntent().getIntExtra("id", 0);
         InitView();
         InitEvent();
-        GetFaDan(i);
-        setSelect(0);
+        GetFaDan(id);
+
     }
 
     private void GetFaDan(int i) {
@@ -90,13 +93,14 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
                 .subscribe(new BaseSubscriber<String>(this) {
                     @Override
                     public void onNext(String s) {
-                        JSONObject object = new JSONObject();
+
                         if (object.parseObject(s).getString("success").equals("true")) {
                             List<NetFaDanBean> mList = object.parseObject(object.parseObject(s).getString("data"),
                                     new TypeReference<ArrayList<NetFaDanBean>>() {
                                     });
                             netFaDanBean = mList.get(0);
                             SetValue(mList.get(0));
+                            setSelect(0);
                         } else {
                             Toast.makeText(JD_Xiangxi.this, "获取数据失败", Toast.LENGTH_SHORT).show();
                         }
@@ -108,6 +112,10 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
         jd_main_item_lx_tv.setText("[" + netFaDanBean.getTuiGuang() + "]");
         jd_main_item_title_tv.setText(netFaDanBean.getFd_MingCheng());
         jd_xiangqing_qian.setText("￥" + netFaDanBean.getFd_JiaGe());
+        Picasso.with(this)
+                .load(StaticUrl.BASE_URL + netFaDanBean.getTg_leixing_iv())
+                .error(R.mipmap.ic_launcher)
+                .into(jd_main_item_iv);
     }
 
     private void InitEvent() {
@@ -171,7 +179,6 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
                     return true;
                 }
             });
-
         }
         poPupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
         poPupWindow.setFocusable(true);
@@ -192,17 +199,45 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
                 poPupWindow = null;
             }
         });
-        ppw_fin_indent_get_qx.setOnClickListener(new View.OnClickListener() {
+        ppw_fin_indent_get_qd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                poPupWindow.dismiss();
-                poPupWindow = null;
-                Toast.makeText(JD_Xiangxi.this, "领取成功，快去做任务吧！", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(JD_Xiangxi.this, MainActivity.class);
-                startActivity(intent);
-                JD_Xiangxi.this.finish();
+                ReceivingOrder();
             }
         });
+    }
+
+    private void ReceivingOrder() {
+        RxRestClient.builder()
+                .url(StaticUrl.INDEX_DING_DAN)
+                .params("User_Jd_Id", MainPreference.getCustomAppProfile("uid"))
+                .params("Fd_Id", id)
+                .params("Dd_ZhuangTai", 0)
+                .params("Dd_ShenHe_iv1", "")
+                .params("Dd_ShenHe_iv2", "")
+                .params("Dd_Time", System.currentTimeMillis())
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(JD_Xiangxi.this) {
+                    @Override
+                    public void onNext(String s) {
+                        if (poPupWindow != null) {
+                            poPupWindow.dismiss();
+                            poPupWindow = null;
+                        }
+                        if (object.parseObject(s).getString("success").equals("true")) {
+                            Toast.makeText(JD_Xiangxi.this, "领取成功，快去做任务吧！", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(JD_Xiangxi.this, MainActivity.class);
+                            startActivity(intent);
+                            JD_Xiangxi.this.finish();
+                        } else {
+                            Toast.makeText(JD_Xiangxi.this, "领取失败！", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
     }
 
     private void setSelect(int i) {
@@ -217,7 +252,6 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
             case 0:
                 if (xx_fra == null) {
                     xx_fra = JD_Xiangxi_Rw_Fragment.newInstence(netFaDanBean);
-//                    xx_fra = new JD_Xiangxi_Rw_Fragment();
                     transaction.add(R.id.jd_xiangxi_frame, xx_fra);
                 } else {
                     transaction.show(xx_fra);

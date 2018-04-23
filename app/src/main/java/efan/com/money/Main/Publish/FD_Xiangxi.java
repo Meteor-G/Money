@@ -1,21 +1,31 @@
 package efan.com.money.Main.Publish;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import efan.com.money.Main.MainActivity;
 import efan.com.money.R;
 import efan.com.money.Util.net.rx.BaseSubscriber;
 import efan.com.money.Util.net.rx.RxRestClient;
+import efan.com.money.Util.storage.MainPreference;
 import efan.com.money.staticfunction.StaticUrl;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -39,8 +49,12 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
     private String tuiguang;
     private TextView fd_xiangxi_sxsj;
     private TextView fb_xx_lx;
+    private PopupWindow poPupWindow;
+    private TextView ppw_fin_indent_get_qd;
+    private TextView ppw_fin_indent_get_qx;
+    private TextView main_xxwh_xx_ppw_nr;
 
-
+    //
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,8 +192,9 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
             n = 1;
         }
         if (i == 1 && y == 1 && z == 1 && w == 1 & n == 1) {
-            upData(rwmc, zhxq, rwjg, rwzs, rwnr, rwbz);
-            Toast.makeText(FD_Xiangxi.this, "提交成功", Toast.LENGTH_SHORT).show();
+            showpopupWindow(fd_xiangxi_zf_rl, rwmc, zhxq, rwjg, rwzs, rwnr, rwbz);
+//            upData(rwmc, zhxq, rwjg, rwzs, rwnr, rwbz);
+//            Toast.makeText(FD_Xiangxi.this, "提交成功", Toast.LENGTH_SHORT).show();
             i = 0;
             y = 0;
             z = 0;
@@ -188,12 +203,61 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    private void showpopupWindow(View parent, String rwmc, String zhxq, String rwjg, String rwzs, String rwnr, String rwbz) {
+        if (poPupWindow == null) {
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.ppw_find_indent_get, null);
+            poPupWindow = new PopupWindow(view, LayoutParams.MATCH_PARENT,
+                    LayoutParams.MATCH_PARENT, true);
+            initPop(view, rwmc, zhxq, rwjg, rwzs, rwnr, rwbz);
+
+            view.setOnTouchListener(new View.OnTouchListener() {
+
+                @Override
+                public boolean onTouch(View arg0, MotionEvent arg1) {
+                    if (poPupWindow != null && poPupWindow.isShowing()) {
+                        poPupWindow.dismiss();
+                        poPupWindow = null;
+                    }
+                    return true;
+                }
+            });
+        }
+        poPupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+        poPupWindow.setFocusable(true);
+        poPupWindow.setOutsideTouchable(true);
+        poPupWindow.setBackgroundDrawable(new BitmapDrawable());
+        poPupWindow
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        poPupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
+    }
+
+    private void initPop(View view, final String rwmc, final String zhxq, final String rwjg, final String rwzs, final String rwnr, final String rwbz) {
+        main_xxwh_xx_ppw_nr = (TextView) view.findViewById(R.id.main_xxwh_xx_ppw_nr);
+        ppw_fin_indent_get_qd = (TextView) view.findViewById(R.id.ppw_fin_indent_get_qd);
+        ppw_fin_indent_get_qx = (TextView) view.findViewById(R.id.ppw_fin_indent_get_qd);
+        main_xxwh_xx_ppw_nr.setText("确定发布\n该任务吗？");
+        ppw_fin_indent_get_qx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                poPupWindow.dismiss();
+                poPupWindow = null;
+            }
+        });
+        ppw_fin_indent_get_qd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upData(rwmc, zhxq, rwjg, rwzs, rwnr, rwbz);
+            }
+        });
+    }
+
     private void upData(String rwmc, String zhxq, String rwjg, String rwzs, String rwnr, String rwbz) {
         RxRestClient.builder()
                 .url(StaticUrl.INDEX_FD_DAN)
-                .params("User_Fd_Id", 10)
-                .params("TuiGuang", tuiguang)
-                .params("ZhangHao", zhanghao)
+                .params("User_Fd_Id", MainPreference.getCustomAppProfile("uid"))
+                .params("TuiGuang", fb_xx_lx.getText().toString())
+                .params("ZhangHao", fd_xiangxi_sxsj.getText().toString())
                 .params("Fd_MingCheng", rwmc)
                 .params("Fd_YaoQiu", zhxq)
                 .params("Fd_JiaGe", rwjg)
@@ -210,7 +274,12 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
                 .subscribe(new BaseSubscriber<String>(FD_Xiangxi.this) {
                     @Override
                     public void onNext(String s) {
-                        Toast.makeText(FD_Xiangxi.this, s, Toast.LENGTH_SHORT).show();
+                        poPupWindow.dismiss();
+                        poPupWindow = null;
+                        Toast.makeText(FD_Xiangxi.this, "任务发布完成！", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(FD_Xiangxi.this, MainActivity.class);
+                        startActivity(intent);
+                        FD_Xiangxi.this.finish();
                     }
                 });
     }

@@ -57,6 +57,11 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
     int PAGE = 0;
     int SIZE = 0;//每次返回的个数
 
+    private String zhanghao = null;
+    private String tuiguang = null;
+    private TextView jd_main_tuiguang;
+    private TextView jd_main_zhanghao;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,8 +69,17 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         setContentView(R.layout.jd_main);
         InitView();
         InitEvent();
+        GetIntentData();
         Refresh();
         GetData(0);
+    }
+
+    private void GetIntentData() {
+        Intent intent = getIntent();
+        zhanghao = intent.getStringExtra("zhanghao");
+        tuiguang = intent.getStringExtra("tuiguang");
+        jd_main_tuiguang.setText(tuiguang);
+        jd_main_zhanghao.setText(zhanghao);
     }
 
     private void Refresh() {
@@ -182,7 +196,8 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
 
     private void InitEvent() {
         jd_main_fanhui.setOnClickListener(this);
-
+        jd_main_tuiguang.setOnClickListener(this);
+        jd_main_zhanghao.setOnClickListener(this);
     }
 
     private void InitView() {
@@ -192,6 +207,8 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         LinearLayoutManager manager = new LinearLayoutManager(JD_Main.this, LinearLayoutManager.VERTICAL, false);
         recycle.setLayoutManager(manager);
         adapter.setOnItemClickListener(this);
+        jd_main_tuiguang = (TextView) findViewById(R.id.jd_main_tuiguang);
+        jd_main_zhanghao = (TextView) findViewById(R.id.jd_main_zhanghao);
     }
 
     @Override
@@ -234,7 +251,6 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
 
     @Override
     public void onItemClick(View view, int Position) {
-        Toast.makeText(this, "点击了" + Position, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, JD_Xiangxi.class);
         intent.putExtra("id", AllList.get(Position).getFdid());
         startActivity(intent);

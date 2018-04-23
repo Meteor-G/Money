@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
 
     <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
@@ -13,7 +13,17 @@
             android:id="@+id/mai_jd_dd_jycg_recycle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
-
     </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/wushuju"/>
+
+    </RelativeLayout>
 </LinearLayout>

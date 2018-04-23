@@ -34,6 +34,7 @@ public class JD_Tuiguang extends AppCompatActivity implements OnItemClickListene
     private JD_TuiGuangRecycleAdapter adapter;
     private RecyclerView pub_tg_lv;
     private List<NetZhangHao> mList;
+    private String tuiguang;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,10 +42,15 @@ public class JD_Tuiguang extends AppCompatActivity implements OnItemClickListene
         setContentView(R.layout.jd_tuiguang);
         InitView();
         InitEvent();
-        lv();
+        GetIntentData();
+        GetListViewData();
     }
 
-    private void lv() {
+    private void GetIntentData() {
+        tuiguang = getIntent().getStringExtra("tuiguang");
+    }
+
+    private void GetListViewData() {
         adapter = new JD_TuiGuangRecycleAdapter(this);
         adapter.setOnItemClickListener(this);
         RxRestClient.builder()
@@ -84,6 +90,8 @@ public class JD_Tuiguang extends AppCompatActivity implements OnItemClickListene
     @Override
     public void onItemClick(View view, int Position) {
         Intent intent = new Intent(this, JD_Main.class);
+        intent.putExtra("tuiguang", tuiguang);
+        intent.putExtra("zhanghao", mList.get(Position).getZh_leixing());
         startActivity(intent);
     }
 }

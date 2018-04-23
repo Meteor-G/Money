@@ -21,6 +21,25 @@ public class NetFaDanBean implements Serializable {
     private String Fd_ZhuangTai;
     private String ZhiFuWay;
     private String Fd_Time;
+    private String zh_leixing_iv;
+    private String tg_leixing_iv;
+
+    public String getTg_leixing_iv() {
+        return tg_leixing_iv;
+    }
+
+    public void setTg_leixing_iv(String tg_leixing_iv) {
+        this.tg_leixing_iv = tg_leixing_iv;
+    }
+
+    public String getZh_leixing_iv() {
+        return zh_leixing_iv;
+    }
+
+    public void setZh_leixing_iv(String zh_leixing_iv) {
+        this.zh_leixing_iv = zh_leixing_iv;
+    }
+
 
     public int getFdid() {
         return fdid;

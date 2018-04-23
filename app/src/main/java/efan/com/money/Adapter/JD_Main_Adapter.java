@@ -9,10 +9,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import efan.com.money.Bean.NetFaDanBean;
 import efan.com.money.R;
+import efan.com.money.staticfunction.StaticUrl;
 
 /**
  * 作者： ZlyjD.
@@ -41,10 +44,10 @@ public class JD_Main_Adapter extends RecyclerView.Adapter<JD_Main_Adapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-//        Picasso.with(mContext)
-//                .load(mList.get(position).get())
-//                .error(R.mipmap.ic_launcher)
-//                .into(holder.main_grid_item_iv);
+        Picasso.with(mContext)
+                .load(StaticUrl.BASE_URL + mList.get(position).getTg_leixing_iv())
+                .error(R.mipmap.ic_launcher)
+                .into(holder.jd_main_item_iv);
 //        holder.jd_main_item_iv.setBackgroundResource(mList.get(position).getJd_main_item_iv());
         holder.jd_main_item_lx_tv.setText("[" + mList.get(position).getTuiGuang() + "]");
         holder.jd_main_item_title_tv.setText(mList.get(position).getFd_MingCheng());

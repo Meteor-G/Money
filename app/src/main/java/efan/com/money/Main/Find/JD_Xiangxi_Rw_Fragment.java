@@ -42,10 +42,10 @@ public class JD_Xiangxi_Rw_Fragment extends Fragment {
     private void SetValue() {
         if (getArguments() != null) {
             netFaDanBean = (NetFaDanBean) getArguments().getSerializable("bean");
-//            jd_xx_rw_fra_sxsj.setText(netFaDanBean.getZhangHao());
-//            jd_xx_rw_fra_rwlx.setText(netFaDanBean.getTuiGuang());
-//            jd_xx_rw_fra_rwnr.setText(netFaDanBean.getFd_NeiRong());
-//            jd_xx_rw_fra_rwbz.setText(netFaDanBean.getFd_BeiZhu());
+            jd_xx_rw_fra_sxsj.setText(netFaDanBean.getZhangHao());
+            jd_xx_rw_fra_rwlx.setText(netFaDanBean.getTuiGuang());
+            jd_xx_rw_fra_rwnr.setText(netFaDanBean.getFd_NeiRong());
+            jd_xx_rw_fra_rwbz.setText(netFaDanBean.getFd_BeiZhu());
         }
     }
 
