@@ -2,6 +2,8 @@ package efan.com.money.App;
 
 import android.util.Log;
 
+import com.blankj.utilcode.util.Utils;
+
 import java.util.HashMap;
 
 /**
@@ -53,6 +55,7 @@ public class Configurator {
     public final void configue() {
         MAIN_CONFIGS.put(ConfigKey.CONFIG_READY.name(), true);
         Log.i("运行", "初始化完成获取数据" + MAIN_CONFIGS.get(ConfigKey.API_HOSE.name()));
+        Utils.init(Main.getApplication());
     }
 
     final <T> T getConfiguration(Object key) {

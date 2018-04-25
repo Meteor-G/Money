@@ -333,7 +333,6 @@ public class FileUtil {
 //            return null;
 //        }
 //    }
-
     public static String getRealFilePath(final Context context, final Uri uri) {
         if (null == uri) return null;
         final String scheme = uri.getScheme();

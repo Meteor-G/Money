@@ -30,7 +30,6 @@ public class Loader {
     }
 
     private static void showLoading(Context context, String type) {
-
         final AppCompatDialog dialog = new AppCompatDialog(context, R.style.dialog);
         final AVLoadingIndicatorView avLoadingIndicatorView = LoaderCreator.create(type, context);
         dialog.setContentView(avLoadingIndicatorView);

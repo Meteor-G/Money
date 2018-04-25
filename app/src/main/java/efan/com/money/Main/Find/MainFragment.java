@@ -55,6 +55,11 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
     private ConvenientBanner convenientBanner;
     private static final ArrayList<String> LIST = new ArrayList<>();
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,7 +79,10 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
         return view;
     }
 
+
     private void SetBannerData() {
+        LIST.clear();
+        Toast.makeText(getActivity(), "我回来啦", Toast.LENGTH_SHORT).show();
         LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
         LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
         LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
