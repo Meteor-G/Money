@@ -12,6 +12,8 @@ import efan.com.money.Util.UI.loader.LoaderStyle;
 import efan.com.money.Util.net.HttpMethod;
 import efan.com.money.Util.net.RestCreator;
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
@@ -79,6 +81,11 @@ public class RxRestClient {
                 observable = server.delete(URL, PARAMS);
                 break;
             case UPLOAD:
+                final RequestBody requestBody =
+                        RequestBody.create(MediaType.parse(MultipartBody.FORM.toString()), FILE);
+                final MultipartBody.Part body =
+                        MultipartBody.Part.createFormData("file", FILE.getName(), requestBody);
+                observable = server.upload(URL, body);
                 break;
             default:
                 break;

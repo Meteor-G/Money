@@ -29,4 +29,8 @@ public class StaticUrl {
     public static final String GET_DING_DAN = "Money/getDingDan";
     //插入订单
     public static final String INDEX_DING_DAN = "Money/indexDingdan";
+
+    //上传图片
+    public static final String POST_FILE = "Money/postFile";
+
 }

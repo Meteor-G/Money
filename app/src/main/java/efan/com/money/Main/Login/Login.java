@@ -22,6 +22,7 @@ import efan.com.money.Util.net.rx.BaseSubscriber;
 import efan.com.money.Util.net.rx.RxRestClient;
 import efan.com.money.Util.storage.MainPreference;
 import efan.com.money.staticfunction.StaticUrl;
+import efan.com.money.staticfunction.StaticValue;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -82,7 +83,7 @@ public class Login extends AppCompatActivity {
         //保存登录状态
         MainPreference.setAppFlag("check", true);
         //保存用户uid
-        MainPreference.addCustomAppProfile("uid", object.parseObject(object.parseObject(s).getString("data")).getString("uid"));
+        MainPreference.addCustomAppProfile(StaticValue.USER_ID, object.parseObject(object.parseObject(s).getString("data")).getString("uid"));
         Log.i("保存数据uid", object.parseObject(object.parseObject(s).getString("data")).getString("uid"));
     }
 

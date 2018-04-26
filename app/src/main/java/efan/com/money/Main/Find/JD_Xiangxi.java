@@ -35,6 +35,7 @@ import efan.com.money.Util.net.rx.BaseSubscriber;
 import efan.com.money.Util.net.rx.RxRestClient;
 import efan.com.money.Util.storage.MainPreference;
 import efan.com.money.staticfunction.StaticUrl;
+import efan.com.money.staticfunction.StaticValue;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -212,7 +213,7 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
                 .url(StaticUrl.INDEX_DING_DAN)
                 .params("User_Jd_Id", MainPreference.getCustomAppProfile("uid"))
                 .params("Fd_Id", id)
-                .params("Dd_ZhuangTai", 0)
+                .params("Dd_ZhuangTai", StaticValue.INDENT_CHECK)
                 .params("Dd_ShenHe_iv1", "")
                 .params("Dd_ShenHe_iv2", "")
                 .params("Dd_Time", System.currentTimeMillis())

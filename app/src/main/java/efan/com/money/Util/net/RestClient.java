@@ -14,6 +14,8 @@ import efan.com.money.Util.net.callback.IRequest;
 import efan.com.money.Util.net.callback.ISuccess;
 import efan.com.money.Util.net.callback.RequestCallbacks;
 import efan.com.money.Util.net.download.DownloadHandler;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Callback;
 
@@ -99,6 +101,11 @@ public class RestClient {
                 call = server.delete(URL, PARAMS);
                 break;
             case UPLOAD:
+                final RequestBody requestBody =
+                        RequestBody.create(MediaType.parse(MultipartBody.FORM.toString()), FILE);
+                final MultipartBody.Part body =
+                        MultipartBody.Part.createFormData("file", FILE.getName(), requestBody);
+                call = server.upload(URL, body);
                 break;
             default:
                 break;

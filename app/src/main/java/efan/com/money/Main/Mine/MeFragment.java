@@ -1,17 +1,12 @@
 package efan.com.money.Main.Mine;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,18 +16,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
+import com.alibaba.fastjson.JSONObject;
+import com.squareup.picasso.Picasso;
 
+import efan.com.money.Main.MainActivity;
 import efan.com.money.Main.Mine.Indent.Mai_Fd_Fragment;
 import efan.com.money.Main.Mine.Indent.Mai_Jd_Fragment;
 import efan.com.money.Main.Mine.Other.Setting;
 import efan.com.money.R;
 import efan.com.money.UIView.RoundImageView;
-import io.valuesfeng.picker.Picker;
-import io.valuesfeng.picker.engine.PicassoEngine;
-import io.valuesfeng.picker.utils.PicturePickerUtils;
-
-import static android.app.Activity.RESULT_OK;
+import efan.com.money.Util.callback.CallbackManager;
+import efan.com.money.Util.callback.CallbackType;
+import efan.com.money.Util.callback.IGlobalCallback;
+import efan.com.money.Util.net.rx.BaseSubscriber;
+import efan.com.money.Util.net.rx.RxRestClient;
+import efan.com.money.staticfunction.StaticUrl;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/9/10.
@@ -52,10 +52,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private RoundImageView main_head;
-    private static final int REQUEST_CODE_CHOOSE = 1;
-    private List<Uri> mSelected;
-
     private ImageView main_setting;
+
+    private JSONObject object = new JSONObject();
 
     @Nullable
     @Override
@@ -103,7 +102,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 setSelect(1);
                 break;
             case R.id.main_head:
-                checkPermission();
+                SelectMainHead();
                 break;
             case R.id.main_setting:
                 Intent intent = new Intent(getActivity(), Setting.class);
@@ -112,49 +111,42 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        } else {
-            SelectMainHead();
-        }
-    }
 
     private void SelectMainHead() {
+        CallbackManager.getInstence()
+                .addCallback(CallbackType.ON_CROP, new IGlobalCallback<Uri>() {
 
-        Picker.from(getActivity())
-                .count(9)
-                .enableCamera(true)
-                .setEngine(new PicassoEngine())
-                .forResult(REQUEST_CODE_CHOOSE);
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    SelectMainHead();
-                } else {
-                    Toast.makeText(getActivity(), "没有授权", Toast.LENGTH_SHORT).show();
-                }
-                break;
+                    @Override
+                    public void executeCallback(@Nullable Uri args) {
+                        Picasso.with(getActivity()).load(args).into(main_head);
+                        upHeadUrlData(args.getPath());
+                        Toast.makeText(getActivity(), args + "", Toast.LENGTH_LONG).show();
+                    }
+                });
+        if (getActivity() != null) {
+            ((MainActivity) getActivity()).startCameraWithCheck();
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.i("picture", "到这了");
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            mSelected = PicturePickerUtils.obtainResult(data);
-            for (Uri u : mSelected) {
-                Log.i("picture", u.getPath());
-            }
-        }
+    private void upHeadUrlData(String path) {
+        Log.i("图片位置", path);
+        RxRestClient.builder()
+                .url(StaticUrl.POST_FILE)
+                .load(getActivity())
+                .file(path)
+                .build()
+                .upload()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(getActivity()) {
+                    @Override
+                    public void onNext(String s) {
+                        if (object.parseObject(s).getString("success").equals("true")) {
+                            Toast.makeText(getActivity(), "上传成功", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
     }
 
     private void setSelect(int i) {

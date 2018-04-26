@@ -9,10 +9,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import efan.com.money.Bean.Mai_1_Dd_Jyz_Bean;
+import efan.com.money.Bean.NetDingDanBean;
 import efan.com.money.R;
 
 /**
@@ -22,11 +24,15 @@ import efan.com.money.R;
 
 public class Mai_Jd_Dd_Jyz_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Jyz_Adapter.ViewHolder> {
     private Context context;
-    private List<Mai_1_Dd_Jyz_Bean> list = new ArrayList<>();
+    private List<NetDingDanBean> list = new ArrayList<>();
     private OnItemClickListener mItemClickListener;
 
-    public Mai_Jd_Dd_Jyz_Adapter(Context context, List<Mai_1_Dd_Jyz_Bean> list) {
+    public Mai_Jd_Dd_Jyz_Adapter(Context context) {
         this.context = context;
+
+    }
+
+    public void initData(List<NetDingDanBean> list) {
         this.list = list;
     }
 
@@ -39,12 +45,15 @@ public class Mai_Jd_Dd_Jyz_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Jyz_Ad
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.mai_1_dd_jyz_item_time.setText(list.get(position).getMai_1_dd_jyz_item_time());
-        holder.mai_1_dd_jyz_item_lx.setText(list.get(position).getMai_1_dd_jyz_item_lx());
-        holder.mai_1_dd_jyz_item_rwm.setText(list.get(position).getMai_1_dd_jyz_item_rwm());
-        holder.mai_1_dd_jyz_item_yhm.setText(list.get(position).getMai_1_dd_jyz_item_yhm());
-        holder.mai_1_dd_jyz_item_zt.setText(list.get(position).getMai_1_dd_jyz_item_zt());
-        holder.mai_1_dd_jyz_item_tupian.setBackgroundResource(list.get(position).getMai_1_dd_jyz_item_tupian());
+        holder.mai_1_dd_jyz_item_time.setText(list.get(position).getDd_Time());
+        holder.mai_1_dd_jyz_item_lx.setText(list.get(position).getTuiGuang());
+        holder.mai_1_dd_jyz_item_rwm.setText(list.get(position).getFd_MingCheng());
+        holder.mai_1_dd_jyz_item_yhm.setText(list.get(position).getFd_name());
+        holder.mai_1_dd_jyz_item_zt.setText(list.get(position).getDd_ZhuangTai());
+        Picasso.with(context)
+                .load(list.get(position).getHead())
+                .into(holder.mai_1_dd_jyz_item_tupian);
+//        holder.mai_1_dd_jyz_item_tupian.setBackgroundResource(list.get(position).getHead());
         holder.mai_jyz_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

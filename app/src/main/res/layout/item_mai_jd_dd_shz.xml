@@ -177,8 +177,7 @@
                 android:layout_width="80dp"
                 android:layout_height="60dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:background="@mipmap/ic_launcher"/>
+                android:layout_marginLeft="20dp"/>
 
             <ImageView
                 android:id="@+id/mai_1_dd_shz_iv_2"
@@ -186,8 +185,7 @@
                 android:layout_height="60dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/mai_1_dd_shz_iv_1"
-                android:background="@mipmap/ic_launcher"/>
+                android:layout_toRightOf="@id/mai_1_dd_shz_iv_1"/>
 
         </RelativeLayout>
 

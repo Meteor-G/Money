@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -20,7 +19,7 @@ import efan.com.money.R;
  * Created by Administrator on 2017/9/10.
  */
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout mMain;
     private LinearLayout mFub;
     private LinearLayout mMe;

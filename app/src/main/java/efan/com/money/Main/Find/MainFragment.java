@@ -144,12 +144,14 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
                     @Override
                     public void onNext(String s) {
                         JSONObject object = new JSONObject();
-                        String data = object.parseObject(s).getString("data");
-                        TuiGuangList = object.parseObject(data,
-                                new TypeReference<ArrayList<NetTuiGuangBean>>() {
-                                });
-                        gv_adapter.initData(TuiGuangList);
-                        main_gridview.setAdapter(gv_adapter);
+                        if (object.parseObject(s).getString("success").equals("true")) {
+                            String data = object.parseObject(s).getString("data");
+                            TuiGuangList = object.parseObject(data,
+                                    new TypeReference<ArrayList<NetTuiGuangBean>>() {
+                                    });
+                            gv_adapter.initData(TuiGuangList);
+                            main_gridview.setAdapter(gv_adapter);
+                        }
                     }
                 });
     }

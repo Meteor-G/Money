@@ -2,13 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="efan.com.money">
 
+    <!--网络权限-->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <!--相机权限-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
+
+    <!--文件权限-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".Main.MainApplication"
@@ -19,32 +27,43 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".Main.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Find.JD_Tuiguang"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Publish.FD_Leixing"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Find.JD_Main"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Find.JD_Xiangxi"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Find.JD_Jx"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Publish.FD_Xiangxi"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Mine.Indent.Mai_Jd_Digdan"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Mine.Indent.Mai_Fd_Dingdan"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".Main.Login.Welcome">
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".Main.Login.Welcome"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -53,22 +72,37 @@
         </activity>
         <activity
             android:name=".Main.Mine.Indent.Mai_Jd_Zhbd"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Mine.Indent.Mai_Jd_Zhbd_Tj"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Mine.Indent.Particular.Jd_Dd_Jyz"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Mine.Indent.Particular.Fd_Dd_Indent"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Login.Login"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Main.Mine.Other.Setting"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".Main.TestActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <!--图片剪裁Activity-->
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>
