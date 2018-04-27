@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -20,10 +23,16 @@ import java.util.List;
 
 import efan.com.money.Adapter.Mai_Fd_Dd_Jycg_Adapter;
 import efan.com.money.Adapter.OnItemClickListener;
-import efan.com.money.Bean.Mai_Fd_Dd_Jycg_Bean;
+import efan.com.money.Bean.NetDingDanBean;
 import efan.com.money.Main.Mine.Indent.Particular.Fd_Dd_Indent;
 import efan.com.money.R;
+import efan.com.money.Util.net.rx.BaseSubscriber;
+import efan.com.money.Util.net.rx.RxRestClient;
+import efan.com.money.Util.storage.MainPreference;
+import efan.com.money.staticfunction.StaticUrl;
 import efan.com.money.staticfunction.StaticValue;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/9/14.
@@ -44,7 +53,7 @@ public class Mai_Fd_Dd_Jycg extends Fragment implements OnItemClickListener {
     private RecyclerView mai_fd_dd_jycg_recycle;
     private Mai_Fd_Dd_Jycg_Adapter adapter;
 
-    private List<Mai_Fd_Dd_Jycg_Bean> list;
+    private List<NetDingDanBean> mList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,8 +68,43 @@ public class Mai_Fd_Dd_Jycg extends Fragment implements OnItemClickListener {
         InitView();
         InitEvent();
         Refresh();
-        lv();
+        GetListData();
         return view;
+    }
+
+    private void GetListData() {
+        adapter = new Mai_Fd_Dd_Jycg_Adapter(getActivity());
+        adapter.setOnItemClickListener(this);
+        RxRestClient.builder()
+                .url(StaticUrl.GET_DING_DAN)
+                .params("fd_id", MainPreference.getCustomAppProfile(StaticValue.USER_ID))
+                .params("jd_id", "")
+                .params("page", 0)
+                .params("zhuangtai", StaticValue.INDENT_SUCCESS)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(getActivity()) {
+                    @Override
+                    public void onNext(String s) {
+                        JSONObject object = new JSONObject();
+                        if (object.parseObject(s).getString("success").equals("true")) {
+                            mList = object.parseObject(object.parseObject(s).getString("data"),
+                                    new TypeReference<ArrayList<NetDingDanBean>>() {
+                                    });
+                            if (mList.size() != 0) {
+                                adapter.initData(mList);
+                                mai_fd_dd_jycg_recycle.setAdapter(adapter);
+                            } else {
+                                Toast.makeText(getActivity(), "发单交易成功订单为空", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } else {
+                            Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void Refresh() {
@@ -151,72 +195,6 @@ public class Mai_Fd_Dd_Jycg extends Fragment implements OnItemClickListener {
         });
     }
 
-    private void lv() {
-        list = new ArrayList<Mai_Fd_Dd_Jycg_Bean>();
-
-        Mai_Fd_Dd_Jycg_Bean bean = new Mai_Fd_Dd_Jycg_Bean();
-        bean.setMai_fd_dd_jycg_item_lx("[微信]");
-        bean.setMai_fd_dd_jycg_item_rwm("商品推销，朋友圈保留一天。");
-        bean.setMai_fd_dd_jycg_item_time("2017-09-12");
-        bean.setMai_fd_dd_jycg_item_yhm("遗忘");
-        bean.setMai_fd_dd_jycg_item_jg("￥1");
-        bean.setMai_fd_dd_jycg_item_tupian(R.mipmap.touxiang_1);
-        list.add(bean);
-
-        Mai_Fd_Dd_Jycg_Bean bean1 = new Mai_Fd_Dd_Jycg_Bean();
-        bean1.setMai_fd_dd_jycg_item_lx("[QQ]");
-        bean1.setMai_fd_dd_jycg_item_rwm("投票，分分钟");
-        bean1.setMai_fd_dd_jycg_item_time("2017-09-11");
-        bean1.setMai_fd_dd_jycg_item_yhm("edge");
-        bean1.setMai_fd_dd_jycg_item_jg("￥3");
-        bean1.setMai_fd_dd_jycg_item_tupian(R.mipmap.touxiang_2);
-        list.add(bean1);
-
-        Mai_Fd_Dd_Jycg_Bean bean2 = new Mai_Fd_Dd_Jycg_Bean();
-        bean2.setMai_fd_dd_jycg_item_lx("[微博]");
-        bean2.setMai_fd_dd_jycg_item_rwm("点赞点赞");
-        bean2.setMai_fd_dd_jycg_item_time("2017-09-10");
-        bean2.setMai_fd_dd_jycg_item_yhm("黑夜");
-        bean2.setMai_fd_dd_jycg_item_jg("￥1");
-        bean2.setMai_fd_dd_jycg_item_tupian(R.mipmap.touxiang_3);
-        list.add(bean2);
-
-        Mai_Fd_Dd_Jycg_Bean bean3 = new Mai_Fd_Dd_Jycg_Bean();
-        bean3.setMai_fd_dd_jycg_item_lx("[朋友圈]");
-        bean3.setMai_fd_dd_jycg_item_rwm("朋友圈点赞");
-        bean3.setMai_fd_dd_jycg_item_time("2017-09-19");
-        bean3.setMai_fd_dd_jycg_item_yhm("那个姑娘");
-        bean3.setMai_fd_dd_jycg_item_jg("￥1");
-        bean3.setMai_fd_dd_jycg_item_tupian(R.mipmap.touxiang_4);
-        list.add(bean3);
-        Mai_Fd_Dd_Jycg_Bean bean4 = new Mai_Fd_Dd_Jycg_Bean();
-        bean4.setMai_fd_dd_jycg_item_lx("[朋友圈]");
-        bean4.setMai_fd_dd_jycg_item_rwm("朋友圈点赞");
-        bean4.setMai_fd_dd_jycg_item_time("2017-09-19");
-        bean4.setMai_fd_dd_jycg_item_yhm("那个姑娘");
-        bean4.setMai_fd_dd_jycg_item_jg("￥1");
-        bean4.setMai_fd_dd_jycg_item_tupian(R.mipmap.touxiang_4);
-        list.add(bean4);
-        Mai_Fd_Dd_Jycg_Bean bean5 = new Mai_Fd_Dd_Jycg_Bean();
-        bean5.setMai_fd_dd_jycg_item_lx("[朋友圈]");
-        bean5.setMai_fd_dd_jycg_item_rwm("朋友圈点赞");
-        bean5.setMai_fd_dd_jycg_item_time("2017-09-19");
-        bean5.setMai_fd_dd_jycg_item_yhm("那个姑娘");
-        bean5.setMai_fd_dd_jycg_item_jg("￥1");
-        bean5.setMai_fd_dd_jycg_item_tupian(R.mipmap.touxiang_4);
-        list.add(bean5);
-        Mai_Fd_Dd_Jycg_Bean bean6 = new Mai_Fd_Dd_Jycg_Bean();
-        bean6.setMai_fd_dd_jycg_item_lx("[朋友圈]");
-        bean6.setMai_fd_dd_jycg_item_rwm("朋友圈点赞");
-        bean6.setMai_fd_dd_jycg_item_time("2017-09-19");
-        bean6.setMai_fd_dd_jycg_item_yhm("那个姑娘");
-        bean6.setMai_fd_dd_jycg_item_jg("￥1");
-        bean6.setMai_fd_dd_jycg_item_tupian(R.mipmap.touxiang_4);
-        list.add(bean6);
-        adapter = new Mai_Fd_Dd_Jycg_Adapter(getActivity(), list);
-        mai_fd_dd_jycg_recycle.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-    }
 
     private void InitView() {
         mai_fd_dd_jycg_refresh = (SuperSwipeRefreshLayout) view.findViewById(R.id.mai_fd_dd_jycg_refresh);
@@ -260,7 +238,7 @@ public class Mai_Fd_Dd_Jycg extends Fragment implements OnItemClickListener {
     @Override
     public void onItemClick(View view, int Position) {
         Intent intent = new Intent(getActivity(), Fd_Dd_Indent.class);
-        intent.putExtra("id", list.get(Position).getMai_fd_dd_jycg_item_jg());
+        intent.putExtra("id", mList.get(Position).getDdid());
         intent.putExtra("type", StaticValue.FD_JYCG_TO_INDENT);
         startActivity(intent);
     }

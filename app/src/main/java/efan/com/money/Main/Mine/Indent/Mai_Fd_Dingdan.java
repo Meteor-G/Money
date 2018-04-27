@@ -123,16 +123,16 @@ public class Mai_Fd_Dingdan extends FragmentActivity implements View.OnClickList
             case R.id.mai_2_dd_rwyl:
                 setSelect(0);
                 break;
-            case R.id.mai_2_dd_jxs_tv:
+            case R.id.mai_2_dd_jxs:
                 setSelect(1);
                 break;
-            case R.id.mai_2_dd_dsh_tv:
+            case R.id.mai_2_dd_dsh:
                 setSelect(2);
                 break;
-            case R.id.mai_2_dd_jycg_tv:
+            case R.id.mai_2_dd_jycg:
                 setSelect(3);
                 break;
-            case R.id.mai_2_dd_qbrw_tv:
+            case R.id.mai_2_dd_qbrw:
                 setSelect(4);
                 break;
         }

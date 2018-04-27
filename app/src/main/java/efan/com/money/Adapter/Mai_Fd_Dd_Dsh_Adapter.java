@@ -9,11 +9,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import efan.com.money.Bean.Mai_Fd_Dd_Dsh_Bean;
+import efan.com.money.Bean.NetDingDanBean;
 import efan.com.money.R;
+import efan.com.money.Util.TimeUtil.TimeUtil;
+import efan.com.money.staticfunction.StaticUrl;
 
 /**
  * 作者： ZlyjD.
@@ -22,11 +26,15 @@ import efan.com.money.R;
 
 public class Mai_Fd_Dd_Dsh_Adapter extends RecyclerView.Adapter<Mai_Fd_Dd_Dsh_Adapter.ViewHolder> {
     private Context context;
-    private List<Mai_Fd_Dd_Dsh_Bean> list = new ArrayList<>();
+    private List<NetDingDanBean> list = new ArrayList<>();
     private OnItemClickListener mItemClickListener;
 
-    public Mai_Fd_Dd_Dsh_Adapter(Context context, List<Mai_Fd_Dd_Dsh_Bean> list) {
+    public Mai_Fd_Dd_Dsh_Adapter(Context context) {
         this.context = context;
+
+    }
+
+    public void initData(List<NetDingDanBean> list) {
         this.list = list;
     }
 
@@ -39,14 +47,20 @@ public class Mai_Fd_Dd_Dsh_Adapter extends RecyclerView.Adapter<Mai_Fd_Dd_Dsh_Ad
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.mai_fd_dd_dsh_item_time.setText(list.get(position).getMai_fd_dd_dsh_item_time());
-        holder.mai_fd_dd_dsh_item_lx.setText(list.get(position).getMai_fd_dd_dsh_item_lx());
-        holder.mai_fd_dd_dsh_item_rwm.setText(list.get(position).getMai_fd_dd_dsh_item_rwm());
-        holder.mai_fd_dd_dsh_item_yhm.setText(list.get(position).getMai_fd_dd_dsh_item_yhm());
-        holder.mai_fd_dd_dsh_item_zt.setText(list.get(position).getMai_fd_dd_dsh_item_zt());
-        holder.mai_fd_dd_dsh_jiage.setText(list.get(position).getMai_fd_dd_dsh_jiage());
-        holder.mai_fd_dd_dsh_iv_1.setBackgroundResource(list.get(position).getMai_fd_dd_dsh_iv_1());
-        holder.mai_fd_dd_dsh_iv_2.setBackgroundResource(list.get(position).getMai_fd_dd_dsh_iv_2());
+        holder.mai_fd_dd_dsh_item_time.setText(TimeUtil.Long2Time(Long.valueOf(list.get(position).getDd_Time())));
+        holder.mai_fd_dd_dsh_item_lx.setText(list.get(position).getTuiGuang());
+        holder.mai_fd_dd_dsh_item_rwm.setText(list.get(position).getFd_MingCheng());
+        holder.mai_fd_dd_dsh_item_yhm.setText(list.get(position).getName());
+        holder.mai_fd_dd_dsh_item_zt.setText("待审核");
+        holder.mai_fd_dd_dsh_jiage.setText("￥" + list.get(position).getFd_JiaGe());
+        Picasso.with(context)
+                .load(StaticUrl.BASE_URL + list.get(position).getDd_ShenHe_iv1())
+                .error(R.mipmap.mai_1_dd_shz_tv)
+                .into(holder.mai_fd_dd_dsh_iv_1);
+        Picasso.with(context)
+                .load(StaticUrl.BASE_URL + list.get(position).getDd_ShenHe_iv2())
+                .error(R.mipmap.mai_1_dd_shz_tv)
+                .into(holder.mai_fd_dd_dsh_iv_2);
         holder.item_fd_dd_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

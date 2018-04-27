@@ -98,6 +98,18 @@
             android:name=".Main.TestActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".Main.Mine.Other.Identity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".Main.Mine.Other.Collect"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".Main.Mine.Other.InCome"
+            android:screenOrientation="portrait">
+        </activity>
         <!--图片剪裁Activity-->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"

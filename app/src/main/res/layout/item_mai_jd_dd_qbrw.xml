@@ -43,17 +43,6 @@
                     android:textSize="12sp"/>
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:text="已完成"
-                android:textColor="#FFA500"
-                android:textSize="12sp">
-
-            </TextView>
 
             <View
                 android:layout_width="match_parent"
@@ -68,14 +57,13 @@
             android:layout_width="match_parent"
             android:layout_height="90dp">
 
-            <ImageView
+            <efan.com.money.UIView.RoundImageView
                 android:id="@+id/mai_1_dd_qbrw_item_tupian"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:background="@mipmap/ic_launcher"/>
+                android:layout_marginLeft="20dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

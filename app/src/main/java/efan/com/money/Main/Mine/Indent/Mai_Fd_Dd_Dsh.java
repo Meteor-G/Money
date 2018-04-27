@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -20,10 +23,16 @@ import java.util.List;
 
 import efan.com.money.Adapter.Mai_Fd_Dd_Dsh_Adapter;
 import efan.com.money.Adapter.OnItemClickListener;
-import efan.com.money.Bean.Mai_Fd_Dd_Dsh_Bean;
+import efan.com.money.Bean.NetDingDanBean;
 import efan.com.money.Main.Mine.Indent.Particular.Fd_Dd_Indent;
 import efan.com.money.R;
+import efan.com.money.Util.net.rx.BaseSubscriber;
+import efan.com.money.Util.net.rx.RxRestClient;
+import efan.com.money.Util.storage.MainPreference;
+import efan.com.money.staticfunction.StaticUrl;
 import efan.com.money.staticfunction.StaticValue;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/9/14.
@@ -44,7 +53,7 @@ public class Mai_Fd_Dd_Dsh extends Fragment implements OnItemClickListener {
     private RecyclerView mai_fd_dd_dsh_recycle;
     private Mai_Fd_Dd_Dsh_Adapter adapter;
 
-    private List<Mai_Fd_Dd_Dsh_Bean> mlist;
+    private List<NetDingDanBean> mList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,8 +68,43 @@ public class Mai_Fd_Dd_Dsh extends Fragment implements OnItemClickListener {
         InitView();
         InitEvent();
         Refresh();
-        lv();
+        GetListData();
         return view;
+    }
+
+    private void GetListData() {
+        adapter = new Mai_Fd_Dd_Dsh_Adapter(getActivity());
+        adapter.setOnItemClickListener(this);
+        RxRestClient.builder()
+                .url(StaticUrl.GET_DING_DAN)
+                .params("fd_id", MainPreference.getCustomAppProfile(StaticValue.USER_ID))
+                .params("jd_id", "")
+                .params("page", 0)
+                .params("zhuangtai", StaticValue.INDENT_CHECK)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(getActivity()) {
+                    @Override
+                    public void onNext(String s) {
+                        JSONObject object = new JSONObject();
+                        if (object.parseObject(s).getString("success").equals("true")) {
+                            mList = object.parseObject(object.parseObject(s).getString("data"),
+                                    new TypeReference<ArrayList<NetDingDanBean>>() {
+                                    });
+                            if (mList.size() != 0) {
+                                adapter.initData(mList);
+                                mai_fd_dd_dsh_recycle.setAdapter(adapter);
+                            } else {
+                                Toast.makeText(getActivity(), "发单待审核订单为空", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } else {
+                            Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void Refresh() {
@@ -151,57 +195,6 @@ public class Mai_Fd_Dd_Dsh extends Fragment implements OnItemClickListener {
         });
     }
 
-    private void lv() {
-        mlist = new ArrayList<>();
-
-        Mai_Fd_Dd_Dsh_Bean bean = new Mai_Fd_Dd_Dsh_Bean();
-        bean.setMai_fd_dd_dsh_item_lx("[微信]");
-        bean.setMai_fd_dd_dsh_item_rwm("商品推销，朋友圈保留一天。");
-        bean.setMai_fd_dd_dsh_item_time("2017-09-12");
-        bean.setMai_fd_dd_dsh_item_yhm("遗忘");
-        bean.setMai_fd_dd_dsh_item_zt("未上传截图");
-        bean.setMai_fd_dd_dsh_jiage("￥1");
-        bean.setMai_fd_dd_dsh_iv_1(R.mipmap.mai_1_dd_shz_tv);
-        bean.setMai_fd_dd_dsh_iv_2(R.mipmap.mai_1_dd_shz_tv);
-        mlist.add(bean);
-
-        Mai_Fd_Dd_Dsh_Bean bean1 = new Mai_Fd_Dd_Dsh_Bean();
-        bean1.setMai_fd_dd_dsh_item_lx("[贴吧]");
-        bean1.setMai_fd_dd_dsh_item_rwm("贴吧推销");
-        bean1.setMai_fd_dd_dsh_item_time("2017-09-12");
-        bean1.setMai_fd_dd_dsh_item_yhm("遗忘");
-        bean1.setMai_fd_dd_dsh_item_zt("未上传截图");
-        bean1.setMai_fd_dd_dsh_jiage("￥3");
-        bean1.setMai_fd_dd_dsh_iv_1(R.mipmap.mai_1_dd_shz_tv);
-        bean1.setMai_fd_dd_dsh_iv_2(R.mipmap.mai_1_dd_shz_tv);
-        mlist.add(bean1);
-
-
-        Mai_Fd_Dd_Dsh_Bean bean2 = new Mai_Fd_Dd_Dsh_Bean();
-        bean2.setMai_fd_dd_dsh_item_lx("[陌陌]");
-        bean2.setMai_fd_dd_dsh_item_rwm("你是我找的人吗");
-        bean2.setMai_fd_dd_dsh_item_time("2017-09-12");
-        bean2.setMai_fd_dd_dsh_item_yhm("遗忘");
-        bean2.setMai_fd_dd_dsh_item_zt("未上传截图");
-        bean2.setMai_fd_dd_dsh_jiage("￥2");
-        bean2.setMai_fd_dd_dsh_iv_1(R.mipmap.mai_1_dd_shz_tv);
-        bean2.setMai_fd_dd_dsh_iv_2(R.mipmap.mai_1_dd_shz_tv);
-        mlist.add(bean2);
-
-        Mai_Fd_Dd_Dsh_Bean bean3 = new Mai_Fd_Dd_Dsh_Bean();
-        bean3.setMai_fd_dd_dsh_item_lx("[探探]");
-        bean3.setMai_fd_dd_dsh_item_rwm("寻找另一半");
-        bean3.setMai_fd_dd_dsh_item_time("2017-09-12");
-        bean3.setMai_fd_dd_dsh_item_yhm("遗忘");
-        bean3.setMai_fd_dd_dsh_item_zt("未上传截图");
-        bean3.setMai_fd_dd_dsh_jiage("￥1");
-        bean3.setMai_fd_dd_dsh_iv_1(R.mipmap.mai_1_dd_shz_tv);
-        bean3.setMai_fd_dd_dsh_iv_2(R.mipmap.mai_1_dd_shz_tv);
-        mlist.add(bean3);
-        adapter = new Mai_Fd_Dd_Dsh_Adapter(getActivity(), mlist);
-        mai_fd_dd_dsh_recycle.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-    }
 
     private void InitView() {
         mai_fd_dd_dsh_refresh = (SuperSwipeRefreshLayout) view.findViewById(R.id.mai_fd_dd_dsh_refresh);
@@ -245,7 +238,7 @@ public class Mai_Fd_Dd_Dsh extends Fragment implements OnItemClickListener {
     @Override
     public void onItemClick(View view, int Position) {
         Intent intent = new Intent(getActivity(), Fd_Dd_Indent.class);
-        intent.putExtra("id", mlist.get(Position).getMai_fd_dd_dsh_item_lx());
+        intent.putExtra("id", mList.get(Position).getDdid());
         intent.putExtra("type", StaticValue.FD_DSH_TO_INDENT);
         startActivity(intent);
     }

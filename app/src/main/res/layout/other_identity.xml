@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffff">
+
+        <ImageView
+            android:id="@+id/other_identity_fanhui"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@mipmap/bt_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="实名认证"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlAll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlTitle"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/rlTop"
+            android:layout_width="fill_parent"
+            android:layout_height="420px"
+            android:layout_alignParentTop="true">
+
+
+            <ImageView
+                android:id="@+id/ivHead1"
+                android:layout_width="248px"
+                android:layout_height="185px"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="203px"
+                android:background="@mipmap/pass"
+                android:scaleType="fitXY"/>
+
+
+            <TextView
+                android:id="@+id/tvAttent1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivHead1"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="已认证"
+
+                android:textSize="30px"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlName"
+            android:layout_width="fill_parent"
+            android:layout_height="90px"
+            android:layout_below="@+id/rlTop"
+            android:layout_marginTop="114px"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25px"
+                android:text="姓名"
+                android:textSize="30px"/>
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_alignLeft="@+id/tvName"
+                android:layout_alignParentBottom="true"
+                android:background="#E9EAEE"/>
+
+            <TextView
+                android:id="@+id/tvNameValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25px"
+                android:text=""
+                android:textSize="28px"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlId"
+            android:layout_width="fill_parent"
+            android:layout_height="90px"
+            android:layout_below="@+id/rlName"
+            android:layout_centerHorizontal="true"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tvId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25px"
+                android:text="身份证"
+                android:textSize="30px"/>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_alignLeft="@+id/tvId"
+                android:layout_alignParentBottom="true"
+                android:background="#E9EAEE"/>
+
+            <TextView
+                android:id="@+id/tvIdValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25px"
+                android:text=""
+                android:textSize="28px"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlContent"
+            android:layout_width="fill_parent"
+            android:layout_height="90px"
+            android:layout_below="@+id/rlId"
+            android:layout_centerHorizontal="true"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tvContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25px"
+                android:text="手持身份证照片"
+                android:textSize="30px"/>
+
+            <TextView
+                android:id="@+id/tvContentValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25px"
+                android:text="已上传"
+                android:textSize="28px"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

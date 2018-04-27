@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import efan.com.money.Main.Mine.Other.Identity;
 import efan.com.money.R;
 
 /**
@@ -22,6 +23,7 @@ public class Mai_Fd_Fragment extends Fragment implements View.OnClickListener {
     private RelativeLayout mai_2_fra_dsh_rl;
     private RelativeLayout mai_2_fra_jycg_rl;
     private RelativeLayout mai_2_fra_qbrw_rl;
+    private RelativeLayout mai_2_fra_smrz_rl;
 
     @Nullable
     @Override
@@ -44,6 +46,7 @@ public class Mai_Fd_Fragment extends Fragment implements View.OnClickListener {
         mai_2_fra_dsh_rl.setOnClickListener(this);
         mai_2_fra_jycg_rl.setOnClickListener(this);
         mai_2_fra_qbrw_rl.setOnClickListener(this);
+        mai_2_fra_smrz_rl.setOnClickListener(this);
     }
 
     private void InitView() {
@@ -52,6 +55,7 @@ public class Mai_Fd_Fragment extends Fragment implements View.OnClickListener {
         mai_2_fra_dsh_rl = (RelativeLayout) view.findViewById(R.id.mai_2_fra_dsh_rl);
         mai_2_fra_jycg_rl = (RelativeLayout) view.findViewById(R.id.mai_2_fra_jycg_rl);
         mai_2_fra_qbrw_rl = (RelativeLayout) view.findViewById(R.id.mai_2_fra_qbrw_rl);
+        mai_2_fra_smrz_rl = view.findViewById(R.id.mai_2_fra_smrz_rl);
     }
 
     @Override
@@ -71,6 +75,10 @@ public class Mai_Fd_Fragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.mai_2_fra_qbrw_rl:
                 intent_class(4);
+                break;
+            case R.id.mai_2_fra_smrz_rl:
+                Intent intent = new Intent(getActivity(), Identity.class);
+                getActivity().startActivity(intent);
                 break;
         }
 

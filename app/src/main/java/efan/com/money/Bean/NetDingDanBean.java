@@ -32,14 +32,14 @@ public class NetDingDanBean {
      */
 
     private String head;
-    private String fd_name;
+    private String name;
 
-    public String getFd_name() {
-        return fd_name;
+    public String getName() {
+        return name;
     }
 
-    public void setFd_name(String fd_name) {
-        this.fd_name = fd_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getDdid() {

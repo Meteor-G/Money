@@ -16,6 +16,7 @@ import java.util.List;
 
 import efan.com.money.Bean.NetDingDanBean;
 import efan.com.money.R;
+import efan.com.money.Util.TimeUtil.TimeUtil;
 import efan.com.money.staticfunction.StaticUrl;
 
 /**
@@ -45,11 +46,11 @@ public class Mai_Jd_Dd_Shz_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Shz_Ad
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.mai_1_dd_shz_item_time.setText(list.get(position).getDd_Time());
+        holder.mai_1_dd_shz_item_time.setText(TimeUtil.Long2Time(Long.valueOf(list.get(position).getDd_Time())));
         holder.mai_1_dd_shz_item_lx.setText(list.get(position).getTuiGuang());
         holder.mai_1_dd_shz_item_rwm.setText(list.get(position).getFd_MingCheng());
-        holder.mai_1_dd_shz_item_yhm.setText(list.get(position).getFd_name());
-        holder.mai_1_dd_shz_item_zt.setText(list.get(position).getDd_ZhuangTai());
+        holder.mai_1_dd_shz_item_yhm.setText(list.get(position).getName());
+        holder.mai_1_dd_shz_item_zt.setText("审核中");
         holder.mai_1_dd_shz_jiage.setText("￥" + list.get(position).getFd_JiaGe());
         Picasso.with(context)
                 .load(StaticUrl.BASE_URL + list.get(position).getDd_ShenHe_iv1())
@@ -59,8 +60,6 @@ public class Mai_Jd_Dd_Shz_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Shz_Ad
                 .load(StaticUrl.BASE_URL + list.get(position).getDd_ShenHe_iv2())
                 .error(R.mipmap.mai_1_dd_shz_tv)
                 .into(holder.mai_1_dd_shz_iv_2);
-//        holder.mai_1_dd_shz_iv_1.setBackgroundResource(list.get(position).getMai_1_dd_shz_iv_1());
-//        holder.mai_1_dd_shz_iv_2.setBackgroundResource(list.get(position).getMai_1_dd_shz_iv_2());
         holder.item_mai_jd_shz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

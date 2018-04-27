@@ -54,7 +54,7 @@ public class RxRestClientBuilder {
     }
 
     public final RxRestClientBuilder raw(String raw) {
-        this.mBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), raw);
+        this.mBody = RequestBody.create(MediaType.parse("applection/octet-stream"), raw);
         return this;
     }
 

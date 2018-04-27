@@ -24,10 +24,10 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:background="@mipmap/head"/>
+                    android:layout_marginLeft="20dp"/>
 
                 <TextView
+                    android:id="@+id/me_frag_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -116,6 +116,7 @@
             </View>
 
             <RelativeLayout
+                android:id="@+id/me_frag_collect_rl"
                 android:layout_width="match_parent"
                 android:layout_height="60dp">
 
@@ -145,6 +146,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/me_frag_income_rl"
                 android:layout_width="match_parent"
                 android:layout_height="60dp">
 

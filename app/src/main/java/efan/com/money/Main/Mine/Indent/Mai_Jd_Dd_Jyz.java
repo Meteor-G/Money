@@ -23,7 +23,6 @@ import java.util.List;
 
 import efan.com.money.Adapter.Mai_Jd_Dd_Jyz_Adapter;
 import efan.com.money.Adapter.OnItemClickListener;
-import efan.com.money.Bean.Mai_1_Dd_Jyz_Bean;
 import efan.com.money.Bean.NetDingDanBean;
 import efan.com.money.Main.Mine.Indent.Particular.Jd_Dd_Jyz;
 import efan.com.money.R;
@@ -54,8 +53,6 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
     private SuperSwipeRefreshLayout mai_jd_dd_jyz_refresh;
     private RecyclerView mai_jd_dd_jyz_recycle;
     private Mai_Jd_Dd_Jyz_Adapter adapter;
-    private List<Mai_1_Dd_Jyz_Bean> list;
-
     private List<NetDingDanBean> mList;
 
     @Override
@@ -100,7 +97,7 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
                                 adapter.initData(mList);
                                 mai_jd_dd_jyz_recycle.setAdapter(adapter);
                             } else {
-                                Toast.makeText(getActivity(), "订单为空", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "接单交易中订单为空", Toast.LENGTH_SHORT).show();
                             }
 
                         } else {
@@ -241,7 +238,7 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
     @Override
     public void onItemClick(View view, int Position) {
         Intent intent = new Intent(getActivity(), Jd_Dd_Jyz.class);
-        intent.putExtra("id", list.get(Position).getMai_1_dd_jyz_item_yhm());
+        intent.putExtra("id", mList.get(Position).getDdid());
         intent.putExtra("type", StaticValue.JYZ_TO_INDENT);
         startActivity(intent);
     }

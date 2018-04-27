@@ -148,6 +148,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/mai_2_fra_smrz_rl"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -157,7 +158,7 @@
                 android:layout_height="40dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
-                android:background="@mipmap/me_smrz" />
+                android:background="@mipmap/me_smrz"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -165,7 +166,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:text="实名认证"
-                android:textColor="#cccccc" />
+                android:textColor="#cccccc"/>
         </RelativeLayout>
     </LinearLayout>
 

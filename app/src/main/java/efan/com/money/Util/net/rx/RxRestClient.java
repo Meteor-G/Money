@@ -108,6 +108,10 @@ public class RxRestClient {
         }
     }
 
+    public final Observable<String> post_raw() {
+        return request(HttpMethod.POST_RAM);
+    }
+
     public final Observable<String> put() {
         if (BOBY == null) {
             return request(HttpMethod.PUT);

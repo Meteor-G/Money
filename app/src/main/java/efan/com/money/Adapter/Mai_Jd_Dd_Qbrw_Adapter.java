@@ -5,15 +5,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import efan.com.money.Bean.Mai_1_Dd_Qbrw_Bean;
+import efan.com.money.Bean.NetDingDanBean;
 import efan.com.money.R;
+import efan.com.money.UIView.RoundImageView;
+import efan.com.money.Util.TimeUtil.TimeUtil;
+import efan.com.money.staticfunction.StaticUrl;
+import efan.com.money.staticfunction.StaticValue;
 
 /**
  * 作者： ZlyjD.
@@ -22,11 +27,15 @@ import efan.com.money.R;
 
 public class Mai_Jd_Dd_Qbrw_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Qbrw_Adapter.ViewHolder> {
     private Context context;
-    private List<Mai_1_Dd_Qbrw_Bean> list = new ArrayList<>();
+    private List<NetDingDanBean> list = new ArrayList<>();
     private OnItemClickListener mItemClickListener;
 
-    public Mai_Jd_Dd_Qbrw_Adapter(Context context, List<Mai_1_Dd_Qbrw_Bean> list) {
+    public Mai_Jd_Dd_Qbrw_Adapter(Context context) {
         this.context = context;
+
+    }
+
+    public void initData(List<NetDingDanBean> list) {
         this.list = list;
     }
 
@@ -39,12 +48,30 @@ public class Mai_Jd_Dd_Qbrw_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Qbrw_
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.mai_1_dd_qbrw_item_time.setText(list.get(position).getMai_1_dd_qbrw_item_time());
-        holder.mai_1_dd_qbrw_item_lx.setText(list.get(position).getMai_1_dd_qbrw_item_lx());
-        holder.mai_1_dd_qbrw_item_rwm.setText(list.get(position).getMai_1_dd_qbrw_item_rwm());
-        holder.mai_1_dd_qbrw_item_yhm.setText(list.get(position).getMai_1_dd_qbrw_item_yhm());
-        holder.mai_1_dd_qbrw_item_zt.setText(list.get(position).getMai_1_dd_qbrw_item_zt());
-        holder.mai_1_dd_qbrw_item_tupian.setBackgroundResource(list.get(position).getMai_1_dd_qbrw_item_tupian());
+        holder.mai_1_dd_qbrw_item_tupian.setBorderRadius(90);
+        holder.mai_1_dd_qbrw_item_time.setText(TimeUtil.Long2Time(Long.valueOf(list.get(position).getDd_Time())));
+        holder.mai_1_dd_qbrw_item_lx.setText(list.get(position).getTuiGuang());
+        holder.mai_1_dd_qbrw_item_rwm.setText(list.get(position).getFd_MingCheng());
+        holder.mai_1_dd_qbrw_item_yhm.setText(list.get(position).getName());
+        if (list.get(position).getDd_ZhuangTai().equals(StaticValue.INDENT_CENTER)) {//进行中
+            holder.mai_1_dd_qbrw_item_zt.setText("进行中");
+            holder.mai_1_dd_qbrw_item_zt.setTextColor(context.getResources().getColor(R.color.orange));
+        } else if (list.get(position).getDd_ZhuangTai().equals(StaticValue.INDENT_CHECK)) {//审核中
+            holder.mai_1_dd_qbrw_item_zt.setText("审核中");
+            holder.mai_1_dd_qbrw_item_zt.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        } else if (list.get(position).getDd_ZhuangTai().equals(StaticValue.INDENT_SUCCESS)) {//已完成
+            holder.mai_1_dd_qbrw_item_zt.setText("已完成");
+            holder.mai_1_dd_qbrw_item_zt.setTextColor(context.getResources().getColor(R.color.green));
+        }
+        Picasso.with(context)
+                .load(StaticUrl.BASE_URL + list.get(position).getHead())
+                .into(holder.mai_1_dd_qbrw_item_tupian);
+        holder.item_mai_jd_qqbrw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mItemClickListener.onItemClick(holder.itemView, position);
+            }
+        });
     }
 
     @Override
@@ -55,7 +82,7 @@ public class Mai_Jd_Dd_Qbrw_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Qbrw_
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView mai_1_dd_qbrw_item_time;
-        private ImageView mai_1_dd_qbrw_item_tupian;
+        private RoundImageView mai_1_dd_qbrw_item_tupian;
         private TextView mai_1_dd_qbrw_item_lx;
         private TextView mai_1_dd_qbrw_item_rwm;
         private TextView mai_1_dd_qbrw_item_yhm;
@@ -69,7 +96,7 @@ public class Mai_Jd_Dd_Qbrw_Adapter extends RecyclerView.Adapter<Mai_Jd_Dd_Qbrw_
             mai_1_dd_qbrw_item_rwm = (TextView) itemView.findViewById(R.id.mai_1_dd_qbrw_item_rwm);
             mai_1_dd_qbrw_item_yhm = (TextView) itemView.findViewById(R.id.mai_1_dd_qbrw_item_yhm);
             mai_1_dd_qbrw_item_zt = (TextView) itemView.findViewById(R.id.mai_1_dd_qbrw_item_zt);
-            mai_1_dd_qbrw_item_tupian = (ImageView) itemView.findViewById(R.id.mai_1_dd_qbrw_item_tupian);
+            mai_1_dd_qbrw_item_tupian = (RoundImageView) itemView.findViewById(R.id.mai_1_dd_qbrw_item_tupian);
             item_mai_jd_qqbrw = (LinearLayout) itemView.findViewById(R.id.item_mai_jd_qqbrw);
         }
     }

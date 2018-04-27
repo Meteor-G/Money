@@ -1,5 +1,6 @@
 package efan.com.money.Main.Mine.Indent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -11,21 +12,33 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import efan.com.money.Adapter.Mai_Fd_Dd_Qbrw_Adapter;
-import efan.com.money.Bean.Mai_Fd_Dd_Qbrw_Bean;
+import efan.com.money.Adapter.OnItemClickListener;
+import efan.com.money.Bean.NetDingDanBean;
+import efan.com.money.Main.Mine.Indent.Particular.Fd_Dd_Indent;
 import efan.com.money.R;
+import efan.com.money.Util.net.rx.BaseSubscriber;
+import efan.com.money.Util.net.rx.RxRestClient;
+import efan.com.money.Util.storage.MainPreference;
+import efan.com.money.staticfunction.StaticUrl;
+import efan.com.money.staticfunction.StaticValue;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/9/14.
  */
 
-public class Mai_Fd_Dd_Qbrw extends Fragment {
+public class Mai_Fd_Dd_Qbrw extends Fragment implements OnItemClickListener {
     private View view;
 
     private ProgressBar progressBar;
@@ -39,6 +52,8 @@ public class Mai_Fd_Dd_Qbrw extends Fragment {
     private SuperSwipeRefreshLayout mai_fd_dd_qbrw_refresh;
     private RecyclerView mai_fd_dd_qbrw_recycle;
     private Mai_Fd_Dd_Qbrw_Adapter adapter;
+    JSONObject object = new JSONObject();
+    private List<NetDingDanBean> mList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,8 +68,43 @@ public class Mai_Fd_Dd_Qbrw extends Fragment {
         InitView();
         InitEvent();
         Refresh();
-        lv();
+        GetListData();
         return view;
+    }
+
+    private void GetListData() {
+        adapter = new Mai_Fd_Dd_Qbrw_Adapter(getActivity());
+        adapter.setOnItemClickListener(this);
+        RxRestClient.builder()
+                .load(getActivity())
+                .url(StaticUrl.GET_DING_DAN)
+                .params("fd_id", MainPreference.getCustomAppProfile(StaticValue.USER_ID))
+                .params("jd_id", "")
+                .params("page", 0)
+                .params("zhuangtai", "")
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(getActivity()) {
+                    @Override
+                    public void onNext(String s) {
+
+                        if (object.parseObject(s).getString("success").equals("true")) {
+                            mList = object.parseObject(object.parseObject(s).getString("data"),
+                                    new TypeReference<ArrayList<NetDingDanBean>>() {
+                                    });
+                            if (mList.size() != 0) {
+                                adapter.initData(mList);
+                                mai_fd_dd_qbrw_recycle.setAdapter(adapter);
+                            } else {
+                                Toast.makeText(getActivity(), "接单审核中订单为空", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
 
@@ -146,46 +196,6 @@ public class Mai_Fd_Dd_Qbrw extends Fragment {
         });
     }
 
-    private void lv() {
-        List<Mai_Fd_Dd_Qbrw_Bean> list = new ArrayList<Mai_Fd_Dd_Qbrw_Bean>();
-
-        Mai_Fd_Dd_Qbrw_Bean bean = new Mai_Fd_Dd_Qbrw_Bean();
-        bean.setMai_fd_dd_qbrw_item_lx("[微信]");
-        bean.setMai_fd_dd_qbrw_item_rwm("商品推销，朋友圈保留一天。");
-        bean.setMai_fd_dd_qbrw_item_time("2017-09-12");
-        bean.setMai_fd_dd_qbrw_item_yhm("那朵云");
-        bean.setMai_fd_dd_qbrw_item_zt("已完成");
-        bean.setMai_fd_dd_qbrw_tupian(R.mipmap.touxiang_1);
-        list.add(bean);
-
-        Mai_Fd_Dd_Qbrw_Bean bean1 = new Mai_Fd_Dd_Qbrw_Bean();
-        bean1.setMai_fd_dd_qbrw_item_lx("[QQ]");
-        bean1.setMai_fd_dd_qbrw_item_rwm("快点拿钱投票啦！");
-        bean1.setMai_fd_dd_qbrw_item_time("2017-09-8");
-        bean1.setMai_fd_dd_qbrw_item_yhm("是你");
-        bean1.setMai_fd_dd_qbrw_item_zt("已完成");
-        bean1.setMai_fd_dd_qbrw_tupian(R.mipmap.touxiang_8);
-        list.add(bean1);
-        Mai_Fd_Dd_Qbrw_Bean bean2 = new Mai_Fd_Dd_Qbrw_Bean();
-        bean2.setMai_fd_dd_qbrw_item_lx("[微博]");
-        bean2.setMai_fd_dd_qbrw_item_rwm("兴趣好友");
-        bean2.setMai_fd_dd_qbrw_item_time("2017-09-6");
-        bean2.setMai_fd_dd_qbrw_item_yhm("Edge");
-        bean2.setMai_fd_dd_qbrw_item_zt("已完成");
-        bean2.setMai_fd_dd_qbrw_tupian(R.mipmap.touxiang_6);
-        list.add(bean2);
-
-        Mai_Fd_Dd_Qbrw_Bean bean3 = new Mai_Fd_Dd_Qbrw_Bean();
-        bean3.setMai_fd_dd_qbrw_item_lx("[朋友圈]");
-        bean3.setMai_fd_dd_qbrw_item_rwm("商品大甩卖啦");
-        bean3.setMai_fd_dd_qbrw_item_time("2017-09-2");
-        bean3.setMai_fd_dd_qbrw_item_yhm("遗");
-        bean3.setMai_fd_dd_qbrw_item_zt("已完成");
-        bean3.setMai_fd_dd_qbrw_tupian(R.mipmap.touxiang_4);
-        list.add(bean3);
-        adapter = new Mai_Fd_Dd_Qbrw_Adapter(getActivity(), list);
-        mai_fd_dd_qbrw_recycle.setAdapter(adapter);
-    }
 
     private void InitView() {
         mai_fd_dd_qbrw_refresh = (SuperSwipeRefreshLayout) view.findViewById(R.id.mai_fd_dd_qbrw_refresh);
@@ -226,5 +236,18 @@ public class Mai_Fd_Dd_Qbrw extends Fragment {
         return footerView;
     }
 
+    @Override
+    public void onItemClick(View view, int Position) {
+        Intent intent = new Intent(getActivity(), Fd_Dd_Indent.class);
+        intent.putExtra("id", mList.get(Position).getDdid());
+        if (mList.get(Position).getDd_ZhuangTai().equals(StaticValue.INDENT_CENTER)) {
+            intent.putExtra("type", StaticValue.FD_JXS_TO_INDENT);
+        } else if (mList.get(Position).getDd_ZhuangTai().equals(StaticValue.INDENT_CHECK)) {
+            intent.putExtra("type", StaticValue.FD_DSH_TO_INDENT);
+        } else if (mList.get(Position).getDd_ZhuangTai().equals(StaticValue.INDENT_SUCCESS)) {
+            intent.putExtra("type", StaticValue.FD_JYCG_TO_INDENT);
+        }
+        startActivity(intent);
+    }
 }
 

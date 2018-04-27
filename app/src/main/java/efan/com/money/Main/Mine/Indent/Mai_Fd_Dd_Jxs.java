@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -20,10 +23,16 @@ import java.util.List;
 
 import efan.com.money.Adapter.Mai_Fd_Dd_Jxs_Adapter;
 import efan.com.money.Adapter.OnItemClickListener;
-import efan.com.money.Bean.Mai_Fd_Dd_Jxs_Bean;
+import efan.com.money.Bean.NetDingDanBean;
 import efan.com.money.Main.Mine.Indent.Particular.Fd_Dd_Indent;
 import efan.com.money.R;
+import efan.com.money.Util.net.rx.BaseSubscriber;
+import efan.com.money.Util.net.rx.RxRestClient;
+import efan.com.money.Util.storage.MainPreference;
+import efan.com.money.staticfunction.StaticUrl;
 import efan.com.money.staticfunction.StaticValue;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/9/14.
@@ -44,7 +53,7 @@ public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
     private RecyclerView mai_fd_dd_jxs_recycle;
     private Mai_Fd_Dd_Jxs_Adapter adapter;
 
-    private List<Mai_Fd_Dd_Jxs_Bean> list;
+    private List<NetDingDanBean> mList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,8 +68,44 @@ public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
         InitView();
         InitEvent();
         Refresh();
-        lv();
+        GetListData();
         return view;
+    }
+
+    private void GetListData() {
+        adapter = new Mai_Fd_Dd_Jxs_Adapter(getActivity());
+        adapter.setOnItemClickListener(this);
+        RxRestClient.builder()
+                .url(StaticUrl.GET_DING_DAN)
+                .params("fd_id", MainPreference.getCustomAppProfile(StaticValue.USER_ID))
+                .params("jd_id", "")
+                .params("page", 0)
+                .params("zhuangtai", StaticValue.INDENT_CENTER)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(getActivity()) {
+                    @Override
+                    public void onNext(String s) {
+                        JSONObject object = new JSONObject();
+                        if (object.parseObject(s).getString("success").equals("true")) {
+                            mList = object.parseObject(object.parseObject(s).getString("data"),
+                                    new TypeReference<ArrayList<NetDingDanBean>>() {
+                                    });
+                            if (mList.size() != 0) {
+                                adapter.initData(mList);
+                                mai_fd_dd_jxs_recycle.setAdapter(adapter);
+                            } else {
+                                Toast.makeText(getActivity(), "发单进行时订单为空", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } else {
+                            Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
     }
 
     private void Refresh() {
@@ -151,49 +196,6 @@ public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
         });
     }
 
-    private void lv() {
-        list = new ArrayList<Mai_Fd_Dd_Jxs_Bean>();
-
-        Mai_Fd_Dd_Jxs_Bean bean = new Mai_Fd_Dd_Jxs_Bean();
-        bean.setMai_fd_dd_jxs_item_lx("[微信]");
-        bean.setMai_fd_dd_jxs_item_rwm("商品推销");
-        bean.setMai_fd_dd_jxs_item_time("2017-09-12");
-        bean.setMai_fd_dd_jxs_item_yhm("那天");
-        bean.setMai_fd_dd_jxs_item_zt("未上传截图");
-        bean.setMai_fd_dd_jxs_item_tupian(R.mipmap.touxiang_6);
-        list.add(bean);
-
-        Mai_Fd_Dd_Jxs_Bean bean1 = new Mai_Fd_Dd_Jxs_Bean();
-        bean1.setMai_fd_dd_jxs_item_lx("[QQ]");
-        bean1.setMai_fd_dd_jxs_item_rwm("投票选财主了");
-        bean1.setMai_fd_dd_jxs_item_time("2017-09-11");
-        bean1.setMai_fd_dd_jxs_item_yhm("遗忘");
-        bean1.setMai_fd_dd_jxs_item_zt("未上传截图");
-        bean1.setMai_fd_dd_jxs_item_tupian(R.mipmap.touxiang_5);
-        list.add(bean1);
-
-        Mai_Fd_Dd_Jxs_Bean bean2 = new Mai_Fd_Dd_Jxs_Bean();
-        bean2.setMai_fd_dd_jxs_item_lx("[微博]");
-        bean2.setMai_fd_dd_jxs_item_rwm("就是你了，快来拿钱");
-        bean2.setMai_fd_dd_jxs_item_time("2017-09-13");
-        bean2.setMai_fd_dd_jxs_item_yhm("Dreamer");
-        bean2.setMai_fd_dd_jxs_item_zt("未上传截图");
-        bean2.setMai_fd_dd_jxs_item_tupian(R.mipmap.touxiang_1);
-        list.add(bean2);
-
-        Mai_Fd_Dd_Jxs_Bean bean3 = new Mai_Fd_Dd_Jxs_Bean();
-        bean3.setMai_fd_dd_jxs_item_lx("[朋友圈]");
-        bean3.setMai_fd_dd_jxs_item_rwm("鞋子降价了");
-        bean3.setMai_fd_dd_jxs_item_time("2017-09-15");
-        bean3.setMai_fd_dd_jxs_item_yhm("忘掉");
-        bean3.setMai_fd_dd_jxs_item_zt("未上传截图");
-        bean3.setMai_fd_dd_jxs_item_tupian(R.mipmap.touxiang_8);
-        list.add(bean3);
-        adapter = new Mai_Fd_Dd_Jxs_Adapter(getActivity(), list);
-        mai_fd_dd_jxs_recycle.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-    }
-
     private void InitView() {
         mai_fd_dd_jxs_refresh = (SuperSwipeRefreshLayout) view.findViewById(R.id.mai_fd_dd_jxs_refresh);
         mai_fd_dd_jxs_recycle = (RecyclerView) view.findViewById(R.id.mai_fd_dd_jxs_recycle);
@@ -236,7 +238,7 @@ public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
     @Override
     public void onItemClick(View view, int Position) {
         Intent intent = new Intent(getActivity(), Fd_Dd_Indent.class);
-        intent.putExtra("id", list.get(Position).getMai_fd_dd_jxs_item_lx());
+        intent.putExtra("id", mList.get(Position).getDdid());
         intent.putExtra("type", StaticValue.FD_JXS_TO_INDENT);
         startActivity(intent);
     }

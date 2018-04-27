@@ -75,6 +75,7 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
         adapter = new Mai_Jd_Dd_Shz_Adapter(getActivity());
         adapter.setOnItemClickListener(this);
         RxRestClient.builder()
+                .load(getActivity())
                 .url(StaticUrl.GET_DING_DAN)
                 .params("fd_id", "")
                 .params("jd_id", MainPreference.getCustomAppProfile(StaticValue.USER_ID))
@@ -96,7 +97,7 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
                                 adapter.init(mlist);
                                 mai_jd_dd_shz_recycle.setAdapter(adapter);
                             } else {
-                                Toast.makeText(getActivity(), "订单为空", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "接单审核中订单为空", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
@@ -192,58 +193,6 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
             }
         });
     }
-
-//    private void lv() {
-//        mlist = new ArrayList<>();
-
-//        Mai_1_Dd_Shz_Bean bean = new Mai_1_Dd_Shz_Bean();
-//        bean.setMai_1_dd_shz_item_lx("[微信]");
-//        bean.setMai_1_dd_shz_item_rwm("商品推销，朋友圈保留一天。");
-//        bean.setMai_1_dd_shz_item_time("2017-09-12");
-//        bean.setMai_1_dd_shz_item_yhm("遗忘");
-//        bean.setMai_1_dd_shz_item_zt("未上传截图");
-//        bean.setMai_1_dd_shz_jiage("￥1");
-//        bean.setMai_1_dd_shz_iv_1(R.mipmap.mai_1_dd_shz_tv);
-//        bean.setMai_1_dd_shz_iv_2(R.mipmap.mai_1_dd_shz_tv);
-//        mlist.add(bean);
-//
-//        Mai_1_Dd_Shz_Bean bean1 = new Mai_1_Dd_Shz_Bean();
-//        bean1.setMai_1_dd_shz_item_lx("[贴吧]");
-//        bean1.setMai_1_dd_shz_item_rwm("贴吧推销");
-//        bean1.setMai_1_dd_shz_item_time("2017-09-12");
-//        bean1.setMai_1_dd_shz_item_yhm("遗忘");
-//        bean1.setMai_1_dd_shz_item_zt("未上传截图");
-//        bean1.setMai_1_dd_shz_jiage("￥3");
-//        bean1.setMai_1_dd_shz_iv_1(R.mipmap.mai_1_dd_shz_tv);
-//        bean1.setMai_1_dd_shz_iv_2(R.mipmap.mai_1_dd_shz_tv);
-//        mlist.add(bean1);
-//
-//
-//        Mai_1_Dd_Shz_Bean bean2 = new Mai_1_Dd_Shz_Bean();
-//        bean2.setMai_1_dd_shz_item_lx("[陌陌]");
-//        bean2.setMai_1_dd_shz_item_rwm("你是我找的人吗");
-//        bean2.setMai_1_dd_shz_item_time("2017-09-12");
-//        bean2.setMai_1_dd_shz_item_yhm("遗忘");
-//        bean2.setMai_1_dd_shz_item_zt("未上传截图");
-//        bean2.setMai_1_dd_shz_jiage("￥2");
-//        bean2.setMai_1_dd_shz_iv_1(R.mipmap.mai_1_dd_shz_tv);
-//        bean2.setMai_1_dd_shz_iv_2(R.mipmap.mai_1_dd_shz_tv);
-//        mlist.add(bean2);
-//
-//        Mai_1_Dd_Shz_Bean bean3 = new Mai_1_Dd_Shz_Bean();
-//        bean3.setMai_1_dd_shz_item_lx("[探探]");
-//        bean3.setMai_1_dd_shz_item_rwm("寻找另一半");
-//        bean3.setMai_1_dd_shz_item_time("2017-09-12");
-//        bean3.setMai_1_dd_shz_item_yhm("遗忘");
-//        bean3.setMai_1_dd_shz_item_zt("未上传截图");
-//        bean3.setMai_1_dd_shz_jiage("￥1");
-//        bean3.setMai_1_dd_shz_iv_1(R.mipmap.mai_1_dd_shz_tv);
-//        bean3.setMai_1_dd_shz_iv_2(R.mipmap.mai_1_dd_shz_tv);
-//        mlist.add(bean3);
-//        adapter = new Mai_Jd_Dd_Shz_Adapter(getActivity(), mlist);
-//        mai_jd_dd_shz_recycle.setAdapter(adapter);
-//        adapter.setOnItemClickListener(this);
-//    }
 
     private void InitView() {
         mai_jd_dd_shz_refresh = (SuperSwipeRefreshLayout) view.findViewById(R.id.mai_jd_dd_shz_refresh);
