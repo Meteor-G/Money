@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
     private RecyclerView mai_jd_dd_shz_recycle;
     private Mai_Jd_Dd_Shz_Adapter adapter;
     private List<NetDingDanBean> mlist;
+    private RelativeLayout mai_jd_dd_shz_rl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,6 +71,17 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
         Refresh();
         GetListData();
         return view;
+    }
+
+    private int TAG = 0;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (TAG > 0) {
+            GetListData();
+        }
+        TAG += 1;
     }
 
     private void GetListData() {
@@ -96,8 +109,9 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
                             if (mlist.size() != 0) {
                                 adapter.init(mlist);
                                 mai_jd_dd_shz_recycle.setAdapter(adapter);
+                                mai_jd_dd_shz_rl.setVisibility(View.GONE);
                             } else {
-                                Toast.makeText(getActivity(), "接单审核中订单为空", Toast.LENGTH_SHORT).show();
+                                mai_jd_dd_shz_rl.setVisibility(View.VISIBLE);
                             }
                         } else {
                             Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
@@ -199,6 +213,7 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
         mai_jd_dd_shz_recycle = (RecyclerView) view.findViewById(R.id.mai_jd_dd_shz_recycle);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mai_jd_dd_shz_recycle.setLayoutManager(manager);
+        mai_jd_dd_shz_rl = (RelativeLayout) view.findViewById(R.id.mai_jd_dd_shz_rl);
     }
 
     private void InitEvent() {

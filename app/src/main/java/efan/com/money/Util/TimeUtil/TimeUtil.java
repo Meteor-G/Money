@@ -16,4 +16,14 @@ public class TimeUtil {
         return sdf.format(new Date(time));
     }
 
+    public static String Long2Date(Long time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+        return sdf.format(new Date(time));
+    }
+
+    public static String Long2Hour(Long time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh-mm");
+        return sdf.format(new Date(time));
+    }
+
 }

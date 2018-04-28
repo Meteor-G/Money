@@ -287,7 +287,7 @@ public class Jd_Dd_Jyz extends BaseActivity {
                         }
                         JSONObject object = new JSONObject();
                         if (object.parseObject(s).getString("success").equals("true")) {
-                            Toast.makeText(Jd_Dd_Jyz.this, "更改状态成功", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(Jd_Dd_Jyz.this, "更改状态成功", Toast.LENGTH_SHORT).show();
                             Jd_Dd_Jyz.this.finish();
                         } else {
                             Toast.makeText(Jd_Dd_Jyz.this, "更改状态失败", Toast.LENGTH_SHORT).show();

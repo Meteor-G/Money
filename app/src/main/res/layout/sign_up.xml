@@ -24,7 +24,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/dl_name"
+            android:id="@+id/up_name"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="45dp"
@@ -33,12 +33,12 @@
             android:background="@drawable/denglu"
             android:ems="10"
             android:gravity="center"
-            android:hint="账号"
+            android:hint="手机号"
             android:inputType="number"
             android:maxLength="11"/>
 
         <EditText
-            android:id="@+id/dl_password"
+            android:id="@+id/up_password"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="45dp"
@@ -50,8 +50,21 @@
             android:hint="密码"
             android:inputType="textPassword"/>
 
+        <EditText
+            android:id="@+id/up_password_2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/denglu"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="确认密码"
+            android:inputType="textPassword"/>
+
         <TextView
-            android:id="@+id/dl_dl_bt"
+            android:id="@+id/up_dl_bt"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginBottom="5dp"
@@ -60,17 +73,8 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/denglu_lv"
             android:gravity="center"
-            android:text="登录"
+            android:text="注册"
             android:textColor="#ffffff"
-            android:textSize="18sp"/>
-
-        <TextView
-            android:id="@+id/login_sign_up"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:text="注册新账号"
             android:textSize="18sp"/>
     </LinearLayout>
 

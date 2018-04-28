@@ -173,7 +173,7 @@ public class Fd_Dd_Indent extends AppCompatActivity {
                         }
                         JSONObject object = new JSONObject();
                         if (object.parseObject(s).getString("success").equals("true")) {
-                            Toast.makeText(Fd_Dd_Indent.this, "更改状态成功", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(Fd_Dd_Indent.this, "更改状态成功", Toast.LENGTH_SHORT).show();
                             Fd_Dd_Indent.this.finish();
                         } else {
                             Toast.makeText(Fd_Dd_Indent.this, "更改状态失败", Toast.LENGTH_SHORT).show();

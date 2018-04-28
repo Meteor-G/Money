@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,7 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
     private RecyclerView mai_jd_dd_jyz_recycle;
     private Mai_Jd_Dd_Jyz_Adapter adapter;
     private List<NetDingDanBean> mList;
+    private RelativeLayout mai_jd_dd_jyz_rl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +72,16 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
         GetListData();
         InitEvent();
         return view;
+    }
+    private int TAG = 0;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (TAG > 0) {
+            GetListData();
+        }
+        TAG += 1;
     }
 
     private void GetListData() {
@@ -96,8 +108,9 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
                             if (mList.size() != 0) {
                                 adapter.initData(mList);
                                 mai_jd_dd_jyz_recycle.setAdapter(adapter);
+                                mai_jd_dd_jyz_rl.setVisibility(View.GONE);
                             } else {
-                                Toast.makeText(getActivity(), "接单交易中订单为空", Toast.LENGTH_SHORT).show();
+                                mai_jd_dd_jyz_rl.setVisibility(View.VISIBLE);
                             }
 
                         } else {
@@ -200,6 +213,7 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
         mai_jd_dd_jyz_recycle = (RecyclerView) view.findViewById(R.id.mai_jd_dd_jyz_recycle);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mai_jd_dd_jyz_recycle.setLayoutManager(manager);
+        mai_jd_dd_jyz_rl = (RelativeLayout) view.findViewById(R.id.mai_jd_dd_jyz_rl);
     }
 
     private void InitEvent() {

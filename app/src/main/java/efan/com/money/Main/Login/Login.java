@@ -38,16 +38,26 @@ public class Login extends AppCompatActivity {
     EditText dl_password;
     @BindView(R.id.dl_dl_bt)
     TextView dl_dl_bt;
+    @BindView(R.id.login_sign_up)
+    TextView login_sign_up;
     private JSONObject object = new JSONObject();
-    private long exitTime = 0;
 
-    @OnClick(R.id.dl_dl_bt)
+    @OnClick({R.id.dl_dl_bt, R.id.login_sign_up})
     public void onClick(View view) {
-        if (!dl_name.getText().toString().trim().isEmpty() && !dl_password.getText().toString().isEmpty()) {
-            SignIn(dl_name.getText().toString().trim(), dl_password.getText().toString());
-        } else {
-            Toast.makeText(this, "请输入帐号密码", Toast.LENGTH_SHORT).show();
+        switch (view.getId()) {
+            case R.id.dl_dl_bt:
+                if (!dl_name.getText().toString().trim().isEmpty() && !dl_password.getText().toString().isEmpty()) {
+                    SignIn(dl_name.getText().toString().trim(), dl_password.getText().toString());
+                } else {
+                    Toast.makeText(this, "请输入帐号密码", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.login_sign_up:
+                Intent intent = new Intent(Login.this, SignUp.class);
+                startActivity(intent);
+                break;
         }
+
     }
 
     private void SignIn(String name, String password) {

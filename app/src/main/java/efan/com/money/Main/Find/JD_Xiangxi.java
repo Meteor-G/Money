@@ -113,6 +113,7 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
         jd_main_item_lx_tv.setText("[" + netFaDanBean.getTuiGuang() + "]");
         jd_main_item_title_tv.setText(netFaDanBean.getFd_MingCheng());
         jd_xiangqing_qian.setText("￥" + netFaDanBean.getFd_JiaGe());
+        jd_xiangxi_zongshu.setText("任务剩余量：" + netFaDanBean.getFd_ZongShu() + "单");
         Picasso.with(this)
                 .load(StaticUrl.BASE_URL + netFaDanBean.getTg_leixing_iv())
                 .error(R.mipmap.ic_launcher)
@@ -211,9 +212,9 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
     private void ReceivingOrder() {
         RxRestClient.builder()
                 .url(StaticUrl.INDEX_DING_DAN)
-                .params("User_Jd_Id", MainPreference.getCustomAppProfile("uid"))
+                .params("User_Jd_Id", MainPreference.getCustomAppProfile(StaticValue.USER_ID))
                 .params("Fd_Id", id)
-                .params("Dd_ZhuangTai", StaticValue.INDENT_CHECK)
+                .params("Dd_ZhuangTai", StaticValue.INDENT_CENTER)
                 .params("Dd_ShenHe_iv1", "")
                 .params("Dd_ShenHe_iv2", "")
                 .params("Dd_Time", System.currentTimeMillis())

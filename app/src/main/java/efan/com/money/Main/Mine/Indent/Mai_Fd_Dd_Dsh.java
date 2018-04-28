@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class Mai_Fd_Dd_Dsh extends Fragment implements OnItemClickListener {
     private SuperSwipeRefreshLayout mai_fd_dd_dsh_refresh;
     private RecyclerView mai_fd_dd_dsh_recycle;
     private Mai_Fd_Dd_Dsh_Adapter adapter;
+    private RelativeLayout mai_fd_dd_dsh_rl;
 
     private List<NetDingDanBean> mList;
 
@@ -70,6 +72,17 @@ public class Mai_Fd_Dd_Dsh extends Fragment implements OnItemClickListener {
         Refresh();
         GetListData();
         return view;
+    }
+
+    private int TAG = 0;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (TAG > 0) {
+            GetListData();
+        }
+        TAG += 1;
     }
 
     private void GetListData() {
@@ -96,8 +109,9 @@ public class Mai_Fd_Dd_Dsh extends Fragment implements OnItemClickListener {
                             if (mList.size() != 0) {
                                 adapter.initData(mList);
                                 mai_fd_dd_dsh_recycle.setAdapter(adapter);
+                                mai_fd_dd_dsh_rl.setVisibility(View.GONE);
                             } else {
-                                Toast.makeText(getActivity(), "发单待审核订单为空", Toast.LENGTH_SHORT).show();
+                                mai_fd_dd_dsh_rl.setVisibility(View.VISIBLE);
                             }
 
                         } else {
@@ -201,6 +215,7 @@ public class Mai_Fd_Dd_Dsh extends Fragment implements OnItemClickListener {
         mai_fd_dd_dsh_recycle = (RecyclerView) view.findViewById(R.id.mai_fd_dd_dsh_recycle);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mai_fd_dd_dsh_recycle.setLayoutManager(manager);
+        mai_fd_dd_dsh_rl = (RelativeLayout) view.findViewById(R.id.mai_fd_dd_dsh_rl);
     }
 
     private void InitEvent() {

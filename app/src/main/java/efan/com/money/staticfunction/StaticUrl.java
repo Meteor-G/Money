@@ -25,6 +25,8 @@ public class StaticUrl {
 
     //获取全部发单
     public static final String GET_FA_DAN = "Money/getFaDan";
+    //获取某个用户的全部发单
+    public static final String GET_USER_FA_DAN = "Money/getUserFaDan";
     //插入发单
     public static final String INDEX_FD_DAN = "Money/indexFaDan";
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,7 @@ public class Mai_Jd_Dd_Qbrw extends Fragment implements OnItemClickListener {
     private Mai_Jd_Dd_Qbrw_Adapter adapter;
     JSONObject object = new JSONObject();
     private List<NetDingDanBean> mList;
+    private RelativeLayout mai_jd_dd_qbrw_rl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +72,16 @@ public class Mai_Jd_Dd_Qbrw extends Fragment implements OnItemClickListener {
         Refresh();
         GetListData();
         return view;
+    }
+    private int TAG = 0;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (TAG > 0) {
+            GetListData();
+        }
+        TAG += 1;
     }
 
     private void GetListData() {
@@ -89,7 +101,6 @@ public class Mai_Jd_Dd_Qbrw extends Fragment implements OnItemClickListener {
                 .subscribe(new BaseSubscriber<String>(getActivity()) {
                     @Override
                     public void onNext(String s) {
-
                         if (object.parseObject(s).getString("success").equals("true")) {
                             mList = object.parseObject(object.parseObject(s).getString("data"),
                                     new TypeReference<ArrayList<NetDingDanBean>>() {
@@ -97,8 +108,9 @@ public class Mai_Jd_Dd_Qbrw extends Fragment implements OnItemClickListener {
                             if (mList.size() != 0) {
                                 adapter.initData(mList);
                                 mai_jd_dd_qbrw_recycle.setAdapter(adapter);
+                                mai_jd_dd_qbrw_rl.setVisibility(View.GONE);
                             } else {
-                                Toast.makeText(getActivity(), "接单审核中订单为空", Toast.LENGTH_SHORT).show();
+                                mai_jd_dd_qbrw_rl.setVisibility(View.VISIBLE);
                             }
                         } else {
                             Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
@@ -201,6 +213,7 @@ public class Mai_Jd_Dd_Qbrw extends Fragment implements OnItemClickListener {
         mai_jd_dd_qbrw_recycle = (RecyclerView) view.findViewById(R.id.mai_jd_dd_qbrw_recycle);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mai_jd_dd_qbrw_recycle.setLayoutManager(manager);
+        mai_jd_dd_qbrw_rl = (RelativeLayout) view.findViewById(R.id.mai_jd_dd_qbrw_rl);
     }
 
     private void InitEvent() {

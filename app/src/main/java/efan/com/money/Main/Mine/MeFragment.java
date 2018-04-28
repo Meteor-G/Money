@@ -122,6 +122,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     public void setValue(String value) {
         Picasso.with(getActivity())
                 .load(StaticUrl.BASE_URL + value)
+                .placeholder(R.mipmap.main_touxiang)
                 .into(main_head);
         me_frag_name.setText(MainPreference.getCustomAppProfile("name"));
     }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import efan.com.money.Main.Mine.Other.Deal;
 import efan.com.money.R;
 
 /**
@@ -22,6 +23,7 @@ public class Mai_Jd_Fragment extends Fragment implements View.OnClickListener {
     private RelativeLayout mai_1_fra_jycg_rl;
     private RelativeLayout mai_1_fra_qbrw_rl;
     private RelativeLayout mai_1_fra_zhbd;
+    private RelativeLayout mai_1_fra_srzd;
 
     @Nullable
     @Override
@@ -44,6 +46,7 @@ public class Mai_Jd_Fragment extends Fragment implements View.OnClickListener {
         mai_1_fra_jycg_rl.setOnClickListener(this);
         mai_1_fra_qbrw_rl.setOnClickListener(this);
         mai_1_fra_zhbd.setOnClickListener(this);
+        mai_1_fra_srzd.setOnClickListener(this);
     }
 
     private void InitView() {
@@ -52,6 +55,7 @@ public class Mai_Jd_Fragment extends Fragment implements View.OnClickListener {
         mai_1_fra_jycg_rl = (RelativeLayout) view.findViewById(R.id.mai_1_fra_jycg_rl);
         mai_1_fra_qbrw_rl = (RelativeLayout) view.findViewById(R.id.mai_1_fra_qbrw_rl);
         mai_1_fra_zhbd = (RelativeLayout) view.findViewById(R.id.mai_1_fra_zhbd);
+        mai_1_fra_srzd = (RelativeLayout) view.findViewById(R.id.mai_1_fra_srzd);
     }
 
     @Override
@@ -72,6 +76,10 @@ public class Mai_Jd_Fragment extends Fragment implements View.OnClickListener {
             case R.id.mai_1_fra_zhbd:
                 Intent intent = new Intent(getActivity(), Mai_Jd_Zhbd.class);
                 startActivity(intent);
+                break;
+            case R.id.mai_1_fra_srzd:
+                Intent intent1 = new Intent(getActivity(), Deal.class);
+                startActivity(intent1);
                 break;
         }
 
