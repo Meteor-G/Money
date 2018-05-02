@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
@@ -24,6 +26,8 @@ import java.util.List;
 import efan.com.money.Adapter.JD_Main_Adapter;
 import efan.com.money.Adapter.OnItemClickListener;
 import efan.com.money.Bean.NetFaDanBean;
+import efan.com.money.Bean.NetTuiGuangBean;
+import efan.com.money.Bean.NetZhangHao;
 import efan.com.money.R;
 import efan.com.money.Util.net.rx.BaseSubscriber;
 import efan.com.money.Util.net.rx.RxRestClient;
@@ -51,16 +55,18 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
     private ImageView footerImageView;
 
     private JD_Main_Adapter adapter = new JD_Main_Adapter(this);
-
-
     private List<NetFaDanBean> AllList = new ArrayList<>();
     int PAGE = 0;
-    int SIZE = 0;//每次返回的个数
-
     private String zhanghao = null;
     private String tuiguang = null;
     private TextView jd_main_tuiguang;
     private TextView jd_main_zhanghao;
+    private RelativeLayout jd_main_tuiguang_rl;
+    private RelativeLayout jd_main_zhanghao_rl;
+    private String title;
+    private String url;
+    private MaterialDialog dialog;
+    private RelativeLayout jd_main_wusuju_rl;
 
 
     @Override
@@ -71,7 +77,6 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         InitEvent();
         GetIntentData();
         Refresh();
-        GetData(0);
     }
 
     private void GetIntentData() {
@@ -80,6 +85,7 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         tuiguang = intent.getStringExtra("tuiguang");
         jd_main_tuiguang.setText(tuiguang);
         jd_main_zhanghao.setText(zhanghao);
+        GetData(0, tuiguang, zhanghao);
     }
 
     private void Refresh() {
@@ -106,11 +112,11 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
                     @Override
                     public void run() {
                         AllList.clear();
-                        GetData(0);
+                        GetData(0, jd_main_tuiguang.getText().toString().trim(), jd_main_zhanghao.getText().toString().trim());
                         swipe_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);
                     }
-                }, 1000);
+                }, 500);
             }
 
             @Override
@@ -141,13 +147,11 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
 
                     @Override
                     public void run() {
-                        GetData(PAGE);
-                        adapter.notifyDataSetChanged();
+                        GetData(PAGE, jd_main_tuiguang.getText().toString().trim(), jd_main_zhanghao.getText().toString().trim());
                         swipe_refresh.setLoadMore(false);
                         progressBar.setVisibility(View.GONE);
-                        recycle.scrollToPosition(adapter.getItemCount() - 1);
                     }
-                }, 1000);
+                }, 500);
             }
 
             @Override
@@ -165,14 +169,17 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         });
     }
 
-    private void GetData(int page) {
+    private void GetData(int page, String tuiguang, String zhanghao) {
         RxRestClient.builder()
+                .load(JD_Main.this)
                 .url(StaticUrl.GET_FA_DAN)
                 .params("fd_id", "0")
                 .params("page", page)
+                .params("TuiGuang", tuiguang)
+                .params("ZhangHao", zhanghao)
                 .load(JD_Main.this)
                 .build()
-                .get()
+                .post()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<String>(this) {
@@ -183,10 +190,28 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
                             List<NetFaDanBean> mList = object.parseObject(object.parseObject(s).getString("data"),
                                     new TypeReference<ArrayList<NetFaDanBean>>() {
                                     });
-//                            SIZE = mList.size();
                             AllList.addAll(mList);
-                            adapter.initData(AllList);
-                            recycle.setAdapter(adapter);
+                            if (AllList.size() != 0) {
+                                adapter.initData(AllList);
+                                recycle.setAdapter(adapter);
+                                jd_main_wusuju_rl.setVisibility(View.GONE);
+                                recycle.setVisibility(View.VISIBLE);
+                                swipe_refresh.setVisibility(View.VISIBLE);
+                                //如果没有返回数据
+                                if (mList.size() == 0) {
+                                    Toast.makeText(JD_Main.this, "无更多数据", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                recycle.setVisibility(View.GONE);
+                                swipe_refresh.setVisibility(View.GONE);
+                                jd_main_wusuju_rl.setVisibility(View.VISIBLE);
+                            }
+                            //更新数据后控件变化及更新adapter
+                            adapter.notifyDataSetChanged();
+
+                            if (PAGE != 0) {
+                                recycle.scrollToPosition(adapter.getItemCount() - mList.size() - 4);
+                            }
                         } else {
                             Toast.makeText(JD_Main.this, "获取数据失败", Toast.LENGTH_SHORT).show();
                         }
@@ -198,6 +223,8 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         jd_main_fanhui.setOnClickListener(this);
         jd_main_tuiguang.setOnClickListener(this);
         jd_main_zhanghao.setOnClickListener(this);
+        jd_main_tuiguang_rl.setOnClickListener(this);
+        jd_main_zhanghao_rl.setOnClickListener(this);
     }
 
     private void InitView() {
@@ -209,6 +236,9 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
         adapter.setOnItemClickListener(this);
         jd_main_tuiguang = (TextView) findViewById(R.id.jd_main_tuiguang);
         jd_main_zhanghao = (TextView) findViewById(R.id.jd_main_zhanghao);
+        jd_main_tuiguang_rl = (RelativeLayout) findViewById(R.id.jd_main_tuiguang_rl);
+        jd_main_zhanghao_rl = (RelativeLayout) findViewById(R.id.jd_main_zhanghao_rl);
+        jd_main_wusuju_rl = (RelativeLayout) findViewById(R.id.jd_main_wusuju_rl);
     }
 
     @Override
@@ -217,7 +247,86 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
             case R.id.jd_main_fanhui:
                 finish();
                 break;
+            case R.id.jd_main_tuiguang:
+                GetTuiGuangOrZhangHaoData(0);
+                break;
+            case R.id.jd_main_zhanghao:
+                GetTuiGuangOrZhangHaoData(1);
+                break;
         }
+    }
+
+    private void GetTuiGuangOrZhangHaoData(final int i) {
+        if (i == 0) {//获取推广数据
+            title = "选择推广类型";
+            url = StaticUrl.GET_TUI_GUANG;
+        } else {//获取帐号数据
+            title = "选择帐号类型";
+            url = StaticUrl.GET_ZHANG_HAO;
+        }
+        RxRestClient.builder()
+                .url(url)
+                .load(JD_Main.this)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(JD_Main.this) {
+                    @Override
+                    public void onNext(String s) {
+                        JSONObject object = new JSONObject();
+                        String data = object.parseObject(s).getString("data");
+                        if (i == 0) {
+                            List<NetTuiGuangBean> mList = object.parseObject(data,
+                                    new TypeReference<ArrayList<NetTuiGuangBean>>() {
+                                    });
+                            int size = mList.size();
+                            String[] list = new String[size + 1];
+                            list[0] = "全部";
+                            for (int i = 0; i < size; i++) {
+                                list[i + 1] = mList.get(i).getTg_leixing();
+                            }
+                            ShowDialogView(title, list, i);
+                        } else {
+                            List<NetZhangHao> mList = object.parseObject(data,
+                                    new TypeReference<ArrayList<NetZhangHao>>() {
+                                    });
+                            int size = mList.size();
+                            String[] list = new String[size + 1];
+                            list[0] = "全部";
+                            for (int i = 0; i < size; i++) {
+                                list[i + 1] = mList.get(i).getZh_leixing();
+                            }
+                            ShowDialogView(title, list, i);
+                        }
+
+                    }
+                });
+    }
+
+    private void ShowDialogView(String title, String[] list, final int i) {
+        dialog = new MaterialDialog.Builder(JD_Main.this)
+                .title(title)
+                .items(list)
+                .autoDismiss(false)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        PAGE = 0;
+                        AllList.clear();
+                        if (i == 0) {
+                            jd_main_tuiguang.setText(text);
+                            GetData(0, (String) text, jd_main_zhanghao.getText().toString().trim());
+                        } else {
+                            jd_main_zhanghao.setText(text);
+                            GetData(0, jd_main_tuiguang.getText().toString().trim(), (String) text);
+                        }
+                        dialog.dismiss();
+//                        Toast.makeText(JD_Main.this, text, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
     }
 
     private View createFooterView() {

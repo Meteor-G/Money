@@ -27,6 +27,7 @@ import efan.com.money.Util.net.rx.BaseSubscriber;
 import efan.com.money.Util.net.rx.RxRestClient;
 import efan.com.money.Util.storage.MainPreference;
 import efan.com.money.staticfunction.StaticUrl;
+import efan.com.money.staticfunction.StaticValue;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -54,7 +55,6 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
     private TextView ppw_fin_indent_get_qx;
     private TextView main_xxwh_xx_ppw_nr;
 
-    //
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +110,6 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
                     rwzs = Double.valueOf(fd_xiangxi_rwzs_et.getText().toString().trim());
                 }
                 fd_xiangxi_xzf.setText((rwzs * rwjg) + "");
-//                ShowTips.showTips(FD_Xiangxi.this, rwzs + "");
             }
         });
         fd_xiangxi_rwjg_et.addTextChangedListener(new TextWatcher() {
@@ -133,7 +132,6 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
                     rwjg = Double.valueOf(fd_xiangxi_rwjg_et.getText().toString().trim());
                 }
                 fd_xiangxi_xzf.setText((rwzs * rwjg) + "");
-//                ShowTips.showTips(FD_Xiangxi.this, rwjg + "");
             }
         });
 
@@ -193,8 +191,6 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
         }
         if (i == 1 && y == 1 && z == 1 && w == 1 & n == 1) {
             showpopupWindow(fd_xiangxi_zf_rl, rwmc, zhxq, rwjg, rwzs, rwnr, rwbz);
-//            upData(rwmc, zhxq, rwjg, rwzs, rwnr, rwbz);
-//            Toast.makeText(FD_Xiangxi.this, "提交成功", Toast.LENGTH_SHORT).show();
             i = 0;
             y = 0;
             z = 0;
@@ -255,7 +251,7 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
     private void upData(String rwmc, String zhxq, String rwjg, String rwzs, String rwnr, String rwbz) {
         RxRestClient.builder()
                 .url(StaticUrl.INDEX_FD_DAN)
-                .params("User_Fd_Id", MainPreference.getCustomAppProfile("uid"))
+                .params("User_Fd_Id", MainPreference.getCustomAppProfile(StaticValue.USER_ID))
                 .params("TuiGuang", fb_xx_lx.getText().toString())
                 .params("ZhangHao", fd_xiangxi_sxsj.getText().toString())
                 .params("Fd_MingCheng", rwmc)
@@ -264,7 +260,7 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
                 .params("Fd_ZongShu", rwzs)
                 .params("Fd_NeiRong", rwnr)
                 .params("Fd_BeiZhu", rwbz)
-                .params("Fd_ZhuangTai", 0)
+                .params("Fd_ZhuangTai", StaticValue.FA_DAN_INITIAL)
                 .params("Fd_Time", System.currentTimeMillis())
                 .load(FD_Xiangxi.this)
                 .build()

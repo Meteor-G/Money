@@ -21,4 +21,6 @@ public class StaticValue {
     public static final String INDENT_CENTER = "INDENT_CENTER";//订单进行中
     public static final String INDENT_CHECK = "INDENT_CHECK";//审核中or待审核
     public static final String INDENT_SUCCESS = "INDENT_SUCCESS";//交易成功
+    //发单状态
+    public static final int FA_DAN_INITIAL = 0;//发单初始状态
 }

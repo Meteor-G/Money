@@ -55,7 +55,9 @@ public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
     private Mai_Fd_Dd_Jxs_Adapter adapter;
     private RelativeLayout mai_fd_dd_jxs_rl;
 
-    private List<NetDingDanBean> mList;
+    private List<NetDingDanBean> AllList = new ArrayList<>();
+    int PAGE = 0;
+    private int TAG = 0, TAG_CREATE = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,28 +72,34 @@ public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
         InitView();
         InitEvent();
         Refresh();
-        GetListData();
+        if (TAG_CREATE > 0) {
+            AllList.clear();
+            GetListData(0);
+        }
+        TAG += 1;
         return view;
     }
-    private int TAG = 0;
+
 
     @Override
     public void onResume() {
         super.onResume();
         if (TAG > 0) {
-            GetListData();
+            AllList.clear();
+            GetListData(0);
         }
         TAG += 1;
     }
 
-    private void GetListData() {
+
+    private void GetListData(int page) {
         adapter = new Mai_Fd_Dd_Jxs_Adapter(getActivity());
         adapter.setOnItemClickListener(this);
         RxRestClient.builder()
                 .url(StaticUrl.GET_DING_DAN)
                 .params("fd_id", MainPreference.getCustomAppProfile(StaticValue.USER_ID))
                 .params("jd_id", "")
-                .params("page", 0)
+                .params("page", page)
                 .params("zhuangtai", StaticValue.INDENT_CENTER)
                 .build()
                 .get()
@@ -102,15 +110,26 @@ public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
                     public void onNext(String s) {
                         JSONObject object = new JSONObject();
                         if (object.parseObject(s).getString("success").equals("true")) {
-                            mList = object.parseObject(object.parseObject(s).getString("data"),
+                            List<NetDingDanBean> mList = object.parseObject(object.parseObject(s).getString("data"),
                                     new TypeReference<ArrayList<NetDingDanBean>>() {
                                     });
-                            if (mList.size() != 0) {
-                                adapter.initData(mList);
+
+                            AllList.addAll(mList);
+                            if (AllList.size() != 0) {
+                                adapter.initData(AllList);
                                 mai_fd_dd_jxs_recycle.setAdapter(adapter);
                                 mai_fd_dd_jxs_rl.setVisibility(View.GONE);
+                                //如果没有返回数据
+                                if (mList.size() == 0) {
+                                    Toast.makeText(getActivity(), "无更多数据", Toast.LENGTH_SHORT).show();
+                                }
                             } else {
                                 mai_fd_dd_jxs_rl.setVisibility(View.VISIBLE);
+                            }
+                            //更新数据后控件变化及更新adapter
+                            adapter.notifyDataSetChanged();
+                            if (PAGE != 0) {
+                                mai_fd_dd_jxs_recycle.scrollToPosition(adapter.getItemCount() - mList.size() - 4);
                             }
 
                         } else {
@@ -144,12 +163,7 @@ public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
 
                     @Override
                     public void run() {
-//                        RecycleBean bean = new RecycleBean();
-//                        bean.setTv("159");
-////                        mAdapter.index(1, bean);
-//                        mList.add(1, bean);
-////                        mAdapter.notifyItemInserted(1);
-//                        mAdapter.notifyDataSetChanged();
+                        GetListData(0);
                         mai_fd_dd_jxs_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);
                     }
@@ -175,6 +189,8 @@ public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
         mai_fd_dd_jxs_refresh.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
             @Override
             public void onLoadMore() {
+
+                PAGE += 1;
                 footerTextView.setText("正在加载...");
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
@@ -183,13 +199,9 @@ public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
 
                     @Override
                     public void run() {
-//                        RecycleBean bean = new RecycleBean();
-//                        bean.setTv("159");
-//                        mList.add(bean);
-//                        mAdapter.notifyDataSetChanged();
+                        GetListData(PAGE);
                         mai_fd_dd_jxs_refresh.setLoadMore(false);
                         progressBar.setVisibility(View.GONE);
-//                        super_recycle.scrollToPosition(mAdapter.getItemCount() - 1);
                     }
                 }, 1000);
             }
@@ -252,7 +264,7 @@ public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
     @Override
     public void onItemClick(View view, int Position) {
         Intent intent = new Intent(getActivity(), Fd_Dd_Indent.class);
-        intent.putExtra("id", mList.get(Position).getDdid());
+        intent.putExtra("id", AllList.get(Position).getDdid());
         intent.putExtra("type", StaticValue.FD_JXS_TO_INDENT);
         startActivity(intent);
     }

@@ -82,7 +82,6 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
 
     private void SetBannerData() {
         LIST.clear();
-        Toast.makeText(getActivity(), "我回来啦", Toast.LENGTH_SHORT).show();
         LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
         LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
         LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
@@ -107,9 +106,11 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
                 .url(StaticUrl.GET_FA_DAN)
                 .params("fd_id", "0")
                 .params("page", "0")
+                .params("TuiGuang", "全部")
+                .params("ZhangHao", "全部")
                 .load(getContext())
                 .build()
-                .get()
+                .post()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<String>(getActivity()) {
@@ -161,7 +162,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
 
         MainListViewBean bean = new MainListViewBean();
         bean.setMain_item_iv(R.mipmap.main_wx);
-        bean.setMain_item_title("微信");
+        bean.setMain_item_title("微信群");
         bean.setMain_item_text1("[热推] 最高佣金达到了25元");
         bean.setMain_item_text2("125件新任务");
         list.add(bean);

@@ -48,6 +48,7 @@ public class Mai_Fd_Dd_Rwyl_Adapter extends RecyclerView.Adapter<Mai_Fd_Dd_Rwyl_
         holder.mai_fd_dd_rwyl_item_rwm.setText(list.get(position).getFd_MingCheng());
         holder.item_mai_fd_rwyl_zongshu.setText(list.get(position).getFd_ZongShu() + "单");
         holder.item_mai_fd_rwyl_shengyu.setText("10单");
+        holder.mai_fd_dd_rwyl_jiage.setText("￥" + list.get(position).getFd_JiaGe());
         holder.item_mai_fd_dd_rwyl_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +68,7 @@ public class Mai_Fd_Dd_Rwyl_Adapter extends RecyclerView.Adapter<Mai_Fd_Dd_Rwyl_
         private TextView mai_fd_dd_rwyl_item_rwm;
         private TextView item_mai_fd_rwyl_shengyu;
         private TextView item_mai_fd_rwyl_zongshu;
+        private TextView mai_fd_dd_rwyl_jiage;
         private LinearLayout item_mai_fd_dd_rwyl_ll;
 
         public ViewHolder(View itemView) {
@@ -76,6 +78,7 @@ public class Mai_Fd_Dd_Rwyl_Adapter extends RecyclerView.Adapter<Mai_Fd_Dd_Rwyl_
             mai_fd_dd_rwyl_item_rwm = (TextView) itemView.findViewById(R.id.mai_fd_dd_rwyl_item_rwm);
             item_mai_fd_rwyl_shengyu = (TextView) itemView.findViewById(R.id.item_mai_fd_rwyl_shengyu);
             item_mai_fd_rwyl_zongshu = (TextView) itemView.findViewById(R.id.item_mai_fd_rwyl_zongshu);
+            mai_fd_dd_rwyl_jiage = (TextView) itemView.findViewById(R.id.mai_fd_dd_rwyl_jiage);
             item_mai_fd_dd_rwyl_ll = itemView.findViewById(R.id.item_mai_fd_dd_rwyl_ll);
         }
     }

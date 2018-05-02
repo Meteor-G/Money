@@ -184,7 +184,7 @@
                     android:layout_toRightOf="@id/fb_rwjg"
                     android:background="@null"
                     android:hint="填写任务价格"
-                    android:inputType="number"
+                    android:inputType="number|numberDecimal"
                     android:textColorHint="#dbdbdb"
                     android:textSize="15sp"/>
 
@@ -313,15 +313,15 @@
                     android:id="@+id/fd_xiangxi_rwbz_ed"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_alignBaseline="@+id/fb_rwbz"
+                    android:layout_alignBottom="@+id/fb_rwbz"
+                    android:layout_toEndOf="@+id/fb_rwbz"
+                    android:layout_toRightOf="@+id/fb_rwbz"
                     android:background="@null"
                     android:gravity="top"
                     android:hint="填写任务备注"
                     android:textColorHint="#dbdbdb"
-                    android:textSize="15sp"
-                    android:layout_alignBaseline="@+id/fb_rwbz"
-                    android:layout_alignBottom="@+id/fb_rwbz"
-                    android:layout_toRightOf="@+id/fb_rwbz"
-                    android:layout_toEndOf="@+id/fb_rwbz"/>
+                    android:textSize="15sp"/>
             </RelativeLayout>
 
             <RelativeLayout

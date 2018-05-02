@@ -20,7 +20,6 @@ public class RestCreator {
 
 
     public static final String BASE_URL = Main.getConfigurations(ConfigKey.API_HOSE.name());
-//    public static final String BASE_URL = "https://www.baidu.com/";
 
     private static final class RetrofitHolder {
         private static final Retrofit RETROFIT_CLIENT = new Retrofit.Builder()

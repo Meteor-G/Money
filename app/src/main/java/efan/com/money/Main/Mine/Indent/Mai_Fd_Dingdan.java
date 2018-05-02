@@ -39,6 +39,7 @@ public class Mai_Fd_Dingdan extends FragmentActivity implements View.OnClickList
 
     private ImageView mai_2_dd_fanhui;
     private String bundledata;
+    private int TAG = 0, TAG_CREATE = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
