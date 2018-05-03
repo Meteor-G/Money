@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.yalantis.ucrop.UCrop;
 
+import efan.com.money.Util.Pay.MainPay;
 import efan.com.money.Util.UI.camera.CameraImageBean;
 import efan.com.money.Util.UI.camera.LatteCamera;
 import efan.com.money.Util.UI.camera.RequestCodes;
@@ -38,6 +39,17 @@ public class BasePermissionActivity extends AppCompatActivity {
         LatteCamera.start(this);
     }
 
+    //不是直接调用，生成代码
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void startPay(int consume, String name, String describe) {
+        MainPay.startPay(this, consume, name, describe);
+    }
+
+    //这个是真正调用的方法
+    public void startPayWithCheck(int consume, String name, String describe) {
+        BasePermissionActivityPermissionsDispatcher.startPayWithCheck(this, consume, name, describe);
+    }
+
     //这个是真正调用的方法
     public void startCameraWithCheck() {
         BasePermissionActivityPermissionsDispatcher.startCameraWithCheck(this);
@@ -48,13 +60,28 @@ public class BasePermissionActivity extends AppCompatActivity {
         Toast.makeText(this, "不允许拍照", Toast.LENGTH_LONG).show();
     }
 
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void onPayDenied() {
+        Toast.makeText(this, "不允许访问内存", Toast.LENGTH_LONG).show();
+    }
+
     @OnNeverAskAgain(Manifest.permission.CAMERA)
     void onCameraNever() {
         Toast.makeText(this, "永久拒绝权限", Toast.LENGTH_LONG).show();
     }
 
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void onPayNever() {
+        Toast.makeText(this, "永久拒绝权限", Toast.LENGTH_LONG).show();
+    }
+
     @OnShowRationale(Manifest.permission.CAMERA)
     void onCameraRationale(PermissionRequest request) {
+        showRationaleDialog(request);
+    }
+
+    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void onPayRationale(PermissionRequest request) {
         showRationaleDialog(request);
     }
 

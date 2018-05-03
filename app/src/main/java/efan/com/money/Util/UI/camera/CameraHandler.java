@@ -22,7 +22,6 @@ import efan.com.money.R;
 import efan.com.money.Util.file.FileUtil;
 
 /**
- * Created by 傅令杰
  * 照片处理类
  */
 

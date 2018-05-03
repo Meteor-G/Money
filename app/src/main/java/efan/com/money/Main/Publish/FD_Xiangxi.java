@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -21,8 +20,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+
+import efan.com.money.Main.BaseActivity;
 import efan.com.money.Main.MainActivity;
 import efan.com.money.R;
+import efan.com.money.Util.callback.CallbackManager;
+import efan.com.money.Util.callback.CallbackType;
+import efan.com.money.Util.callback.IGlobalCallback;
 import efan.com.money.Util.net.rx.BaseSubscriber;
 import efan.com.money.Util.net.rx.RxRestClient;
 import efan.com.money.Util.storage.MainPreference;
@@ -35,7 +40,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Administrator on 2017/9/12.
  */
 
-public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListener {
+public class FD_Xiangxi extends BaseActivity implements View.OnClickListener {
     private ImageView fb_xx_fanhui;
     private EditText fd_xiangxi_rwzs_et;
     private EditText fd_xiangxi_rwjg_et;
@@ -54,6 +59,7 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
     private TextView ppw_fin_indent_get_qd;
     private TextView ppw_fin_indent_get_qx;
     private TextView main_xxwh_xx_ppw_nr;
+    private JSONObject object = new JSONObject();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -243,7 +249,23 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
         ppw_fin_indent_get_qd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                upData(rwmc, zhxq, rwjg, rwzs, rwnr, rwbz);
+                poPupWindow.dismiss();
+                poPupWindow = null;
+                startPayWithCheck(1, "闲钱发布订单", "描述");
+                CallbackManager.getInstence()
+                        .addCallback(CallbackType.PAY_SUCCESS, new IGlobalCallback<String>() {
+
+                            @Override
+                            public void executeCallback(@Nullable String args) {
+                                Boolean status = object.parseObject(args).getBoolean("status");
+                                if (status) {
+                                    Toast.makeText(FD_Xiangxi.this, "支付成功", Toast.LENGTH_SHORT).show();
+                                    upData(rwmc, zhxq, rwjg, rwzs, rwnr, rwbz);
+                                } else {
+                                    Toast.makeText(FD_Xiangxi.this, "支付失败", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
     }
@@ -272,10 +294,15 @@ public class FD_Xiangxi extends AppCompatActivity implements View.OnClickListene
                     public void onNext(String s) {
                         poPupWindow.dismiss();
                         poPupWindow = null;
-                        Toast.makeText(FD_Xiangxi.this, "任务发布完成！", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(FD_Xiangxi.this, MainActivity.class);
-                        startActivity(intent);
-                        FD_Xiangxi.this.finish();
+                        if (object.parseObject(s).getBoolean("success")) {
+                            Toast.makeText(FD_Xiangxi.this, "任务发布完成！", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(FD_Xiangxi.this, MainActivity.class);
+                            startActivity(intent);
+                            FD_Xiangxi.this.finish();
+                        } else {
+                            Toast.makeText(FD_Xiangxi.this, "发布订单失败", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
     }

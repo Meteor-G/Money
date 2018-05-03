@@ -6,6 +6,7 @@ package efan.com.money.staticfunction;
  */
 
 public class StaticValue {
+    public static final String PAY66 = "d38dd49a039a440c9f855ce7fa3bbafe";
     //帐号ID
     public static final String USER_ID = "USER_ID";
     //接单跳转详情

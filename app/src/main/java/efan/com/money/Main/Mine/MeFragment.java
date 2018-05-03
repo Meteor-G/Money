@@ -136,6 +136,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         me_frag_income_rl.setOnClickListener(this);
     }
 
+
     private void InitView() {
         main_head = (RoundImageView) view.findViewById(R.id.main_head);
         main_mj1_rl = (RelativeLayout) view.findViewById(R.id.main_mj1_rl);
@@ -184,7 +185,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private void SelectMainHead() {
         CallbackManager.getInstence()
                 .addCallback(CallbackType.ON_CROP, new IGlobalCallback<Uri>() {
-
                     @Override
                     public void executeCallback(@Nullable Uri args) {
                         Picasso.with(getActivity()).load(args).into(main_head);
@@ -232,24 +232,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-//        RxRestClient.builder()
-//                .url(StaticUrl.POST_FILE)
-//                .load(getActivity())
-////                .file(path)
-//                .raw(path)
-//                .build()
-//                .post_raw()
-////                .upload()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new BaseSubscriber<String>(getActivity()) {
-//                    @Override
-//                    public void onNext(String s) {
-//                        if (parseObject(s).getString("success").equals("true")) {
-//                            Toast.makeText(getActivity(), "上传成功", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
     }
 
     private void UpDataHead(String headPath) {

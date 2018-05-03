@@ -80,7 +80,6 @@ public class Mai_Fd_Dd_Dsh extends Fragment implements OnItemClickListener {
         return view;
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -90,7 +89,6 @@ public class Mai_Fd_Dd_Dsh extends Fragment implements OnItemClickListener {
         }
         TAG += 1;
     }
-
 
     private void GetListData(int page) {
         adapter = new Mai_Fd_Dd_Dsh_Adapter(getActivity());
