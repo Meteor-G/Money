@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.blankj.utilcode.util.Utils;
 import com.eagle.pay66.Pay66;
+import com.mob.MobSDK;
 
 import java.util.HashMap;
 
@@ -60,6 +61,7 @@ public class Configurator {
         Log.i("运行", "初始化完成获取数据" + MAIN_CONFIGS.get(ConfigKey.API_HOSE.name()));
         Utils.init(Main.getApplication());
         Pay66.init(StaticValue.PAY66, Main.getApplication());
+        MobSDK.init(Main.getApplication());
     }
 
     final <T> T getConfiguration(Object key) {

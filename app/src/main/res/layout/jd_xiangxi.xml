@@ -15,10 +15,11 @@
             android:background="#B0E2FF">
 
             <ImageView
+                android:id="@+id/jd_xiangxi_shoucang_iv"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_centerInParent="true"
-                android:background="@mipmap/icon_lv1"/>
+                android:background="@mipmap/shoucang_wu"/>
 
         </RelativeLayout>
 

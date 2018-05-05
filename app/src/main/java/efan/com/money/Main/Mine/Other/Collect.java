@@ -5,17 +5,27 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import efan.com.money.Adapter.Mai_1_Zhbd_Adapter;
-import efan.com.money.Bean.Mai_1_Zhbd_Item_Bean;
+import efan.com.money.Adapter.MineOtherCollectAdapter;
+import efan.com.money.Bean.NetShouCang;
 import efan.com.money.Main.BaseActivity;
 import efan.com.money.R;
+import efan.com.money.Util.net.rx.BaseSubscriber;
+import efan.com.money.Util.net.rx.RxRestClient;
+import efan.com.money.Util.storage.MainPreference;
+import efan.com.money.staticfunction.StaticUrl;
+import efan.com.money.staticfunction.StaticValue;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 作者： ZlyjD.
@@ -27,7 +37,10 @@ public class Collect extends BaseActivity {
     RelativeLayout other_collect_back;
     @BindView(R.id.other_collect_lv)
     ListView other_collect_lv;
-    private Mai_1_Zhbd_Adapter adapter;
+    @BindView(R.id.other_collect_rl)
+    RelativeLayout other_collect_rl;
+    private MineOtherCollectAdapter adapter;
+    private JSONObject object = new JSONObject();
 
     @OnClick(R.id.other_collect_back)
     public void onClick(View view) {
@@ -43,30 +56,35 @@ public class Collect extends BaseActivity {
     }
 
     private void ListViewData() {
-        adapter = new Mai_1_Zhbd_Adapter(this);
-        List<Mai_1_Zhbd_Item_Bean> mlist = new ArrayList<>();
-
-        Mai_1_Zhbd_Item_Bean bean = new Mai_1_Zhbd_Item_Bean();
-        bean.setMai_1_zhbd_itme_lx("[微信]");
-        bean.setMai_1_zhbd_itme_zh("Dreamer");
-        mlist.add(bean);
-
-        Mai_1_Zhbd_Item_Bean bean1 = new Mai_1_Zhbd_Item_Bean();
-        bean1.setMai_1_zhbd_itme_lx("[ Q Q ]");
-        bean1.setMai_1_zhbd_itme_zh("68001667");
-        mlist.add(bean1);
-
-        Mai_1_Zhbd_Item_Bean bean2 = new Mai_1_Zhbd_Item_Bean();
-        bean2.setMai_1_zhbd_itme_lx("[微博]");
-        bean2.setMai_1_zhbd_itme_zh("15641665575");
-        mlist.add(bean2);
-
-        Mai_1_Zhbd_Item_Bean bean3 = new Mai_1_Zhbd_Item_Bean();
-        bean3.setMai_1_zhbd_itme_lx("[朋友圈]");
-        bean3.setMai_1_zhbd_itme_zh("Dreamer");
-        mlist.add(bean3);
-
-        adapter.init(mlist);
-        other_collect_lv.setAdapter(adapter);
+        RxRestClient.builder()
+                .load(Collect.this)
+                .url(StaticUrl.GET_SHOU_CANG)
+                .params("uid", MainPreference.getCustomAppProfile(StaticValue.USER_ID))
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(Collect.this) {
+                    @Override
+                    public void onNext(String s) {
+                        if (object.parseObject(s).getBoolean("success")) {
+                            ArrayList<NetShouCang> mlist = object.parseObject(object.parseObject(s).getString("data"),
+                                    new TypeReference<ArrayList<NetShouCang>>() {
+                                    });
+                            if (mlist.size() != 0) {
+                                adapter = new MineOtherCollectAdapter(Collect.this);
+                                adapter.init(mlist);
+                                other_collect_lv.setAdapter(adapter);
+                                other_collect_lv.setVisibility(View.VISIBLE);
+                                other_collect_rl.setVisibility(View.GONE);
+                            } else {
+                                other_collect_lv.setVisibility(View.GONE);
+                                other_collect_rl.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            Toast.makeText(Collect.this, "数据请求错误", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

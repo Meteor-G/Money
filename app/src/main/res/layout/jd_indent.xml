@@ -27,6 +27,7 @@
             android:background="@mipmap/bt_back"/>
 
         <ImageView
+            android:id="@+id/jd_indent_share_iv"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"

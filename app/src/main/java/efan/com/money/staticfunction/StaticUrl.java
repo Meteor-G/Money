@@ -7,7 +7,7 @@ package efan.com.money.staticfunction;
 
 public class StaticUrl {
     //base
-    public static final String BASE_URL = "http://47.94.229.136:8080/";
+    public  static final String BASE_URL = "http://47.94.229.136:8080/";
     //登录
     public static final String SIGN_IN = "Money/signIn";
     //注册
@@ -45,6 +45,13 @@ public class StaticUrl {
     public static final String POST_FILE = "Money/postFile";
     //更新头像
     public static final String UP_DATA_HEAD = "Money/upDataHead";
+
+    //获取收藏
+    public static final String GET_SHOU_CANG = "Money/GetShouCang";
+    //插入收藏
+    public static final String INDEX_SHOU_CANG = "Money/indexShoucang";
+    //删除收藏
+    public static final String DELETE_SHOU_CANG = "Money/deleteShoucang";
 
 
 }

@@ -31,10 +31,10 @@ public class Mai_Jd_Zhbd extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.mai_1_zhbd);
         InitView();
         InitEvent();
-        lv();
+        ListViewData();
     }
 
-    private void lv() {
+    private void ListViewData() {
         adapter = new Mai_1_Zhbd_Adapter(this);
         List<Mai_1_Zhbd_Item_Bean> mlist = new ArrayList<>();
 
@@ -60,8 +60,6 @@ public class Mai_Jd_Zhbd extends AppCompatActivity implements View.OnClickListen
 
         adapter.init(mlist);
         lv.setAdapter(adapter);
-
-
     }
 
     private void InitView() {

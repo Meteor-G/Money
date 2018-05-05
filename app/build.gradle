@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: "com.mob.sdk"
 
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "efan.com.money"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -25,7 +26,51 @@ android {
         }
     }
 }
+MobSDK {
+    appKey "259b4366b587c"
+    appSecret "33780620dcfb78c4fa79f3bde9c811de"
 
+    ShareSDK {
+        //平台配置信息
+        devInfo {
+            SinaWeibo {
+                appKey "568898243"
+                appSecret "38a4f8204cc784f81f9f0daaf31e02e3"
+                callbackUri "http://www.sharesdk.cn"
+                shareByAppClient true
+            }
+            Wechat {
+                appId "wx4868b35061f87885"
+                appSecret "64020361b8ec4c99936c0e3999a9f249"
+                shareByAppClient true
+            }
+            WechatMoments {
+                appId "wx4868b35061f87885"
+                appSecret "64020361b8ec4c99936c0e3999a9f249"
+                bypassApproval false
+                enable true
+            }
+            QQ {
+                appId "100371282"
+                appKey "aed9b0303e3ed1e27bae87c33761161d"
+                shareByAppClient true
+            }
+            QZone {
+                appId "100371282"
+                appKey "aed9b0303e3ed1e27bae87c33761161d"
+                shareByAppClient true
+                bypassApproval false
+                enable true
+            }
+            Facebook {
+                appKey "1412473428822331"
+                appSecret "a42f4f3f867dc947b9ed6020c2e93558"
+                callbackUri "https://mob.com"
+            }
+        }
+    }
+
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

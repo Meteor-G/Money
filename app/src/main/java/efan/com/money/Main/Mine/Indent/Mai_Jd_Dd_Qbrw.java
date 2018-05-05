@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,13 +55,15 @@ public class Mai_Jd_Dd_Qbrw extends Fragment implements OnItemClickListener {
     private RecyclerView mai_jd_dd_qbrw_recycle;
     private Mai_Jd_Dd_Qbrw_Adapter adapter;
     JSONObject object = new JSONObject();
-    private List<NetDingDanBean> AllList = new ArrayList<>();
+    private List<NetDingDanBean> Qbrw_AllList = new ArrayList<>();
     private RelativeLayout mai_jd_dd_qbrw_rl;
     int PAGE = 0;
     private int TAG = 0, TAG_CREATE = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i("onCreateView", "Mai_Jd_Dd_Qbrw" + System.currentTimeMillis());
         if (view == null) {
             view = inflater.inflate(R.layout.mai_1_dd_qbrw, container, false);
         }
@@ -71,21 +74,20 @@ public class Mai_Jd_Dd_Qbrw extends Fragment implements OnItemClickListener {
         InitView();
         InitEvent();
         Refresh();
-        if (TAG_CREATE > 0) {
-            AllList.clear();
-            GetListData(0);
-        }
-        TAG += 1;
+
+            Qbrw_AllList.clear();
+
+        GetListData(0);
         return view;
     }
-
 
 
     @Override
     public void onResume() {
         super.onResume();
-        if (TAG > 0) {
-            AllList.clear();
+        Log.i("onResume", "Mai_Jd_Dd_Qbrw   " + getUserVisibleHint());
+        if (TAG > 0 && getUserVisibleHint()) {
+            Qbrw_AllList.clear();
             GetListData(0);
         }
         TAG += 1;
@@ -108,16 +110,16 @@ public class Mai_Jd_Dd_Qbrw extends Fragment implements OnItemClickListener {
                     @Override
                     public void onNext(String s) {
                         if (object.parseObject(s).getString("success").equals("true")) {
-                            List<NetDingDanBean> mList = object.parseObject(object.parseObject(s).getString("data"),
+                            List<NetDingDanBean> qbrw_List = object.parseObject(object.parseObject(s).getString("data"),
                                     new TypeReference<ArrayList<NetDingDanBean>>() {
                                     });
-                            AllList.addAll(mList);
-                            if (AllList.size() != 0) {
-                                adapter.initData(AllList);
+                            Qbrw_AllList.addAll(qbrw_List);
+                            if (Qbrw_AllList.size() != 0) {
+                                adapter.initData(Qbrw_AllList);
                                 mai_jd_dd_qbrw_recycle.setAdapter(adapter);
                                 mai_jd_dd_qbrw_rl.setVisibility(View.GONE);
                                 //如果没有返回数据
-                                if (mList.size() == 0) {
+                                if (qbrw_List.size() == 0) {
                                     Toast.makeText(getActivity(), "无更多数据", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
@@ -126,7 +128,7 @@ public class Mai_Jd_Dd_Qbrw extends Fragment implements OnItemClickListener {
                             //更新数据后控件变化及更新adapter
                             adapter.notifyDataSetChanged();
                             if (PAGE != 0) {
-                                mai_jd_dd_qbrw_recycle.scrollToPosition(adapter.getItemCount() - mList.size() - 1);
+                                mai_jd_dd_qbrw_recycle.scrollToPosition(adapter.getItemCount() - qbrw_List.size() - 1);
                             }
                         } else {
                             Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
@@ -158,7 +160,7 @@ public class Mai_Jd_Dd_Qbrw extends Fragment implements OnItemClickListener {
 
                     @Override
                     public void run() {
-                        AllList.clear();
+                        Qbrw_AllList.clear();
                         GetListData(0);
                         mai_jd_dd_qbrw_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);
@@ -261,12 +263,12 @@ public class Mai_Jd_Dd_Qbrw extends Fragment implements OnItemClickListener {
     @Override
     public void onItemClick(View view, int Position) {
         Intent intent = new Intent(getActivity(), Jd_Dd_Jyz.class);
-        intent.putExtra("id", AllList.get(Position).getDdid());
-        if (AllList.get(Position).getDd_ZhuangTai().equals(StaticValue.INDENT_CENTER)) {
+        intent.putExtra("id", Qbrw_AllList.get(Position).getDdid());
+        if (Qbrw_AllList.get(Position).getDd_ZhuangTai().equals(StaticValue.INDENT_CENTER)) {
             intent.putExtra("type", StaticValue.JYZ_TO_INDENT);
-        } else if (AllList.get(Position).getDd_ZhuangTai().equals(StaticValue.INDENT_CHECK)) {
+        } else if (Qbrw_AllList.get(Position).getDd_ZhuangTai().equals(StaticValue.INDENT_CHECK)) {
             intent.putExtra("type", StaticValue.SHZ_TO_INDENT);
-        } else if (AllList.get(Position).getDd_ZhuangTai().equals(StaticValue.INDENT_SUCCESS)) {
+        } else if (Qbrw_AllList.get(Position).getDd_ZhuangTai().equals(StaticValue.INDENT_SUCCESS)) {
             intent.putExtra("type", StaticValue.JYCG_TO_INDENT);
         }
         startActivity(intent);

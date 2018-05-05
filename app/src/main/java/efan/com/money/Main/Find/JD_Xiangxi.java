@@ -39,6 +39,8 @@ import efan.com.money.staticfunction.StaticValue;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.eagle.pay66.utils.PubInfo.context;
+
 /**
  * Created by Administrator on 2017/9/12.
  */
@@ -66,9 +68,11 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
     private TextView jd_xiangxi_zongshu;
     private ImageView jd_main_item_iv;
     private NetFaDanBean netFaDanBean;
+    private ImageView jd_xiangxi_shoucang_iv;
 
-    int id;
-    JSONObject object = new JSONObject();
+    private int id;
+    private JSONObject object = new JSONObject();
+    private int TAG = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,6 +129,7 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
         jd_xiangxi_rwxx_rl.setOnClickListener(this);
         jd_xiangxi_rwlc_rl.setOnClickListener(this);
         jd_xiangqing_lqrw.setOnClickListener(this);
+        jd_xiangxi_shoucang_iv.setOnClickListener(this);
     }
 
     private void InitView() {
@@ -140,6 +145,8 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
         jd_xiangqing_qian = (TextView) findViewById(R.id.jd_xiangqing_qian);
         jd_xiangxi_zongshu = (TextView) findViewById(R.id.jd_xiangxi_zongshu);
         jd_main_item_iv = (ImageView) findViewById(R.id.jd_main_item_iv);
+
+        jd_xiangxi_shoucang_iv = (ImageView) findViewById(R.id.jd_xiangxi_shoucang_iv);
     }
 
     @Override
@@ -159,7 +166,45 @@ public class JD_Xiangxi extends AppCompatActivity implements View.OnClickListene
             case R.id.jd_xiangqing_lqrw:
                 showpopupWindow(jd_xiangqing_lqrw);
                 break;
+            case R.id.jd_xiangxi_shoucang_iv:
+                if (TAG == 0) {
+                    jd_xiangxi_shoucang_iv.setBackgroundResource(R.mipmap.shoucang_xianshi);
+                    indexShouCang();
+                    TAG = 1;
+                } else if (TAG == 1) {
+                    jd_xiangxi_shoucang_iv.setBackgroundResource(R.mipmap.shoucang_wu);
+                    deleteShouCang();
+                    TAG = 0;
+
+                }
+                break;
         }
+    }
+
+    private void deleteShouCang() {
+        Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+    }
+
+    private void indexShouCang() {
+        RxRestClient.builder()
+                .load(JD_Xiangxi.this)
+                .url(StaticUrl.INDEX_SHOU_CANG)
+                .params("uid", MainPreference.getCustomAppProfile(StaticValue.USER_ID))
+                .params("fdid", id)
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(context) {
+                    @Override
+                    public void onNext(String s) {
+                        if (object.parseObject(s).getBoolean("success")) {
+                            Toast.makeText(context, "收藏成功", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "收藏失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void showpopupWindow(View parent) {

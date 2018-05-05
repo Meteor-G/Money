@@ -1,7 +1,6 @@
 package efan.com.money.Util.net.rx;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,7 +15,6 @@ import io.reactivex.disposables.Disposable;
  */
 
 public abstract class BaseSubscriber<String> implements Observer<String> {
-    private static final Handler HANDLER = new Handler();
     private Context mContext;
 
     public BaseSubscriber(Context mContext) {
@@ -34,24 +32,12 @@ public abstract class BaseSubscriber<String> implements Observer<String> {
         Log.i("RxJava", "onError");
         Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         Loader.stopLoading();
-//        HANDLER.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Loader.stopLoading();
-//            }
-//        }, 1000);
     }
 
     @Override
     public void onComplete() {
         Log.i("RxJava", "onComplete");
         Loader.stopLoading();
-//        HANDLER.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Loader.stopLoading();
-//            }
-//        }, 1000);
     }
 
     @Override

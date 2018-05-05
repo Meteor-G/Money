@@ -7,38 +7,48 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import efan.com.money.Bean.Mai_1_Zhbd_Item_Bean;
+import efan.com.money.Bean.NetShouCang;
 import efan.com.money.R;
+import efan.com.money.Util.net.rx.BaseSubscriber;
+import efan.com.money.Util.net.rx.RxRestClient;
+import efan.com.money.staticfunction.StaticUrl;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by Administrator on 2017/9/19.
+ * 作者： ZlyjD.
+ * 时间：2018/5/3.
  */
 
-public class Mai_1_Zhbd_Adapter extends BaseAdapter {
+public class MineOtherCollectAdapter extends BaseAdapter {
     private Context context;
-    private List<Mai_1_Zhbd_Item_Bean> list = new ArrayList<Mai_1_Zhbd_Item_Bean>();
+    private List<NetShouCang> list = new ArrayList<NetShouCang>();
     private LayoutInflater layoutInflater;
     private PopupWindow poPupWindow;
     private TextView ppw_fin_indent_get_qd;
     private TextView ppw_fin_indent_get_qx;
     private TextView main_xxwh_xx_ppw_nr;
+    private JSONObject object = new JSONObject();
 
-    public Mai_1_Zhbd_Adapter(Context context) {
+    public MineOtherCollectAdapter(Context context) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
     }
 
-    public void init(List<Mai_1_Zhbd_Item_Bean> list) {
+    public void init(List<NetShouCang> list) {
         this.list = list;
     }
 
@@ -65,13 +75,15 @@ public class Mai_1_Zhbd_Adapter extends BaseAdapter {
             view = View.inflate(context, R.layout.item_mai_jd_zhbd, null);
             holder.mai_1_zhbd_itme_lx = (TextView) view.findViewById(R.id.mai_1_zhbd_itme_lx);
             holder.mai_1_zhbd_itme_zh = (TextView) view.findViewById(R.id.mai_1_zhbd_itme_zh);
+            holder.zhbd_zh = (TextView) view.findViewById(R.id.zhbd_zh);
             holder.mai_1_zhbd_item_sc = (RelativeLayout) view.findViewById(R.id.mai_1_zhbd_item_sc);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.mai_1_zhbd_itme_lx.setText(list.get(position).getMai_1_zhbd_itme_lx());
-        holder.mai_1_zhbd_itme_zh.setText(list.get(position).getMai_1_zhbd_itme_zh());
+        holder.mai_1_zhbd_itme_lx.setText("[" + list.get(position).getZhanghao() + "]");
+        holder.mai_1_zhbd_itme_zh.setText(list.get(position).getFd_mingcheng());
+        holder.zhbd_zh.setText("任务名称：");
         holder.mai_1_zhbd_item_sc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,7 +126,7 @@ public class Mai_1_Zhbd_Adapter extends BaseAdapter {
         main_xxwh_xx_ppw_nr = (TextView) view.findViewById(R.id.main_xxwh_xx_ppw_nr);
         ppw_fin_indent_get_qd = (TextView) view.findViewById(R.id.ppw_fin_indent_get_qd);
         ppw_fin_indent_get_qx = (TextView) view.findViewById(R.id.ppw_fin_indent_get_qd);
-        main_xxwh_xx_ppw_nr.setText("确定删除\n该账号吗？");
+        main_xxwh_xx_ppw_nr.setText("确定删除\n该收藏吗？");
         ppw_fin_indent_get_qx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,15 +139,41 @@ public class Mai_1_Zhbd_Adapter extends BaseAdapter {
             public void onClick(View v) {
                 poPupWindow.dismiss();
                 poPupWindow = null;
+                deleteShouCang(position);
                 list.remove(position);
                 notifyDataSetChanged();
+
             }
         });
+    }
+
+    private void deleteShouCang(int position) {
+        RxRestClient.builder()
+                .load(context)
+                .url(StaticUrl.DELETE_SHOU_CANG)
+                .params("scid", list.get(position).getScid())
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>(context) {
+                    @Override
+                    public void onNext(String s) {
+                        if (object.parseObject(s).getBoolean("success")) {
+                            Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
     }
 
     class ViewHolder {
         private TextView mai_1_zhbd_itme_lx;
         private TextView mai_1_zhbd_itme_zh;
+        private TextView zhbd_zh;
         private RelativeLayout mai_1_zhbd_item_sc;
     }
 }
+

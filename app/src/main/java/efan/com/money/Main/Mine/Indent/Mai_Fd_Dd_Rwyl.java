@@ -52,7 +52,7 @@ public class Mai_Fd_Dd_Rwyl extends Fragment implements OnItemClickListener {
     private RecyclerView mai_fd_dd_rwyl_recycle;
     private Mai_Fd_Dd_Rwyl_Adapter adapter;
     JSONObject object = new JSONObject();
-    private List<NetDingDanBean> AllList = new ArrayList<>();
+    private List<NetDingDanBean> Rwyl_AllList = new ArrayList<>();
     private RelativeLayout mai_fd_dd_rwyl_rl;
     int PAGE = 0;
     private int TAG = 0, TAG_CREATE = 0;
@@ -69,11 +69,8 @@ public class Mai_Fd_Dd_Rwyl extends Fragment implements OnItemClickListener {
         }
         InitView();
         Refresh();
-        if (TAG_CREATE > 0) {
-            AllList.clear();
-            GetListData(0);
-        }
-        TAG += 1;
+        Rwyl_AllList.clear();
+        GetListData(0);
         return view;
     }
 
@@ -81,8 +78,8 @@ public class Mai_Fd_Dd_Rwyl extends Fragment implements OnItemClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (TAG > 0) {
-            AllList.clear();
+        if (TAG > 0 && getUserVisibleHint()) {
+            Rwyl_AllList.clear();
             GetListData(0);
         }
         TAG += 1;
@@ -104,16 +101,16 @@ public class Mai_Fd_Dd_Rwyl extends Fragment implements OnItemClickListener {
                     @Override
                     public void onNext(String s) {
                         if (object.parseObject(s).getString("success").equals("true")) {
-                            List<NetDingDanBean> mList = object.parseObject(object.parseObject(s).getString("data"),
+                            List<NetDingDanBean> rwyl_List = object.parseObject(object.parseObject(s).getString("data"),
                                     new TypeReference<ArrayList<NetDingDanBean>>() {
                                     });
-                            AllList.addAll(mList);
-                            if (AllList.size() != 0) {
-                                adapter.initData(AllList);
+                            Rwyl_AllList.addAll(rwyl_List);
+                            if (Rwyl_AllList.size() != 0) {
+                                adapter.initData(Rwyl_AllList);
                                 mai_fd_dd_rwyl_recycle.setAdapter(adapter);
                                 mai_fd_dd_rwyl_rl.setVisibility(View.GONE);
                                 //如果没有返回数据
-                                if (mList.size() == 0) {
+                                if (rwyl_List.size() == 0) {
                                     Toast.makeText(getActivity(), "无更多数据", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
@@ -122,7 +119,7 @@ public class Mai_Fd_Dd_Rwyl extends Fragment implements OnItemClickListener {
                             //更新数据后控件变化及更新adapter
                             adapter.notifyDataSetChanged();
                             if (PAGE != 0) {
-                                mai_fd_dd_rwyl_recycle.scrollToPosition(adapter.getItemCount() - mList.size() - 4);
+                                mai_fd_dd_rwyl_recycle.scrollToPosition(adapter.getItemCount() - rwyl_List.size() - 4);
                             }
                         } else {
                             Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
@@ -154,7 +151,7 @@ public class Mai_Fd_Dd_Rwyl extends Fragment implements OnItemClickListener {
 
                     @Override
                     public void run() {
-                        AllList.clear();
+                        Rwyl_AllList.clear();
                         GetListData(0);
                         mai_fd_dd_rwyl_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);

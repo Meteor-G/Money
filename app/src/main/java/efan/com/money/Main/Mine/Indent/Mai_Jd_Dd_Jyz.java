@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,13 +55,15 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
     private SuperSwipeRefreshLayout mai_jd_dd_jyz_refresh;
     private RecyclerView mai_jd_dd_jyz_recycle;
     private Mai_Jd_Dd_Jyz_Adapter adapter;
-    private List<NetDingDanBean> AllList = new ArrayList<>();
+    private List<NetDingDanBean> Jyz_AllList = new ArrayList<>();
     private RelativeLayout mai_jd_dd_jyz_rl;
     int PAGE = 0;
     private int TAG = 0, TAG_CREATE = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i("onCreateView", "Mai_Jd_Dd_Jyz" + System.currentTimeMillis());
         if (view == null) {
             view = inflater.inflate(R.layout.mai_1_dd_jyz, container, false);
         }
@@ -70,22 +73,21 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
         }
         InitView();
         Refresh();
-        if (TAG_CREATE > 0) {
-            AllList.clear();
-            GetListData(0);
-        }
-        TAG += 1;
+
+            Jyz_AllList.clear();
+
+        GetListData(0);
         InitEvent();
         return view;
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
-        if (TAG > 0) {
-            AllList.clear();
+        Log.i("onResume", "Mai_Jd_Dd_Jyz   " + getUserVisibleHint());
+        if (TAG > 0 && getUserVisibleHint()) {
+            Jyz_AllList.clear();
             GetListData(0);
         }
         TAG += 1;
@@ -109,16 +111,16 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
                     public void onNext(String s) {
                         JSONObject object = new JSONObject();
                         if (object.parseObject(s).getString("success").equals("true")) {
-                            List<NetDingDanBean> mList = object.parseObject(object.parseObject(s).getString("data"),
+                            List<NetDingDanBean> jyz_List = object.parseObject(object.parseObject(s).getString("data"),
                                     new TypeReference<ArrayList<NetDingDanBean>>() {
                                     });
-                            AllList.addAll(mList);
-                            if (AllList.size() != 0) {
-                                adapter.initData(AllList);
+                            Jyz_AllList.addAll(jyz_List);
+                            if (Jyz_AllList.size() != 0) {
+                                adapter.initData(Jyz_AllList);
                                 mai_jd_dd_jyz_recycle.setAdapter(adapter);
                                 mai_jd_dd_jyz_rl.setVisibility(View.GONE);
                                 //如果没有返回数据
-                                if (mList.size() == 0) {
+                                if (jyz_List.size() == 0) {
                                     Toast.makeText(getActivity(), "无更多数据", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
@@ -127,7 +129,7 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
                             //更新数据后控件变化及更新adapter
                             adapter.notifyDataSetChanged();
                             if (PAGE != 0) {
-                                mai_jd_dd_jyz_recycle.scrollToPosition(adapter.getItemCount() - mList.size() - 1);
+                                mai_jd_dd_jyz_recycle.scrollToPosition(adapter.getItemCount() - jyz_List.size() - 1);
                             }
 
                         } else {
@@ -160,7 +162,7 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
 
                     @Override
                     public void run() {
-                        AllList.clear();
+                        Jyz_AllList.clear();
                         GetListData(0);
                         mai_jd_dd_jyz_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);
@@ -262,7 +264,7 @@ public class Mai_Jd_Dd_Jyz extends Fragment implements OnItemClickListener {
     @Override
     public void onItemClick(View view, int Position) {
         Intent intent = new Intent(getActivity(), Jd_Dd_Jyz.class);
-        intent.putExtra("id", AllList.get(Position).getDdid());
+        intent.putExtra("id", Jyz_AllList.get(Position).getDdid());
         intent.putExtra("type", StaticValue.JYZ_TO_INDENT);
         startActivity(intent);
     }

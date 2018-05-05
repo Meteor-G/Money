@@ -33,8 +33,6 @@ import efan.com.money.staticfunction.StaticValue;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-import static android.R.attr.id;
-
 /**
  * 作者： ZlyjD.
  * 时间：2018/4/14.
@@ -95,21 +93,21 @@ public class Fd_Dd_Indent extends AppCompatActivity {
                 finish();
                 break;
             case R.id.fd_indent_btg_rl:
-
+                showpopupWindow(fd_indent_btg_rl, 0);
                 break;
             case R.id.fd_indent_tg_rl:
-                showpopupWindow(fd_indent_tg_rl);
+                showpopupWindow(fd_indent_tg_rl, 1);
                 break;
         }
     }
 
-    private void showpopupWindow(View parent) {
+    private void showpopupWindow(View parent, final int i) {
         if (poPupWindow == null) {
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.ppw_find_indent_get, null);
             poPupWindow = new PopupWindow(view, LayoutParams.MATCH_PARENT,
                     LayoutParams.MATCH_PARENT, true);
-            initPop(view);
+            initPop(view, i);
 
             view.setOnTouchListener(new View.OnTouchListener() {
 
@@ -132,11 +130,16 @@ public class Fd_Dd_Indent extends AppCompatActivity {
         poPupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
     }
 
-    private void initPop(View view) {
+    private void initPop(View view, final int i) {
         ppw_fin_indent_get_qd = (TextView) view.findViewById(R.id.ppw_fin_indent_get_qd);
         ppw_fin_indent_get_qx = (TextView) view.findViewById(R.id.ppw_fin_indent_get_qd);
         main_xxwh_xx_ppw_nr = (TextView) view.findViewById(R.id.main_xxwh_xx_ppw_nr);
-        main_xxwh_xx_ppw_nr.setText("是否确定通过审核");
+        if (i == 0) {
+            main_xxwh_xx_ppw_nr.setText("是否确定不通过审核");
+        } else {
+            main_xxwh_xx_ppw_nr.setText("是否确定通过审核");
+        }
+
         ppw_fin_indent_get_qx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,18 +151,24 @@ public class Fd_Dd_Indent extends AppCompatActivity {
         ppw_fin_indent_get_qd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitData();
+                submitData(i);
             }
         });
     }
 
-    private void submitData() {
+    private void submitData(int i) {
+        String TAG = "";
+        if (i == 0) {//不通过
+            TAG = StaticValue.INDENT_CENTER;
+        } else {//通过
+            TAG = StaticValue.INDENT_SUCCESS;
+        }
         RxRestClient
                 .builder()
                 .load(Fd_Dd_Indent.this)
                 .url(StaticUrl.UP_DATA_ZT)
                 .params("ddid", ddid)
-                .params("zhuangtai", StaticValue.INDENT_SUCCESS)
+                .params("zhuangtai", TAG)
                 .build()
                 .post()
                 .subscribeOn(Schedulers.io())
@@ -173,7 +182,6 @@ public class Fd_Dd_Indent extends AppCompatActivity {
                         }
                         JSONObject object = new JSONObject();
                         if (object.parseObject(s).getString("success").equals("true")) {
-//                            Toast.makeText(Fd_Dd_Indent.this, "更改状态成功", Toast.LENGTH_SHORT).show();
                             Fd_Dd_Indent.this.finish();
                         } else {
                             Toast.makeText(Fd_Dd_Indent.this, "更改状态失败", Toast.LENGTH_SHORT).show();
@@ -193,7 +201,6 @@ public class Fd_Dd_Indent extends AppCompatActivity {
     private void GetData() {
         ddid = getIntent().getIntExtra("id", 0);
         type = getIntent().getIntExtra("type", 0);
-        Toast.makeText(this, "传过来的值为" + id + " 传输类型" + type, Toast.LENGTH_SHORT).show();
         initTitle();
         GetNetData();
     }
@@ -235,7 +242,7 @@ public class Fd_Dd_Indent extends AppCompatActivity {
                 .error(R.mipmap.tj)
                 .into(fd_indent_dingdan_jt1_iv);
         Picasso.with(Fd_Dd_Indent.this)
-                .load(StaticUrl.BASE_URL + data.getDd_ShenHe_iv1())
+                .load(StaticUrl.BASE_URL + data.getDd_ShenHe_iv2())
                 .error(R.mipmap.tj)
                 .into(fd_indent_dingdan_jt2_iv);
     }

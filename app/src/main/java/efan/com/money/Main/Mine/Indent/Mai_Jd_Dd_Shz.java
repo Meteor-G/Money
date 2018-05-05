@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,13 +54,17 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
     private SuperSwipeRefreshLayout mai_jd_dd_shz_refresh;
     private RecyclerView mai_jd_dd_shz_recycle;
     private Mai_Jd_Dd_Shz_Adapter adapter;
-    private List<NetDingDanBean> AllList = new ArrayList<>();
+    private List<NetDingDanBean> Shz_AllList = new ArrayList<>();
     private RelativeLayout mai_jd_dd_shz_rl;
     int PAGE = 0;
     private int TAG = 0, TAG_CREATE = 0;
+    protected boolean isCreated = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i("Mai_Jd_Dd_Shz", "onCreateView");
+//        Log.i("onCreateView", "Mai_Jd_Dd_Shz" + System.currentTimeMillis());
         if (view == null) {
             view = inflater.inflate(R.layout.mai_1_dd_shz, container, false);
         }
@@ -70,20 +75,18 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
         InitView();
         InitEvent();
         Refresh();
-        if (TAG_CREATE > 0) {
-            AllList.clear();
-            GetListData(0);
-        }
-        TAG += 1;
+        Shz_AllList.clear();
+        GetListData(0);
+        isCreated = true;
         return view;
     }
-
 
     @Override
     public void onResume() {
         super.onResume();
-        if (TAG > 0) {
-            AllList.clear();
+        Log.i("onResume", "Mai_Jd_Dd_Shz   " + getUserVisibleHint());
+        if (TAG > 0 && getUserVisibleHint()) {
+            Shz_AllList.clear();
             GetListData(0);
         }
         TAG += 1;
@@ -107,16 +110,16 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
                     public void onNext(String s) {
                         JSONObject object = new JSONObject();
                         if (object.parseObject(s).getString("success").equals("true")) {
-                            List<NetDingDanBean> mlist = object.parseObject(object.parseObject(s).getString("data"),
+                            List<NetDingDanBean> shz_list = object.parseObject(object.parseObject(s).getString("data"),
                                     new TypeReference<ArrayList<NetDingDanBean>>() {
                                     });
-                            AllList.addAll(mlist);
-                            if (AllList.size() != 0) {
-                                adapter.init(AllList);
+                            Shz_AllList.addAll(shz_list);
+                            if (Shz_AllList.size() != 0) {
+                                adapter.init(Shz_AllList);
                                 mai_jd_dd_shz_recycle.setAdapter(adapter);
                                 mai_jd_dd_shz_rl.setVisibility(View.GONE);
                                 //如果没有返回数据
-                                if (mlist.size() == 0) {
+                                if (shz_list.size() == 0) {
                                     Toast.makeText(getActivity(), "无更多数据", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
@@ -125,7 +128,7 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
                             //更新数据后控件变化及更新adapter
                             adapter.notifyDataSetChanged();
                             if (PAGE != 0) {
-                                mai_jd_dd_shz_recycle.scrollToPosition(adapter.getItemCount() - mlist.size() - 1);
+                                mai_jd_dd_shz_recycle.scrollToPosition(adapter.getItemCount() - shz_list.size() - 1);
                             }
                         } else {
                             Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
@@ -157,7 +160,7 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
 
                     @Override
                     public void run() {
-                        AllList.clear();
+                        Shz_AllList.clear();
                         GetListData(0);
                         mai_jd_dd_shz_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);
@@ -258,7 +261,7 @@ public class Mai_Jd_Dd_Shz extends Fragment implements OnItemClickListener {
     @Override
     public void onItemClick(View view, int Position) {
         Intent intent = new Intent(getActivity(), Jd_Dd_Jyz.class);
-        intent.putExtra("id", AllList.get(Position).getDdid());
+        intent.putExtra("id", Shz_AllList.get(Position).getDdid());
         intent.putExtra("type", StaticValue.SHZ_TO_INDENT);
         startActivity(intent);
     }

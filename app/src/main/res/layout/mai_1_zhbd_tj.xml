@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#ffffff"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="帐号添加"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <ImageView
             android:id="@+id/jmai_1_zhbd_tj_iv"
@@ -25,7 +25,7 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:background="@mipmap/bt_back" />
+            android:background="@mipmap/bt_back"/>
 
         <View
             android:layout_width="match_parent"
@@ -49,19 +49,20 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:text="帐号类型："
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
-        <EditText
-            android:id="@+id/mai_1_zhbd_tj_lx_ed"
+        <TextView
+            android:id="@+id/mai_1_zhbd_tj_lx_tv"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="30dp"
             android:layout_toRightOf="@id/zhbd_tj_lx"
             android:background="@null"
+            android:gravity="center_vertical"
             android:hint="填写帐号类型"
             android:textColorHint="#dbdbdb"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,7 +72,7 @@
             android:layout_marginRight="15dp"
             android:text="*"
             android:textColor="#EE0000"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
     </RelativeLayout>
 
@@ -87,7 +88,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:text="帐       号："
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <EditText
             android:id="@+id/mai_1_zhbd_tj_zh_ed"
@@ -99,7 +100,7 @@
             android:background="@null"
             android:hint="填写帐号"
             android:textColorHint="#dbdbdb"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -109,7 +110,7 @@
             android:layout_marginRight="15dp"
             android:text="*"
             android:textColor="#EE0000"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
     </RelativeLayout>
 
@@ -139,7 +140,7 @@
                     android:layout_marginRight="5dp"
                     android:text="提交审核"
                     android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

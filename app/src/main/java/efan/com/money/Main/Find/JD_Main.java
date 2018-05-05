@@ -323,7 +323,6 @@ public class JD_Main extends AppCompatActivity implements View.OnClickListener, 
                             GetData(0, jd_main_tuiguang.getText().toString().trim(), (String) text);
                         }
                         dialog.dismiss();
-//                        Toast.makeText(JD_Main.this, text, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();

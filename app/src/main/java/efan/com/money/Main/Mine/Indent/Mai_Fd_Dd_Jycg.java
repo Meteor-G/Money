@@ -55,7 +55,7 @@ public class Mai_Fd_Dd_Jycg extends Fragment implements OnItemClickListener {
     private Mai_Fd_Dd_Jycg_Adapter adapter;
     private RelativeLayout mai_fd_dd_jycg_rl;
 
-    private List<NetDingDanBean> AllList = new ArrayList<>();
+    private List<NetDingDanBean> Jycg_AllList = new ArrayList<>();
     int PAGE = 0;
     protected boolean isCreated = false;
     private int TAG = 0, TAG_CREATE = 0;
@@ -73,11 +73,8 @@ public class Mai_Fd_Dd_Jycg extends Fragment implements OnItemClickListener {
         InitView();
         InitEvent();
         Refresh();
-        if (TAG_CREATE > 0) {
-            AllList.clear();
-            GetListData(0);
-        }
-        TAG += 1;
+        Jycg_AllList.clear();
+        GetListData(0);
         return view;
     }
 
@@ -85,8 +82,8 @@ public class Mai_Fd_Dd_Jycg extends Fragment implements OnItemClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (TAG > 0) {
-            AllList.clear();
+        if (TAG > 0 && getUserVisibleHint()) {
+            Jycg_AllList.clear();
             GetListData(0);
         }
         TAG += 1;
@@ -110,16 +107,16 @@ public class Mai_Fd_Dd_Jycg extends Fragment implements OnItemClickListener {
                     public void onNext(String s) {
                         JSONObject object = new JSONObject();
                         if (object.parseObject(s).getString("success").equals("true")) {
-                            List<NetDingDanBean> mList = object.parseObject(object.parseObject(s).getString("data"),
+                            List<NetDingDanBean> jycg_List = object.parseObject(object.parseObject(s).getString("data"),
                                     new TypeReference<ArrayList<NetDingDanBean>>() {
                                     });
-                            AllList.addAll(mList);
-                            if (AllList.size() != 0) {
-                                adapter.initData(AllList);
+                            Jycg_AllList.addAll(jycg_List);
+                            if (Jycg_AllList.size() != 0) {
+                                adapter.initData(Jycg_AllList);
                                 mai_fd_dd_jycg_recycle.setAdapter(adapter);
                                 mai_fd_dd_jycg_rl.setVisibility(View.GONE);
                                 //如果没有返回数据
-                                if (mList.size() == 0) {
+                                if (jycg_List.size() == 0) {
                                     Toast.makeText(getActivity(), "无更多数据", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
@@ -128,7 +125,7 @@ public class Mai_Fd_Dd_Jycg extends Fragment implements OnItemClickListener {
                             //更新数据后控件变化及更新adapter
                             adapter.notifyDataSetChanged();
                             if (PAGE != 0) {
-                                mai_fd_dd_jycg_recycle.scrollToPosition(adapter.getItemCount() - mList.size() - 4);
+                                mai_fd_dd_jycg_recycle.scrollToPosition(adapter.getItemCount() - jycg_List.size() - 4);
                             }
 
                         } else {
@@ -161,7 +158,7 @@ public class Mai_Fd_Dd_Jycg extends Fragment implements OnItemClickListener {
 
                     @Override
                     public void run() {
-                        AllList.clear();
+                        Jycg_AllList.clear();
                         GetListData(0);
                         mai_fd_dd_jycg_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);
@@ -265,7 +262,7 @@ public class Mai_Fd_Dd_Jycg extends Fragment implements OnItemClickListener {
     @Override
     public void onItemClick(View view, int Position) {
         Intent intent = new Intent(getActivity(), Fd_Dd_Indent.class);
-        intent.putExtra("id", AllList.get(Position).getDdid());
+        intent.putExtra("id", Jycg_AllList.get(Position).getDdid());
         intent.putExtra("type", StaticValue.FD_JYCG_TO_INDENT);
         startActivity(intent);
     }

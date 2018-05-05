@@ -26,6 +26,7 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import efan.com.money.Bean.NetDingDanBean;
 import efan.com.money.Main.BaseActivity;
 import efan.com.money.R;
@@ -45,8 +46,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
-import static android.R.attr.id;
 
 /**
  * 作者： ZlyjD.
@@ -94,6 +93,8 @@ public class Jd_Dd_Jyz extends BaseActivity {
     ImageView indent_dingdan_jt1_iv;
     @BindView(R.id.indent_dingdan_jt2_iv)
     ImageView indent_dingdan_jt2_iv;
+    @BindView(R.id.jd_indent_share_iv)
+    ImageView jd_indent_share_iv;
 
     private int type;
     private NetDingDanBean data;
@@ -105,7 +106,7 @@ public class Jd_Dd_Jyz extends BaseActivity {
     private TextView main_xxwh_xx_ppw_nr;
     private int ddid;
 
-    @OnClick({R.id.indent_back_iv, R.id.indent_dingdan_tj_rl, R.id.indent_dingdan_jt1_iv, R.id.indent_dingdan_jt2_iv})
+    @OnClick({R.id.indent_back_iv, R.id.indent_dingdan_tj_rl, R.id.indent_dingdan_jt1_iv, R.id.indent_dingdan_jt2_iv, R.id.jd_indent_share_iv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.indent_back_iv:
@@ -120,8 +121,31 @@ public class Jd_Dd_Jyz extends BaseActivity {
             case R.id.indent_dingdan_jt2_iv:
                 SelectPhoto(2);
                 break;
+            case R.id.jd_indent_share_iv:
+                showShare();
+                break;
         }
     }
+
+    private void showShare() {
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+        // title标题，微信、QQ和QQ空间等平台使用
+        oks.setTitle("闲钱分享");
+        // titleUrl QQ和QQ空间跳转链接
+        oks.setTitleUrl("https://www.baidu.com/?tn=87048150_dg&ch=1");
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText("我是分享文本");
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        oks.setImageUrl(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
+        //  oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        // url在微信、微博，Facebook等平台中使用
+        oks.setUrl("https://www.baidu.com/?tn=87048150_dg&ch=1");
+        // 启动分享GUI
+        oks.show(this);
+    }
+
 
     private void SelectPhoto(final int i) {
         CallbackManager.getInstence()
@@ -287,7 +311,6 @@ public class Jd_Dd_Jyz extends BaseActivity {
                         }
                         JSONObject object = new JSONObject();
                         if (object.parseObject(s).getString("success").equals("true")) {
-//                            Toast.makeText(Jd_Dd_Jyz.this, "更改状态成功", Toast.LENGTH_SHORT).show();
                             Jd_Dd_Jyz.this.finish();
                         } else {
                             Toast.makeText(Jd_Dd_Jyz.this, "更改状态失败", Toast.LENGTH_SHORT).show();
@@ -309,7 +332,6 @@ public class Jd_Dd_Jyz extends BaseActivity {
     private void getData() {
         ddid = getIntent().getIntExtra("id", 0);
         type = getIntent().getIntExtra("type", 0);
-        Toast.makeText(this, "传过来的值为" + id + " 传输类型" + type, Toast.LENGTH_SHORT).show();
         initTitle();
         GetNetData();
     }
