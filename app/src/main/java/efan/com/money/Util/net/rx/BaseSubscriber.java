@@ -17,6 +17,7 @@ import io.reactivex.disposables.Disposable;
 public abstract class BaseSubscriber<String> implements Observer<String> {
     private Context mContext;
 
+
     public BaseSubscriber(Context mContext) {
         this.mContext = mContext;
     }

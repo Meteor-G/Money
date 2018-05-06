@@ -16,6 +16,10 @@
         <item name="android:backgroundDimEnabled">true</item>
         <!--全屏幕-->
         <item name="android:windowFullscreen">true</item>
+
+        <item name="android:background">@null</item>
+        <!--设置背景透明度，0~1.0  默认0.5 -->
+        <item name="android:backgroundDimAmount">0.1</item>
     </style>
 
     <style name="anim_panel_up_from_bottom" parent="@android:style/Animation">

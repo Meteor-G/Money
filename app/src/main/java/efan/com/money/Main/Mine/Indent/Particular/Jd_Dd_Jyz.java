@@ -1,5 +1,7 @@
 package efan.com.money.Main.Mine.Indent.Particular;
 
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -116,15 +118,54 @@ public class Jd_Dd_Jyz extends BaseActivity {
                 showpopupWindow(indent_dingdan_tj_rl);
                 break;
             case R.id.indent_dingdan_jt1_iv:
-                SelectPhoto(1);
+                if (type == StaticValue.JYZ_TO_INDENT) {
+                    SelectPhoto(1);
+                } else {
+                    smallImgClick(1);
+                }
                 break;
             case R.id.indent_dingdan_jt2_iv:
-                SelectPhoto(2);
+                if (type == StaticValue.JYZ_TO_INDENT) {
+                    SelectPhoto(2);
+                } else {
+                    smallImgClick(2);
+                }
                 break;
             case R.id.jd_indent_share_iv:
                 showShare();
                 break;
         }
+    }
+
+    private void smallImgClick(int i) {
+        final Dialog dialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        ImageView imgView = getView(i);
+        dialog.setContentView(imgView);
+        imgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
+                dialog.cancel();
+            }
+        });
+        dialog.show();
+    }
+
+    private ImageView getView(int i) {
+        ImageView imgView = new ImageView(this);
+        imgView.setLayoutParams(new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT));
+        if (i == 1) {
+            Picasso.with(Jd_Dd_Jyz.this)
+                    .load(StaticUrl.BASE_URL + data.getDd_ShenHe_iv1())
+                    .error(R.mipmap.tj)
+                    .into(imgView);
+        } else {
+            Picasso.with(Jd_Dd_Jyz.this)
+                    .load(StaticUrl.BASE_URL + data.getDd_ShenHe_iv2())
+                    .error(R.mipmap.tj)
+                    .into(imgView);
+        }
+        return imgView;
     }
 
     private void showShare() {

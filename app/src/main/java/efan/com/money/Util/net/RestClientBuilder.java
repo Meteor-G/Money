@@ -110,8 +110,9 @@ public class RestClientBuilder {
     }
 
     public final RestClientBuilder load(Context context) {
-        this.mContext = context;
-        this.mLoaderStyle = LoaderStyle.BallSpinFadeLoaderIndicator;
+//        this.mContext = context;
+//        this.mLoaderStyle = LoaderStyle.BallSpinFadeLoaderIndicator;
+        load(context, LoaderStyle.PacmanIndicator);
         return this;
     }
 

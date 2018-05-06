@@ -160,6 +160,7 @@ public class Mai_Fd_Dd_Jxs extends Fragment implements OnItemClickListener {
 
                     @Override
                     public void run() {
+                        Jxs_AllList.clear();
                         GetListData(0);
                         mai_fd_dd_jxs_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);

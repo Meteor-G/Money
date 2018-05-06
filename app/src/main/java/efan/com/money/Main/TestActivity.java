@@ -43,7 +43,6 @@ public class TestActivity extends BasePermissionActivity {
 
     private void Start() {
         // 定义全局变量
-
         TicketSell sell = new TicketSell(ticketCount);
         for (int i = 0; i < 10; i++) {
             new Thread(sell).start();

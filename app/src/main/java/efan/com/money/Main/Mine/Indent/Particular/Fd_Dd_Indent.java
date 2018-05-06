@@ -1,5 +1,7 @@
 package efan.com.money.Main.Mine.Indent.Particular;
 
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -86,7 +88,7 @@ public class Fd_Dd_Indent extends AppCompatActivity {
     private TextView ppw_fin_indent_get_qx;
     private TextView main_xxwh_xx_ppw_nr;
 
-    @OnClick({R.id.indent_back_iv, R.id.fd_indent_btg_rl, R.id.fd_indent_tg_rl})
+    @OnClick({R.id.indent_back_iv, R.id.fd_indent_btg_rl, R.id.fd_indent_tg_rl, R.id.fd_indent_dingdan_jt1_iv, R.id.fd_indent_dingdan_jt2_iv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.indent_back_iv:
@@ -98,7 +100,44 @@ public class Fd_Dd_Indent extends AppCompatActivity {
             case R.id.fd_indent_tg_rl:
                 showpopupWindow(fd_indent_tg_rl, 1);
                 break;
+            case R.id.fd_indent_dingdan_jt1_iv:
+                smallImgClick(1);
+                break;
+            case R.id.fd_indent_dingdan_jt2_iv:
+                smallImgClick(2);
+                break;
         }
+    }
+
+    private void smallImgClick(int i) {
+        final Dialog dialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        ImageView imgView = getView(i);
+        dialog.setContentView(imgView);
+        imgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
+                dialog.cancel();
+            }
+        });
+        dialog.show();
+    }
+
+    private ImageView getView(int i) {
+        ImageView imgView = new ImageView(this);
+        imgView.setLayoutParams(new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT));
+        if (i == 1) {
+            Picasso.with(Fd_Dd_Indent.this)
+                    .load(StaticUrl.BASE_URL + data.getDd_ShenHe_iv1())
+                    .error(R.mipmap.tj)
+                    .into(imgView);
+        } else {
+            Picasso.with(Fd_Dd_Indent.this)
+                    .load(StaticUrl.BASE_URL + data.getDd_ShenHe_iv2())
+                    .error(R.mipmap.tj)
+                    .into(imgView);
+        }
+        return imgView;
     }
 
     private void showpopupWindow(View parent, final int i) {
