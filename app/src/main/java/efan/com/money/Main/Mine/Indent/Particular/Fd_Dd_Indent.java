@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -101,10 +102,14 @@ public class Fd_Dd_Indent extends AppCompatActivity {
                 showpopupWindow(fd_indent_tg_rl, 1);
                 break;
             case R.id.fd_indent_dingdan_jt1_iv:
-                smallImgClick(1);
+                if (!TextUtils.isEmpty(data.getDd_ShenHe_iv1())) {
+                    smallImgClick(1);
+                }
                 break;
             case R.id.fd_indent_dingdan_jt2_iv:
-                smallImgClick(2);
+                if (!TextUtils.isEmpty(data.getDd_ShenHe_iv1())) {
+                    smallImgClick(2);
+                }
                 break;
         }
     }

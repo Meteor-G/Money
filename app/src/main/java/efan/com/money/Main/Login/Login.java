@@ -3,7 +3,6 @@ package efan.com.money.Main.Login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.alibaba.fastjson.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import efan.com.money.Main.BaseActivity;
 import efan.com.money.Main.MainActivity;
 import efan.com.money.R;
 import efan.com.money.Util.net.rx.BaseSubscriber;
@@ -31,7 +31,7 @@ import io.reactivex.schedulers.Schedulers;
  * 时间：2018/4/18.
  */
 
-public class Login extends AppCompatActivity {
+public class Login extends BaseActivity {
     @BindView(R.id.dl_name)
     EditText dl_name;
     @BindView(R.id.dl_password)

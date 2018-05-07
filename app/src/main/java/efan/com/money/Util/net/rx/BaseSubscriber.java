@@ -38,7 +38,14 @@ public abstract class BaseSubscriber<String> implements Observer<String> {
     @Override
     public void onComplete() {
         Log.i("RxJava", "onComplete");
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
         Loader.stopLoading();
+//            }
+//        }, 5000);
+
     }
 
     @Override

@@ -3,7 +3,6 @@ package efan.com.money.Main.Login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +12,7 @@ import java.util.Timer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import efan.com.money.Main.BaseActivity;
 import efan.com.money.Main.MainActivity;
 import efan.com.money.R;
 import efan.com.money.Util.storage.MainPreference;
@@ -23,7 +23,7 @@ import efan.com.money.Util.timer.ITimerListener;
  * Created by Administrator on 2017/9/14.
  */
 
-public class Welcome extends AppCompatActivity implements ITimerListener {
+public class Welcome extends BaseActivity implements ITimerListener {
     @BindView(R.id.welcome_tv)
     TextView welcome_tv;
     private int mCount = 3;

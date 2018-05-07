@@ -12,6 +12,17 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //极光推送相关
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "a289b3bfa1ec8c4f1273337d",
+                JPUSH_CHANNEL: "developer-default",
+        ]
     }
     buildTypes {
         release {
@@ -25,6 +36,7 @@ android {
 
         }
     }
+
 }
 MobSDK {
     appKey "259b4366b587c"
@@ -120,4 +132,7 @@ dependencies {
     compile 'com.blankj:utilcode:1.7.1'
     //material-dialogs
     compile 'com.afollestad.material-dialogs:core:0.9.6.0'
+    //极光推送
+    compile 'cn.jiguang.sdk:jpush:3.0.1'
+    compile 'cn.jiguang.sdk:jcore:1.1.0'
 }

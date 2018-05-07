@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import cn.jpush.android.api.JPushInterface;
 import efan.com.money.Main.Find.MainFragment;
 import efan.com.money.Main.Mine.MeFragment;
 import efan.com.money.Main.Publish.PubFragment;
@@ -59,6 +60,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mMain.setOnClickListener(this);
         mFub.setOnClickListener(this);
         mMe.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
     }
 
     @Override

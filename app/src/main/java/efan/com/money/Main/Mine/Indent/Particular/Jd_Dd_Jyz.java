@@ -426,17 +426,17 @@ public class Jd_Dd_Jyz extends BaseActivity {
     private void initTitle() {
         if (type == StaticValue.JYCG_TO_INDENT) {
             indent_title_bar.setText("交易成功");
-            indent_dingdan_zhuangtai_tv.setText("已完成");
+            indent_dingdan_zhuangtai_tv.setText("交易成功");
             indent_dingdan_tj_rl.setVisibility(View.GONE);
             indent_dingdan_sc1_tv.setVisibility(View.GONE);
             indent_dingdan_sc2_tv.setVisibility(View.GONE);
         } else if (type == StaticValue.JYZ_TO_INDENT) {
             indent_title_bar.setText("交易中");
-            indent_dingdan_zhuangtai_tv.setText("已完成");
+            indent_dingdan_zhuangtai_tv.setText("交易中");
         } else if (type == StaticValue.SHZ_TO_INDENT) {
             indent_title_bar.setText("审核中");
             indent_dingdan_tj_tv.setText("取消审核");
-            indent_dingdan_zhuangtai_tv.setText("已完成");
+            indent_dingdan_zhuangtai_tv.setText("审核中");
             indent_dingdan_tj_tv.setBackgroundResource(R.drawable.jd_jx_sc_rj);
             indent_dingdan_sc1_tv.setVisibility(View.GONE);
             indent_dingdan_sc2_tv.setVisibility(View.GONE);

@@ -83,10 +83,9 @@ public class MainFragment extends Fragment implements View.OnClickListener, Adap
     private void SetBannerData() {
         LIST.clear();
         LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
-        LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
-        LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
-        LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
-        LIST.add(StaticUrl.BASE_URL + "Money/files/banner/yingxiao.jpg");
+        LIST.add(StaticUrl.BASE_URL + "Money/files/banner/dianzan.jpg");
+        LIST.add(StaticUrl.BASE_URL + "Money/files/banner/guanggao.jpg");
+        LIST.add(StaticUrl.BASE_URL + "Money/files/banner/toupiao.jpg");
         BannerCreator.setDefault(convenientBanner, LIST, new ClickListener());
     }
 
