@@ -35,8 +35,6 @@ public class RestCreator {
         private static final OkHttpClient BUILDER = new OkHttpClient.Builder()
                 .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .build();
-
-
     }
 
     private static final class ParamsHolder {
