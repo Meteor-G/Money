@@ -11,9 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import efan.com.money.R;
 import efan.com.money.Util.net.rx.BaseSubscriber;
 import efan.com.money.Util.net.rx.RxRestClient;
-import efan.com.money.Util.storage.MainPreference;
 import efan.com.money.staticfunction.StaticUrl;
-import efan.com.money.staticfunction.StaticValue;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -37,8 +35,39 @@ public class TestActivity extends BasePermissionActivity {
             @Override
             public void onClick(View view) {
                 Start();
+//                StartNet();
             }
         });
+    }
+
+    private void StartNet() {
+        synchronized (this) {
+            for (int i = 0; i < ticketCount; i++) {
+                if (ticketCount > 0) {
+                    ticketCount--;
+                    Log.i("TestActivity", ticketCount + "");
+                    RxRestClient.builder()
+                            .url(StaticUrl.GET_DING_DAN)
+                            .params("fd_id", "")
+                            .params("jd_id", "123")
+                            .params("page", 0)
+                            .params("zhuangtai", ticketCount)
+                            .build()
+                            .get()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new BaseSubscriber<String>(TestActivity.this) {
+                                @Override
+                                public void onNext(String s) {
+                                    if (object.parseObject(s).getString("success").equals("true")) {
+
+                                    }
+                                }
+                            });
+                }
+            }
+        }
+
     }
 
     private void Start() {
@@ -50,7 +79,7 @@ public class TestActivity extends BasePermissionActivity {
     }
 
     class TicketSell implements Runnable {
-        private int count;
+        private volatile int count;
 
         public TicketSell(int count) {
             this.count = count;
@@ -66,7 +95,7 @@ public class TestActivity extends BasePermissionActivity {
                         RxRestClient.builder()
                                 .url(StaticUrl.GET_DING_DAN)
                                 .params("fd_id", "")
-                                .params("jd_id", MainPreference.getCustomAppProfile(StaticValue.USER_ID))
+                                .params("jd_id", "123")
                                 .params("page", 0)
                                 .params("zhuangtai", count)
                                 .build()

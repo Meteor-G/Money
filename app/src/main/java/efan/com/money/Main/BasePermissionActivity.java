@@ -34,7 +34,7 @@ public class BasePermissionActivity extends AppCompatActivity {
 
 
     //不是直接调用，生成代码
-    @NeedsPermission(Manifest.permission.CAMERA)
+    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void startCamera() {
         LatteCamera.start(this);
     }
@@ -55,7 +55,7 @@ public class BasePermissionActivity extends AppCompatActivity {
         BasePermissionActivityPermissionsDispatcher.startCameraWithCheck(this);
     }
 
-    @OnPermissionDenied(Manifest.permission.CAMERA)
+    @OnPermissionDenied({Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void onCameraDenied() {
         Toast.makeText(this, "不允许拍照", Toast.LENGTH_LONG).show();
     }
@@ -65,7 +65,7 @@ public class BasePermissionActivity extends AppCompatActivity {
         Toast.makeText(this, "不允许访问内存", Toast.LENGTH_LONG).show();
     }
 
-    @OnNeverAskAgain(Manifest.permission.CAMERA)
+    @OnNeverAskAgain({Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void onCameraNever() {
         Toast.makeText(this, "永久拒绝权限", Toast.LENGTH_LONG).show();
     }
@@ -75,7 +75,7 @@ public class BasePermissionActivity extends AppCompatActivity {
         Toast.makeText(this, "永久拒绝权限", Toast.LENGTH_LONG).show();
     }
 
-    @OnShowRationale(Manifest.permission.CAMERA)
+    @OnShowRationale({Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void onCameraRationale(PermissionRequest request) {
         showRationaleDialog(request);
     }
